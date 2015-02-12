@@ -112,6 +112,11 @@ public class BaseActivity extends ActionBarActivity {
                     startActivity(intent);
                     break;
                 }
+                case 3: {
+                    Intent intent = new Intent(BaseActivity.this, SplashScreen.class);
+                    startActivity(intent);
+                    break;
+                }
                 default:
                     break;
             }
