@@ -5,5 +5,18 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash_screen">ShareMee</string>
+    <string name="title_activity_sample">SampleActivity</string>
+
+    <string name="drawer_open">Ouvrir</string>
+    <string name="drawer_close">Fermer</string>
+
+    <string-array name="left_drawer_array">
+        <item>Home</item>
+        <item>Sample</item>
+        <item>Help</item>
+        <item>Favorites</item>
+        <item>Settings</item>
+        <item>Others</item>
+    </string-array>
 
 </resources>
