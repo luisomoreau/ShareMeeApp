@@ -11,9 +11,9 @@
     <string name="drawer_close">Fermer</string>
 
     <string-array name="left_drawer_array">
-        <item>Home</item>
-        <item>Sample</item>
-        <item>Help</item>
+        <item>Accueil</item>
+        <item>Connexion</item>
+        <item>Test</item>
         <item>Favorites</item>
         <item>Settings</item>
         <item>Others</item>

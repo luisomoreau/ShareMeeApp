@@ -17,7 +17,7 @@ import android.widget.ListView;
 /**
  * Created by user-laptop on 12/02/2015.
  */
-public class DrawerActivity extends ActionBarActivity {
+public class BaseActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private String[] mDrawerItems;
@@ -95,21 +95,26 @@ public class DrawerActivity extends ActionBarActivity {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            /*
+
             switch (position) {
                 case 0: {
-                    Intent intent = new Intent(DrawerActivity.this, SettingsActivity.class);
+                    Intent intent = new Intent(BaseActivity.this, SampleActivity.class);
                     startActivity(intent);
                     break;
                 }
                 case 1: {
-                    Intent intent = new Intent(DrawerActivity.this, SampleActivity.class);
+                    Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    break;
+                }
+                case 2: {
+                    Intent intent = new Intent(BaseActivity.this, MainActivity.class);
                     startActivity(intent);
                     break;
                 }
                 default:
                     break;
-            }*/
+            }
             mDrawerLayout.closeDrawer(mDrawerList);
         }
     }

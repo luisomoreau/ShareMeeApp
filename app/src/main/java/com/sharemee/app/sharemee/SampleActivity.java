@@ -1,21 +1,18 @@
 package com.sharemee.app.sharemee;
 
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 
-public class SampleActivity extends DrawerActivity {
+public class SampleActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // don’t set any content view here, since its already set in DrawerActivity
+        // don’t set any content view here, since its already set in BaseActivity
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         // inflate the custom activity layout
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
