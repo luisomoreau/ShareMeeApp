@@ -5,6 +5,12 @@
     <color name="secondary_color">#f5921b</color>
     <color name="black">#ff000000</color>
     <color name="cream">#45bcbe13</color>
+    <color name="navdrawer_background">#ffffffff</color>
+    <color name="session_photo_scrim">#6000</color>
+    <color name="body_text_1_inverse">#deffffff</color>
+    <color name="body_text_2_inverse">#8affffff</color>
+    <color name="objPresItem">#deffffff</color>
+    <color name="dividers">#DADADA</color>
 
 
 </resources>

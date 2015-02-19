@@ -9,6 +9,8 @@
 
     <string name="drawer_open">Ouvrir</string>
     <string name="drawer_close">Fermer</string>
+    <string name="font_fontFamily_medium">sans-serif</string>
+    <string name="objectName">Nom de l\'objet</string>
 
     <string-array name="left_drawer_array">
         <item>Accueil</item>
