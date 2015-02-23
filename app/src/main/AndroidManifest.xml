@@ -45,6 +45,10 @@
             android:name=".SampleActivity"
             android:label="@string/title_activity_sample" >
         </activity>
+        <activity
+            android:name=".ResultSearchActivity"
+            android:label="@string/title_activity_all_objects" >
+        </activity>
     </application>
 
 </manifest>

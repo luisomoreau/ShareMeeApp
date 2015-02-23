@@ -117,6 +117,11 @@ public class BaseActivity extends ActionBarActivity {
                     startActivity(intent);
                     break;
                 }
+                case 4: {
+                    Intent intent = new Intent(BaseActivity.this, ResultSearchActivity.class);
+                    startActivity(intent);
+                    break;
+                }
                 default:
                     break;
             }

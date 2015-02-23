@@ -14,6 +14,12 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/idObjectSearch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
             <ImageView
                 android:layout_width="56dp"
                 android:layout_height="56dp" />
@@ -43,11 +49,12 @@
 
 
                 <TextView
-                    android:layout_width="30dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:id="@+id/objectDistanceSearch"
+                    android:text="@string/distance_test"
                     />
                 <TextView
                     android:layout_width="match_parent"
