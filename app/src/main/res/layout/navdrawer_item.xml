@@ -6,13 +6,13 @@
     android:paddingLeft="@dimen/keyline_1"
     android:paddingRight="@dimen/keyline_1"
     android:layout_width="match_parent"
-    android:layout_height="48dp">
+    android:layout_height="60dp">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_height="24dp"
-        android:layout_width="24dp"
-        android:layout_marginRight="32dp" />
+        android:layout_height="48dp"
+        android:layout_width="48dp"
+         />
 
     <TextView
         android:id="@+id/title"
@@ -22,6 +22,7 @@
         android:gravity="start|center_vertical"
         android:fontFamily="@string/font_fontFamily_medium"
         android:textSize="14sp"
+        android:layout_marginLeft="24dp"
         android:text="TEST POUR VOIR SI CA MARCHE " />
 
 </LinearLayout>
