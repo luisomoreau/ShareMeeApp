@@ -24,7 +24,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:id="@+id/objectPresentationItemLabel"
@@ -35,7 +35,7 @@
                 android:background="@color/dividers"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
                 android:id="@+id/objectPresentationItemDescription"
