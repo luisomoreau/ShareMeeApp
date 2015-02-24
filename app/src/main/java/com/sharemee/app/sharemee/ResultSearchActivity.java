@@ -33,14 +33,15 @@ public class ResultSearchActivity extends ListActivity {
     ArrayList<HashMap<String, String>> productsList;
 
     // url to get all products list
-    private static String url_all_products = "http://10.0.2.2/sharemee/webservice/model/get_all_objects.php";
+    private static String url_all_objects = "http://10.0.2.2/sharemee/webservice/model/get_all_objects.php";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_PRODUCTS = "objects";
     private static final String TAG_PID = "idObject";
     private static final String TAG_NAME = "nameObject";
-    //private static final String TAG_CATEGORY = "objectCategorieSearch";
+    private static final String TAG_CATEGORY = "nameCategory";
+    private static final String TAG_CITY = "nameCity";
 
     // products JSONArray
     JSONArray products = null;
@@ -124,7 +125,7 @@ public class ResultSearchActivity extends ListActivity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             // getting JSON string from URL
-            JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
+            JSONObject json = jParser.makeHttpRequest(url_all_objects, "GET", params);
 
             // Check your log cat for JSON reponse
             Log.d("All Products: ", json.toString());
@@ -145,6 +146,8 @@ public class ResultSearchActivity extends ListActivity {
                         // Storing each json item in variable
                         String id = c.getString(TAG_PID);
                         String name = c.getString(TAG_NAME);
+                        String namecategory = c.getString(TAG_CATEGORY);
+                        String namecity = c.getString(TAG_CITY);
 
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -152,6 +155,8 @@ public class ResultSearchActivity extends ListActivity {
                         // adding each child node to HashMap key => value
                         map.put(TAG_PID, id);
                         map.put(TAG_NAME, name);
+                        map.put(TAG_CATEGORY, namecategory);
+                        map.put(TAG_CITY, namecity);
 
                         // adding HashList to ArrayList
                         productsList.add(map);
@@ -186,9 +191,8 @@ public class ResultSearchActivity extends ListActivity {
                      * */
                     ListAdapter adapter = new SimpleAdapter(
                             ResultSearchActivity.this, productsList,
-                            R.layout.search_item, new String[] { TAG_PID,
-                            TAG_NAME},
-                            new int[] { R.id.idObjectSearch, R.id.objectNameSearch });
+                            R.layout.search_item, new String[] { TAG_PID, TAG_NAME, TAG_CATEGORY, TAG_CITY},
+                            new int[] { R.id.idObjectSearch, R.id.objectNameSearch, R.id.objectCategorieSearch, R.id.objectDistanceSearch });
                     // updating listview
                     setListAdapter(adapter);
                 }
