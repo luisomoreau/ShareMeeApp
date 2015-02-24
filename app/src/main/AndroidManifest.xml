@@ -49,6 +49,10 @@
             android:name=".ResultSearchActivity"
             android:label="@string/title_activity_all_objects" >
         </activity>
+        <activity
+            android:name=".ObjectPresentationActivity"
+            android:label="@string/title_activity_object_details" >
+        </activity>
     </application>
 
 </manifest>

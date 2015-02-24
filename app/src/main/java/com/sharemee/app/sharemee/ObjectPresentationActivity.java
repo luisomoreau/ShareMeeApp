@@ -6,15 +6,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class ResultSearchActivity extends ListActivity {
+public class ObjectPresentationActivity extends ListActivity {
 
+    String idObject;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -33,18 +31,32 @@ public class ResultSearchActivity extends ListActivity {
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
-    ArrayList<HashMap<String, String>> objectsList;
+    ArrayList<HashMap<String, String>> objectDetailList;
 
     // url to get all objects list
-    private static String url_all_objects = "http://sharemee.com/webservice/model/get_all_objects.php";
+    //private static String url_product_details = "http://sharemee.com/webservice/model/get_object_info.php";
+    private static String url_product_details = "http://localhost/sharemee/webservice/model/get_object_info.php";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_OBJECTS = "objects";
     private static final String TAG_ID_OBJECT = "idObject";
     private static final String TAG_NAME_OBJECT = "nameObject";
+    private static final String TAG_DESC_OBJECT = "descObject";
+    private static final String TAG_LAT_OBJECT = "latObject";
+    private static final String TAG_LONG_OBJECT = "longObject";
+    private static final String TAG_YEAR_OBJECT = "yearObject";
+    private static final String TAG_DATE_OBJECT = "addedDateTimeObject";
+    private static final String TAG_ID_USER = "idUser";
+    private static final String TAG_NAME_USER = "nameUser";
+    private static final String TAG_SURNAME_USER = "surnameUser";
+    private static final String TAG_ID_CATEGORY = "idCategory";
     private static final String TAG_NAME_CATEGORY = "nameCategory";
+    private static final String TAG_ID_CITY = "idCity";
     private static final String TAG_NAME_CITY = "nameCity";
+    private static final String TAG_ZIPCODE_CITY = "zipcodeCity";
+
+
 
     // objects JSONArray
     JSONArray objects = null;
@@ -52,39 +64,22 @@ public class ResultSearchActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result_search);
+        setContentView(R.layout.activity_object_presentation);
 
         // Hashmap for ListView
-        objectsList = new ArrayList<HashMap<String, String>>();
+        objectDetailList = new ArrayList<HashMap<String, String>>();
+
+        // getting product details from intent
+        Intent i = getIntent();
+
+        // getting product id (pid) from intent
+        idObject = i.getStringExtra(TAG_ID_OBJECT);
 
         // Loading objects in Background Thread
-        new LoadAllProducts().execute();
+        new LoadProductDetails().execute();
 
         // Get listview
         ListView lv = getListView();
-
-        // on seleting single product
-        // launching  Object Presentation Screen
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // getting values from selected ListItem
-                String idObject = ((TextView) view.findViewById(R.id.idObjectSearch)).getText()
-                        .toString();
-
-                // Starting new intent
-                Intent in = new Intent(getApplicationContext(),
-                        ObjectPresentationActivity.class);
-                // sending idObject to next activity
-                in.putExtra(TAG_ID_OBJECT, idObject);
-                Log.d("Id de l'objet récupéré : ", idObject );
-
-                // starting new activity and expecting some response back
-                startActivityForResult(in, 100);
-            }
-        });
 
     }
 
@@ -107,7 +102,7 @@ public class ResultSearchActivity extends ListActivity {
     /**
      * Background Async Task to Load all product by making HTTP Request
      * */
-    class LoadAllProducts extends AsyncTask<String, String, String> {
+    class LoadProductDetails extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
@@ -115,7 +110,7 @@ public class ResultSearchActivity extends ListActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(ResultSearchActivity.this);
+            pDialog = new ProgressDialog(ObjectPresentationActivity.this);
             pDialog.setMessage("Chargement en cours...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -128,11 +123,12 @@ public class ResultSearchActivity extends ListActivity {
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("idObject", idObject));
             // getting JSON string from URL
-            JSONObject json = jParser.makeHttpRequest(url_all_objects, "GET", params);
+            JSONObject json = jParser.makeHttpRequest(url_product_details, "GET", params);
 
-            // Check your log cat for JSON reponse
-            Log.d("All Products: ", json.toString());
+            // Check your log cat for JSON response
+            Log.d("Product Details: ", json.toString());
 
             try {
                 // Checking for SUCCESS TAG
@@ -163,9 +159,17 @@ public class ResultSearchActivity extends ListActivity {
                         map.put(TAG_NAME_CITY, nameCity);
 
                         // adding HashList to ArrayList
-                        objectsList.add(map);
+                        objectDetailList.add(map);
                     }
-                }
+                }/* else {
+                    // no objects found
+                    // Launch Add New product Activity
+                    Intent i = new Intent(getApplicationContext(),
+                            NewProductActivity.class);
+                    // Closing all previous activities
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                }*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -186,9 +190,9 @@ public class ResultSearchActivity extends ListActivity {
                      * Updating parsed JSON data into ListView
                      * */
                     ListAdapter adapter = new SimpleAdapter(
-                            ResultSearchActivity.this, objectsList,
-                            R.layout.search_item, new String[] { TAG_ID_OBJECT, TAG_NAME_OBJECT, TAG_NAME_CATEGORY, TAG_NAME_CITY},
-                            new int[] { R.id.idObjectSearch, R.id.objectNameSearch, R.id.objectCategorieSearch, R.id.objectDistanceSearch });
+                            ObjectPresentationActivity.this, objectDetailList,
+                            R.layout.search_item, new String[] { TAG_ID_OBJECT, TAG_NAME_OBJECT},
+                            new int[] { R.id.objectPresentationItemLabel, R.id.objectPresentationItemDescription});
                     // updating listview
                     setListAdapter(adapter);
                 }

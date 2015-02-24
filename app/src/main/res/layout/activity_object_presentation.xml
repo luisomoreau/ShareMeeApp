@@ -26,7 +26,7 @@
             android:id="@+id/scrollPhotoObject"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-             >
+            android:fillViewport="false">
 
             <LinearLayout
                 android:id="@+id/objectPhoto_list"
