@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Layout du navdrawer que l'on incluera dans les pages-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,13 +15,13 @@
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
+        <!-- Permet d'afficher le profil de la personne connecté -->
         <FrameLayout
             android:id="@+id/chosen_account_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/navdrawer_chosen_account_height"
-            android:foreground="@drawable/logo">
+            android:layout_height="@dimen/navdrawer_chosen_account_height">
 
+            <!-- Image de fond de profil-->
             <ImageView android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -35,15 +36,7 @@
                 android:paddingRight="@dimen/keyline_1"
                 android:paddingTop="@dimen/keyline_1"
                 android:id="@+id/chosen_account_content_view">
-
-                <com.google.samples.apps.iosched.ui.widget.BezelImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="@dimen/navdrawer_profile_image_size"
-                    android:layout_height="@dimen/navdrawer_profile_image_size"
-                    android:src="@drawable/ic_launcher"
-                    android:scaleType="centerCrop"
-                    />
-
+                <!--Image de photo de profil -->
                 <ImageView
                     android:id="@+id/expand_account_box_indicator"
                     android:layout_height="wrap_content"
@@ -56,12 +49,11 @@
                     android:layout_alignParentBottom="true"
                     android:scaleType="center"
                     android:src="@drawable/ic_drawer_accounts_expand" />
-
+                <!-- Email du detenteur du profil-->
                 <TextView
                     android:id="@+id/profile_email_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/profile_image"
                     android:layout_toLeftOf="@id/expand_account_box_indicator"
                     android:layout_alignParentBottom="true"
                     android:paddingBottom="16dp"
@@ -70,13 +62,12 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:ellipsize="end" />
-
+                <!-- Nom du titulaire du compte -->
                 <TextView
                     android:id="@+id/profile_name_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/profile_email_text"
-                    android:layout_alignLeft="@id/profile_image"
                     android:layout_toLeftOf="@id/expand_account_box_indicator"
                     android:textSize="@dimen/text_size_large"
                     android:textColor="@color/body_text_1_inverse"
@@ -90,15 +81,6 @@
 
         <FrameLayout android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <!-- Account items -->
-            <LinearLayout
-                android:id="@+id/account_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:visibility="invisible" />
 
             <!-- Drawer items -->
             <LinearLayout

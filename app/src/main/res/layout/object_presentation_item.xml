@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Layout de l'item pour ladescription d'un objet-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/objPresItem">
-
+    <!-- Carte qui va êtr ele support de l'item-->
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -21,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
+            <!-- Label de l'item -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,10 +24,12 @@
                 android:layout_marginLeft="15dp"
                 android:id="@+id/objectPresentationItemLabel"
                 />
+            <!--Séparateur -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/dividers"/>
+            <!-- Contenu de l'item-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,5 +40,5 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-        </FrameLayout>
+
 </LinearLayout>

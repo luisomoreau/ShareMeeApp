@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Layout de l'item du navdrawer -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:background="?android:selectableItemBackground"
@@ -7,13 +9,13 @@
     android:paddingRight="@dimen/keyline_1"
     android:layout_width="match_parent"
     android:layout_height="60dp">
-
+    <!-- Icon pour la ligne à selectionner-->
     <ImageView
         android:id="@+id/icon"
         android:layout_height="48dp"
         android:layout_width="48dp"
          />
-
+    <!-- Nom de l'option à selectionner -->
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"

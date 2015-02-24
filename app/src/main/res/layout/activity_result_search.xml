@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.sharemee.app.sharemee.ResultSearchActivity">
-
+    <!-- List View permetant d'afficher tous les résultats d'une recherche. Le layout qui défini les items est "serach_item.xml"-->
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
