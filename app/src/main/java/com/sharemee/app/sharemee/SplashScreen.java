@@ -7,12 +7,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 
 
 public class SplashScreen extends Activity {
 
     /** Durée d'affichage du SplashScreen */
-    protected int _splashTime = 2000;
+    protected int _splashTime = 10000;
 
     private Thread splashTread;
 
@@ -22,6 +26,20 @@ public class SplashScreen extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+
+        RotateAnimation anim = new RotateAnimation(0f, 350f, 15f, 15f);
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setRepeatCount(Animation.REVERSE);
+        anim.setDuration(1400);
+
+// Start animating the image
+        final ImageView splashLogo = (ImageView) findViewById(R.id.logoSplashScreen);
+        splashLogo.startAnimation(anim);
+
+// Later.. stop the animation
+        splashLogo.setAnimation(null);
+
 
         final SplashScreen sPlashScreen = this;
 

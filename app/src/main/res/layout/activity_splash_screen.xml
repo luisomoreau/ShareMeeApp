@@ -7,6 +7,7 @@
     tools:context="com.sharemee.app.sharemee.SplashScreen"
     android:background="@drawable/android_background">
     <!-- Layout de l'activité de lancement de l'application-->
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
