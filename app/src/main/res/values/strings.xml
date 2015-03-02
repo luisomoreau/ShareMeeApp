@@ -22,8 +22,15 @@
 
     <string name="title_activity_my_objects">MyObjectsActivity</string>
     <string name="title_activity_all_objects">AllObjectsActivity</string>
-    <string name="title_activity_object_details">ObjectDetailsActivity</string>
+    <string name="title_activity_object_details">Détails de l\'objet</string>
     <string name="distance_test">2.5 km</string>
     <string name="contact">CONTACT</string>
+
+    <!-- Object details labels -->
+    <string name="object_detail_desc_label">Description :</string>
+    <string name="object_detail_category_label">Catégorie :</string>
+    <string name="object_detail_username_label">Appartient à :</string>
+    <string name="object_detail_cityname_label">Est situé à :</string>
+    <string name="object_detail_distance_label">Distance :</string>
 
 </resources>

@@ -2,13 +2,16 @@ package com.sharemee.app.sharemee;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -24,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class ResultSearchActivity extends ListActivity {
+public class ResultSearchActivity extends BaseActivity{
 
 
     // Progress Dialog
@@ -37,6 +40,7 @@ public class ResultSearchActivity extends ListActivity {
 
     // url to get all objects list
     private static String url_all_objects = "http://sharemee.com/webservice/model/get_all_objects.php";
+    //private static String url_all_objects = "http://10.0.2.2/sharemee/webservice/model/get_all_objects.php";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -49,10 +53,18 @@ public class ResultSearchActivity extends ListActivity {
     // objects JSONArray
     JSONArray objects = null;
 
+    private ListView lv;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result_search);
+        // don’t set any content view here, since its already set in BaseActivity
+        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        // inflate the custom activity layout
+        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity_result_search, null,false);
+        // add the custom layout of this activity to frame layout.
+        frameLayout.addView(activityView);
 
         // Hashmap for ListView
         objectsList = new ArrayList<HashMap<String, String>>();
@@ -61,7 +73,7 @@ public class ResultSearchActivity extends ListActivity {
         new LoadAllProducts().execute();
 
         // Get listview
-        ListView lv = getListView();
+        lv = (ListView) findViewById(R.id.list_view_activity_results);
 
         // on seleting single product
         // launching  Object Presentation Screen
@@ -112,7 +124,9 @@ public class ResultSearchActivity extends ListActivity {
         /**
          * Before starting background thread Show Progress Dialog
          * */
-        @Override
+        private ListView lv;
+
+         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(ResultSearchActivity.this);
@@ -177,6 +191,9 @@ public class ResultSearchActivity extends ListActivity {
          * After completing background task Dismiss the progress dialog
          * **/
         protected void onPostExecute(String file_url) {
+
+            lv = (ListView) findViewById(R.id.list_view_activity_results);
+
             // dismiss the dialog after getting all objects
             pDialog.dismiss();
             // updating UI from Background Thread
@@ -190,7 +207,7 @@ public class ResultSearchActivity extends ListActivity {
                             R.layout.search_item, new String[] { TAG_ID_OBJECT, TAG_NAME_OBJECT, TAG_NAME_CATEGORY, TAG_NAME_CITY},
                             new int[] { R.id.idObjectSearch, R.id.objectNameSearch, R.id.objectCategorieSearch, R.id.objectDistanceSearch });
                     // updating listview
-                    setListAdapter(adapter);
+                    lv.setAdapter(adapter);
                 }
             });
 
