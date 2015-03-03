@@ -2,5 +2,6 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+.idea/*ShareMeeAndroid.iml
 .DS_Store
 /build
