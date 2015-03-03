@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -48,6 +49,8 @@ public class ObjectPresentationActivity extends BaseActivity {
     // url to get all objects list
     private static String url_object_detail = "http://sharemee.com/webservice/model/get_object_details.php";
     //private static String url_object_detail = "http://10.0.2.2/sharemee/webservice/model/get_object_details.php";
+
+    private static String url_object_image = "http://sharemee.com/webservice/images/no-image.jpg";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -95,6 +98,9 @@ public class ObjectPresentationActivity extends BaseActivity {
         // Loading objects in Background Thread
         Context context = this.getApplicationContext();
         new LoadObjectDetails(this).execute();
+
+        new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation))
+                .execute(url_object_image);
 
     }
 
