@@ -3,6 +3,7 @@
     <!-- Theme colors -->
     <color name="primary_color">#7ac833</color>
     <color name="secondary_color">#f5921b</color>
+    <color name="third_color">#172E95</color>
     <color name="black">#ff000000</color>
     <color name="cream">#45bcbe13</color>
     <color name="navdrawer_background">#ffffffff</color>
@@ -11,6 +12,8 @@
     <color name="body_text_2_inverse">#8affffff</color>
     <color name="objPresItem">#deffffff</color>
     <color name="dividers">#DADADA</color>
+    <color name="body_text_3">#8a000000</color>
+
 
 
 </resources>
