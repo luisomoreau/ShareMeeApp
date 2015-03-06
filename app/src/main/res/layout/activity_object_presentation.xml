@@ -20,7 +20,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
         <!-- Permet de créer une galerie de photos de l'objet si il y en a plusieurs-->
         <ScrollView
-            android:id="@+id/scrollView"
+            android:id="@+id/scrollViewObjectPresentation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -41,7 +41,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:id="@+id/imageViewObjectPresenation" />
+                            android:id="@+id/imageViewObjectPresenation"
+                            android:src="@drawable/no_image" />
 
                 </HorizontalScrollView>
 

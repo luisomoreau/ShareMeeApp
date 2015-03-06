@@ -50,7 +50,8 @@ public class ObjectPresentationActivity extends BaseActivity {
     private static String url_object_detail = "http://sharemee.com/webservice/model/get_object_details.php";
     //private static String url_object_detail = "http://10.0.2.2/sharemee/webservice/model/get_object_details.php";
 
-    private static String url_object_image = "http://sharemee.com/webservice/images/no-image.jpg";
+    private static String url_object_image = "http://sharemee.com/webservice/images/";
+    //private static String url_object_image = "http://10.0.2.2/sharemee/webservice/images/no-image.jpg";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -61,6 +62,7 @@ public class ObjectPresentationActivity extends BaseActivity {
     private static final String TAG_LAT_OBJECT = "latObject";
     private static final String TAG_LONG_OBJECT = "longObject";
     private static final String TAG_YEAR_OBJECT = "yearObject";
+    private static final String TAG_IMAGE_PATH_1_OBJECT = "imagePath1Object";
     private static final String TAG_DATE_OBJECT = "addedDateTimeObject";
     private static final String TAG_ID_USER = "idUser";
     private static final String TAG_NAME_USER = "nameUser";
@@ -97,20 +99,16 @@ public class ObjectPresentationActivity extends BaseActivity {
 
         // Loading objects in Background Thread
         Context context = this.getApplicationContext();
-        new LoadObjectDetails(this).execute();
-
+        new LoadObjectDetails().execute();
+        /*
         new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation))
                 .execute(url_object_image);
+                */
 
     }
 
     class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
-        private ObjectPresentationActivity longOperationContext = null;
 
-        public LoadObjectDetails(ObjectPresentationActivity context) {
-            longOperationContext = context;
-
-        }
 
         @Override
         protected void onPreExecute() {
@@ -170,7 +168,7 @@ public class ObjectPresentationActivity extends BaseActivity {
         }
 
         @Override
-        protected void onPostExecute(JSONObject object) {
+        protected void onPostExecute(final JSONObject object) {
 
             final JSONObject object1 = object;
             Log.d("object 1", object1.toString());
@@ -198,6 +196,15 @@ public class ObjectPresentationActivity extends BaseActivity {
                 objectUsername.setText(object1.getString(TAG_NAME_USER));
                 objectCity.setText(object1.getString(TAG_NAME_CITY));
                 objectDistance.setText(object1.getString(TAG_LAT_OBJECT));
+
+
+                String full_image_url = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);
+                Log.d("image path 1", full_image_url);
+
+                if (object1.getString(TAG_IMAGE_PATH_1_OBJECT)!=null) {
+                    new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation))
+                            .execute(full_image_url);
+                }
 
             }catch (JSONException e){
                 e.printStackTrace();
