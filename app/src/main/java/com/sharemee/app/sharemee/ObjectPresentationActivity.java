@@ -98,12 +98,7 @@ public class ObjectPresentationActivity extends BaseActivity {
         objectDistance = (TextView) findViewById(R.id.objectPresentationItemDistance);
 
         // Loading objects in Background Thread
-        Context context = this.getApplicationContext();
         new LoadObjectDetails().execute();
-        /*
-        new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation))
-                .execute(url_object_image);
-                */
 
     }
 
@@ -152,12 +147,7 @@ public class ObjectPresentationActivity extends BaseActivity {
                             //check object variable
                             Log.d("First product object from Json Array", object.toString());
 
-                            //Object with idObject found
-                            //Text View
-
-
                             return object;
-
                         }
 
                     } catch (JSONException e) {
@@ -169,11 +159,10 @@ public class ObjectPresentationActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(final JSONObject object) {
-
+            //get the parameter
             final JSONObject object1 = object;
-            Log.d("object 1", object1.toString());
 
-
+            //Here is where the UI is called, thus the following code will appear in the User Interface Thread
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -182,14 +171,7 @@ public class ObjectPresentationActivity extends BaseActivity {
 
             try {
                 Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
-                /*
-                objectName = (TextView) longOperationContext.findViewById(R.id.objectNameMYO);
-                objectDesc = (TextView) longOperationContext.findViewById(R.id.objectPresentationItemDescription);
-                objectCategory = (TextView) longOperationContext.findViewById(R.id.objectPresentationItemCategory);
-                objectUsername = (TextView) longOperationContext.findViewById(R.id.objectPresentationItemUsername);
-                objectCity = (TextView) longOperationContext.findViewById(R.id.objectPresentationItemCityName);
-                objectDistance = (TextView) longOperationContext.findViewById(R.id.objectPresentationItemDistance);
-                */
+                //The cardviews are set
                 objectName.setText(object1.getString(TAG_NAME_OBJECT));
                 objectDesc.setText(object1.getString(TAG_DESC_OBJECT));
                 objectCategory.setText(object1.getString(TAG_NAME_CATEGORY));
@@ -197,10 +179,12 @@ public class ObjectPresentationActivity extends BaseActivity {
                 objectCity.setText(object1.getString(TAG_NAME_CITY));
                 objectDistance.setText(object1.getString(TAG_LAT_OBJECT));
 
-
+                //Construct full image url to get the image
                 String full_image_url = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);
                 Log.d("image path 1", full_image_url);
 
+
+                //The DownloadImageTask is called to get the image on the server
                 if (object1.getString(TAG_IMAGE_PATH_1_OBJECT)!=null) {
                     new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation))
                             .execute(full_image_url);
