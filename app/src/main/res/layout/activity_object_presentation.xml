@@ -47,6 +47,14 @@
                 </HorizontalScrollView>
 
                 <!-- Carte qui va être le support de l'item Contact-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+
 
                 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -256,6 +264,7 @@
                             android:layout_marginTop="20dp" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+                </LinearLayout>
             </LinearLayout>
 
         </ScrollView>

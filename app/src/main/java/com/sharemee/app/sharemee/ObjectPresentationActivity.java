@@ -177,7 +177,7 @@ public class ObjectPresentationActivity extends BaseActivity {
                 objectCategory.setText(object1.getString(TAG_NAME_CATEGORY));
                 objectUsername.setText(object1.getString(TAG_NAME_USER));
                 objectCity.setText(object1.getString(TAG_NAME_CITY));
-                objectDistance.setText(object1.getString(TAG_LAT_OBJECT));
+                objectDistance.setText(object1.getString(TAG_LAT_OBJECT)+"    m");
 
                 //Construct full image url to get the image
                 String full_image_url = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);

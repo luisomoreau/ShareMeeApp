@@ -5,6 +5,6 @@ gradle.*
 ShareMeeAndroid.iml
 ShareMeeApp.iml
 ShareMee.iml
-module.xml
+.idea/module.xml
 .DS_Store
 /build

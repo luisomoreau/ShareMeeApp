@@ -36,5 +36,9 @@
     <string name="rapid_connect">Connectez vous plus rapidement :</string>
     <string name="new_member">Nouveau Membre ?</string>
     <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="new_location">Latitude = %1$s, Longitude = %2$s, Altitude = %3$s</string>
+    <string name="contact_lend">Contactez le préteur</string>
+    <string name="name">Votre nom</string>
 
 </resources>

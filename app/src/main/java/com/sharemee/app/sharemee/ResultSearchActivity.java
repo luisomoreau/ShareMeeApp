@@ -4,8 +4,11 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +24,8 @@ import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.sharemee.app.sharemee.MyLocationListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +54,8 @@ public class ResultSearchActivity extends BaseActivity{
     private static final String TAG_NAME_OBJECT = "nameObject";
     private static final String TAG_NAME_CATEGORY = "nameCategory";
     private static final String TAG_NAME_CITY = "nameCity";
+    private static final String TAG_LONG_OBJECT = "longObject";
+    private static final String TAG_LAT_OBJECT = "latObject";
 
     // objects JSONArray
     JSONArray objects = null;
@@ -140,6 +147,9 @@ public class ResultSearchActivity extends BaseActivity{
          * getting All objects from url
          * */
         protected String doInBackground(String... args) {
+
+            Looper.prepare();
+
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             // getting JSON string from URL
@@ -147,6 +157,20 @@ public class ResultSearchActivity extends BaseActivity{
 
             // Check your log cat for JSON reponse
             Log.d("All Products: ", json.toString());
+
+            //Requesting location data
+            LocationManager mlocManager=null;
+            LocationListener mlocListener;
+            mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            mlocListener = new MyLocationListener();
+            mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+
+            //if (mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                Double latitudePhone=MyLocationListener.latitude;
+                Double longitudePhone=MyLocationListener.longitude;
+            Log.d("lattitudePhone :", latitudePhone.toString());
+            Log.d("longitudePhone :", longitudePhone.toString());
+
 
             try {
                 // Checking for SUCCESS TAG
@@ -166,6 +190,20 @@ public class ResultSearchActivity extends BaseActivity{
                         String nameObject = c.getString(TAG_NAME_OBJECT);
                         String nameCategory = c.getString(TAG_NAME_CATEGORY);
                         String nameCity = c.getString(TAG_NAME_CITY);
+                        String longObjectSt = c.getString(TAG_LONG_OBJECT);
+                        String latObjectSt = c.getString(TAG_LAT_OBJECT);
+
+                        //Log.d("lattitudePhone :", latObjectSt);
+                        //Log.d("longitudePhone :", longObjectSt);
+
+                        //Double longObject = Double.parseDouble(longObjectSt);
+                        //Double latObject = Double.parseDouble(latObjectSt);
+
+                        //Double distance =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+
+                        Double distancetest =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, 18.792812, 98.981924);
+                        distancetest=distancetest/1000000;
+                        String dist= String.valueOf(distancetest);
 
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -174,7 +212,7 @@ public class ResultSearchActivity extends BaseActivity{
                         map.put(TAG_ID_OBJECT, idObject);
                         map.put(TAG_NAME_OBJECT, nameObject);
                         map.put(TAG_NAME_CATEGORY, nameCategory);
-                        map.put(TAG_NAME_CITY, nameCity);
+                        map.put(TAG_NAME_CITY, dist+" m");
 
                         // adding HashList to ArrayList
                         objectsList.add(map);
