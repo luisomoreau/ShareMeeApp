@@ -63,6 +63,7 @@ public class ObjectPresentationActivity extends BaseActivity {
     private static final String TAG_LONG_OBJECT = "longObject";
     private static final String TAG_YEAR_OBJECT = "yearObject";
     private static final String TAG_IMAGE_PATH_1_OBJECT = "imagePath1Object";
+    private static final String TAG_IMAGE_PATH_2_OBJECT = "imagePath2Object";
     private static final String TAG_DATE_OBJECT = "addedDateTimeObject";
     private static final String TAG_ID_USER = "idUser";
     private static final String TAG_NAME_USER = "nameUser";
@@ -177,19 +178,26 @@ public class ObjectPresentationActivity extends BaseActivity {
                 objectCategory.setText(object1.getString(TAG_NAME_CATEGORY));
                 objectUsername.setText(object1.getString(TAG_NAME_USER));
                 objectCity.setText(object1.getString(TAG_NAME_CITY));
-                objectDistance.setText(object1.getString(TAG_LAT_OBJECT)+"    m");
+                objectDistance.setText(object1.getString(TAG_LAT_OBJECT)+" m");
 
                 //Construct full image url to get the image
-                String full_image_url = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);
-                Log.d("image path 1", full_image_url);
+                String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);
+                Log.d("image path 1", full_image_url_1);
+                String full_image_url_2 = url_object_image + object1.getString(TAG_IMAGE_PATH_2_OBJECT);
+                Log.d("image path 2", full_image_url_1);
 
 
                 //The DownloadImageTask is called to get the image on the server
-                if (object1.getString(TAG_IMAGE_PATH_1_OBJECT)!=null) {
-                    new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation))
-                            .execute(full_image_url);
+                if (!object1.getString(TAG_IMAGE_PATH_1_OBJECT).equals("null")) {
+                    new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation1))
+                            .execute(full_image_url_1);
                 }
-
+                /*
+                if (object1.getString(TAG_IMAGE_PATH_2_OBJECT)!=null) {
+                    new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation2))
+                            .execute(full_image_url_2);
+                }
+*/
             }catch (JSONException e){
                 e.printStackTrace();
             }

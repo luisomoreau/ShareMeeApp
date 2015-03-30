@@ -32,7 +32,7 @@
                 <HorizontalScrollView
                     android:id="@+id/scrollPhotoObject"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="300dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:fillViewport="false">
@@ -41,8 +41,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:id="@+id/imageViewObjectPresenation"
+                            android:id="@+id/imageViewObjectPresenation1"
                             android:src="@drawable/no_image" />
+
 
                 </HorizontalScrollView>
 

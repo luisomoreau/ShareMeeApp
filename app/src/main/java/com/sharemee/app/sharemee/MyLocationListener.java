@@ -7,6 +7,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
+import java.text.DecimalFormat;
+
 public class MyLocationListener implements LocationListener {
 
     public static double latitude;
@@ -36,7 +38,7 @@ public class MyLocationListener implements LocationListener {
     {
     }
 
-    public static double calculerDistance(Double lat1, Double long1, Double lat2, Double long2){
+    public static String calculerDistance(Double lat1, Double long1, Double lat2, Double long2){
         Double rayonTerrestre = 6378137.0;
         Double distanceFinale;
         Double distanceInter;
@@ -44,6 +46,9 @@ public class MyLocationListener implements LocationListener {
         Double radLong1=Math.toRadians(long1);
         Double radLat2=Math.toRadians(lat2);
         Double radLong2=Math.toRadians(long2);
+        Double distanceScaled;
+        Double distanceRound;
+        String distanceString;
 
         Double distLat=(radLat2-radLat1)/2;
         Double distLong=(radLong2-radLong1)/2;
@@ -51,7 +56,11 @@ public class MyLocationListener implements LocationListener {
         distanceInter=(Math.sin(distLat)*Math.sin(distLat))+ Math.cos(radLat1)*Math.cos(radLat2)*(Math.sin(distLong)*Math.sin(distLong));
         distanceFinale=2*Math.atan2(Math.sqrt(distanceInter),Math.sqrt(1-distanceInter));
 
-        return distanceFinale*rayonTerrestre;
+        distanceScaled=(distanceFinale*rayonTerrestre);
+        distanceRound=(Math.round(distanceScaled*100))/100.0;
+        distanceString=distanceRound.toString();
+        return distanceString;
+
 
     }
 }

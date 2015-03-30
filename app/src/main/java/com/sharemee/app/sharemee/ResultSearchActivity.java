@@ -193,17 +193,20 @@ public class ResultSearchActivity extends BaseActivity{
                         String longObjectSt = c.getString(TAG_LONG_OBJECT);
                         String latObjectSt = c.getString(TAG_LAT_OBJECT);
 
+
                         //Log.d("lattitudePhone :", latObjectSt);
                         //Log.d("longitudePhone :", longObjectSt);
-
-                        //Double longObject = Double.parseDouble(longObjectSt);
-                        //Double latObject = Double.parseDouble(latObjectSt);
+                        String dist="";
+                        if(longObjectSt!="null"&&latObjectSt!="null"){
+                        Double longObject = Double.parseDouble(longObjectSt);
+                        Double latObject = Double.parseDouble(latObjectSt);
 
                         //Double distance =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
 
-                        Double distancetest =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, 18.792812, 98.981924);
-                        distancetest=distancetest/1000000;
-                        String dist= String.valueOf(distancetest);
+                        String distancetest =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+                        //distancetest=distancetest/1000000;
+                        dist= String.valueOf(distancetest);
+                        }
 
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
