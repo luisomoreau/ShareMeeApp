@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/navdrawer_background">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/contact_lend"
+        android:id="@+id/contact_label"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_label"
+        android:id="@+id/your_name_label"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/your_name"
+        android:inputType="text"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mail_label"
+        android:id="@+id/mail_label"
+        android:hint="@string/exMail"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/email_user"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/object_message_label"
+        android:id="@+id/object_message_label"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/object_message"
+        android:text="@string/messageObject"
+        android:inputType="text"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_message"
+        android:id="@+id/textView2"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mailMessage"
+        android:inputType="text"
+        android:text="@string/exemple_message"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"/>
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:background="@color/primary_color">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send"
+            android:id="@+id/send_message"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"/>
+        </android.support.v7.widget.CardView>
+</LinearLayout>
+</FrameLayout>

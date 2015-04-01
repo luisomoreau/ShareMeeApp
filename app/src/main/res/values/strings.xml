@@ -40,5 +40,15 @@
     <string name="new_location">Latitude = %1$s, Longitude = %2$s, Altitude = %3$s</string>
     <string name="contact_lend">Contactez le préteur</string>
     <string name="name">Votre nom</string>
+    <string name="name_label">Votre Nom</string>
+    <string name="mail_label">Votre adresse mail</string>
+    <string name="your_message">Votre Message</string>
+    <string name="exemple_message">Bonjour, je souhaiterais vous emprunter votre objet du XX/XX au XX/XX. Est il disponible ?
+    Je vous souhaite une bonne journée.
+    Cordialement</string>
+    <string name="send">ENVOYER</string>
+    <string name="messageObject">Votre objet sur ShareMee</string>
+    <string name="object_message_label">Objet du message</string>
+    <string name="exMail">ex: nom@exemple.com</string>
 
 </resources>
