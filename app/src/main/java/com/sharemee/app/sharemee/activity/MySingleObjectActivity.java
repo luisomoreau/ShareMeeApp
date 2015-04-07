@@ -10,23 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.DownloadImageTask;
+import com.sharemee.app.sharemee.util.JSONParser;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ObjectPresentationActivity extends BaseActivity {
+public class MySingleObjectActivity extends BaseActivity {
 
     String idObject;
 
@@ -71,8 +73,6 @@ public class ObjectPresentationActivity extends BaseActivity {
     private static final String TAG_NAME_CITY = "nameCity";
     private static final String TAG_ZIPCODE_CITY = "zipcodeCity";
 
-    private TextView contact;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +80,7 @@ public class ObjectPresentationActivity extends BaseActivity {
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         // inflate the custom activity layout
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_object_presentation, null,false);
+        View activityView = layoutInflater.inflate(R.layout.activity_my_single_object, null,false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
 
@@ -100,17 +100,7 @@ public class ObjectPresentationActivity extends BaseActivity {
         // Loading objects in Background Thread
         new LoadObjectDetails().execute();
 
-        contact = (TextView) findViewById(R.id.contactObject);
-        contact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
-
 
     class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
 
@@ -118,7 +108,7 @@ public class ObjectPresentationActivity extends BaseActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(ObjectPresentationActivity.this);
+            pDialog = new ProgressDialog(MySingleObjectActivity.this);
             pDialog.setMessage("Recherche de l'objet...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);

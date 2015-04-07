@@ -7,6 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.sharemee.app.sharemee.activity.LoginActivity">
 
+
     <!-- Login progress -->
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -17,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/connexion_label"
         android:text="@string/connexion"
-        android:textSize="40dp"
+        android:textSize="30dp"
         android:layout_marginBottom="10dp"/>
     <ImageView
         android:layout_width="144dp"
@@ -25,8 +26,6 @@
         android:src="@drawable/logo"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"/>
-
-
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -120,7 +119,6 @@
                 android:layout_gravity="center_horizontal"
                 />
         </LinearLayout>
-
 
 </LinearLayout>
 

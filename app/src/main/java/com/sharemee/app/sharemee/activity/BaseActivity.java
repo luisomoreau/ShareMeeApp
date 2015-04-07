@@ -1,7 +1,9 @@
 package com.sharemee.app.sharemee.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -110,7 +112,7 @@ public class BaseActivity extends ActionBarActivity {
                     break;
                 }
                 case 2: {
-                    Intent intent = new Intent(BaseActivity.this, MyProfileActivity.class);
+                    Intent intent = new Intent(BaseActivity.this, MyObjectsActivity.class);
                     startActivity(intent);
                     break;
                 }

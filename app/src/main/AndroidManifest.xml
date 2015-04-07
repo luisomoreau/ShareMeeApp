@@ -63,6 +63,18 @@
             android:name=".activity.MyProfileActivity"
             android:label="@string/title_activity_my_profile_activity" >
         </activity>
+        <activity
+            android:name=".activity.MyObjectsActivity"
+            android:label="@string/title_activity_my_objects" >
+        </activity>
+        <activity
+            android:name=".activity.MySingleObjectActivity"
+            android:label="@string/title_activity_object_details" >
+        </activity>
+        <activity
+            android:name=".activity.ContactActivity"
+            android:label="@string/title_activity_contact" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

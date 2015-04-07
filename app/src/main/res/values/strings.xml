@@ -19,12 +19,22 @@
         <item>A propos</item>
     </string-array>
 
-    <string name="title_activity_my_objects">Mes objets</string>
+    <!-- Activity names -->
     <string name="title_activity_all_objects">Résultats</string>
     <string name="title_activity_object_details">Détails de l\'objet</string>
     <string name="title_activity_my_profile_activity">Mon profil</string>
+    <string name="title_activity_my_objects">Mes objets</string>
+    <string name="title_activity_contact">Contacter</string>
+
+
     <string name="distance_test">2.5 km</string>
+
+    <!-- Cardview labels -->
     <string name="contact">CONTACT</string>
+    <string name="modify">MODIFIER</string>
+    <string name="delete">SUPPRIMER</string>
+    <string name="logout">DECONNEXION</string>
+
 
     <!-- Object details labels -->
     <string name="object_detail_desc_label">Description :</string>
