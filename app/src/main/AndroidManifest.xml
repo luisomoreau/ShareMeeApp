@@ -34,7 +34,7 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
-            android:name=".SplashScreen"
+            android:name=".activity.SplashScreen"
             android:label="@string/title_activity_splash_screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,31 +42,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".SampleActivity"
-            android:label="@string/title_activity_sample" >
-        </activity>
-        <activity
-            android:name=".ResultSearchActivity"
+            android:name=".activity.ResultSearchActivity"
             android:label="@string/title_activity_all_objects" >
         </activity>
         <activity
-            android:name=".ObjectPresentationActivity"
+            android:name=".activity.ObjectPresentationActivity"
             android:label="@string/title_activity_object_details" >
+        </activity>
+        <activity
+            android:name=".activity.MyProfileActivity"
+            android:label="@string/title_activity_my_profile_activity" >
         </activity>
 
         <meta-data

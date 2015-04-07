@@ -1,8 +1,6 @@
-package com.sharemee.app.sharemee;
+package com.sharemee.app.sharemee.activity;
 
-import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,7 +9,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -25,7 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sharemee.app.sharemee.MyLocationListener;
+import com.sharemee.app.sharemee.util.JSONParser;
+import com.sharemee.app.sharemee.util.MyLocationListener;
+import com.sharemee.app.sharemee.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +67,7 @@ public class ResultSearchActivity extends BaseActivity{
         // don’t set any content view here, since its already set in BaseActivity
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View activityView = layoutInflater.inflate(R.layout.activity_result_search, null,false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
@@ -98,7 +97,7 @@ public class ResultSearchActivity extends BaseActivity{
                         ObjectPresentationActivity.class);
                 // sending idObject to next activity
                 in.putExtra(TAG_ID_OBJECT, idObject);
-                Log.d("Id de l'objet récupéré : ", idObject );
+                Log.d("Id objet récupéré : ", idObject );
 
                 // starting new activity and expecting some response back
                 startActivityForResult(in, 100);
@@ -161,7 +160,7 @@ public class ResultSearchActivity extends BaseActivity{
             //Requesting location data
             LocationManager mlocManager=null;
             LocationListener mlocListener;
-            mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            mlocManager = (LocationManager)getSystemService(LOCATION_SERVICE);
             mlocListener = new MyLocationListener();
             mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 

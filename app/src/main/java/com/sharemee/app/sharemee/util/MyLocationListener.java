@@ -1,4 +1,4 @@
-package com.sharemee.app.sharemee;
+package com.sharemee.app.sharemee.util;
 
 /**
  * Created by Marin on 18/03/2015.

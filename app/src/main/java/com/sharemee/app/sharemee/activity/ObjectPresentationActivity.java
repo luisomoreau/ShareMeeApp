@@ -1,6 +1,5 @@
-package com.sharemee.app.sharemee;
+package com.sharemee.app.sharemee.activity;
 
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,23 +8,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.sharemee.app.sharemee.util.JSONParser;
+import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.DownloadImageTask;
+
 import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -80,7 +77,7 @@ public class ObjectPresentationActivity extends BaseActivity {
         // don’t set any content view here, since its already set in BaseActivity
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View activityView = layoutInflater.inflate(R.layout.activity_object_presentation, null,false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
@@ -146,7 +143,7 @@ public class ObjectPresentationActivity extends BaseActivity {
                             // get first product object from JSON Array
                             JSONObject object = productObj.getJSONObject(0);
                             //check object variable
-                            Log.d("First product object from Json Array", object.toString());
+                            //Log.d("First product object from Json Array", object.toString());
 
                             return object;
                         }

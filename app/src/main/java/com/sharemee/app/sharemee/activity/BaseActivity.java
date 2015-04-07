@@ -1,4 +1,4 @@
-package com.sharemee.app.sharemee;
+package com.sharemee.app.sharemee.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.sharemee.app.sharemee.R;
 
 /**
  * Created by user-laptop on 12/02/2015.
@@ -98,17 +100,17 @@ public class BaseActivity extends ActionBarActivity {
 
             switch (position) {
                 case 0: {
-                    Intent intent = new Intent(BaseActivity.this, SampleActivity.class);
-                    startActivity(intent);
-                    break;
-                }
-                case 1: {
                     Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
                     startActivity(intent);
                     break;
                 }
+                case 1: {
+                    Intent intent = new Intent(BaseActivity.this, MyProfileActivity.class);
+                    startActivity(intent);
+                    break;
+                }
                 case 2: {
-                    Intent intent = new Intent(BaseActivity.this, MainActivity.class);
+                    Intent intent = new Intent(BaseActivity.this, MyProfileActivity.class);
                     startActivity(intent);
                     break;
                 }

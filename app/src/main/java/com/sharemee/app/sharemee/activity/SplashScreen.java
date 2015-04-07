@@ -1,16 +1,14 @@
-package com.sharemee.app.sharemee;
+package com.sharemee.app.sharemee.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+
+import com.sharemee.app.sharemee.R;
 
 
 public class SplashScreen extends Activity {
@@ -60,7 +58,7 @@ public class SplashScreen extends Activity {
                 {
                     finish();
                     Intent i = new Intent();
-                    i.setClass(sPlashScreen, SampleActivity.class);
+                    i.setClass(sPlashScreen, LoginActivity.class);
                     startActivity(i);
                 }
             }

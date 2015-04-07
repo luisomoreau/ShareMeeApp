@@ -1,4 +1,4 @@
-package com.sharemee.app.sharemee;
+package com.sharemee.app.sharemee.util;
 
 import android.util.Log;
 

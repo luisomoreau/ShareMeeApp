@@ -14,15 +14,15 @@
     <string-array name="left_drawer_array">
         <item>Accueil</item>
         <item>Mon Profil</item>
-        <item>Rechercher</item>
-        <item>Paramètres</item>
         <item>Mes objets</item>
-        <item>Tests</item>
+        <item>Rechercher</item>
+        <item>A propos</item>
     </string-array>
 
-    <string name="title_activity_my_objects">MyObjectsActivity</string>
-    <string name="title_activity_all_objects">AllObjectsActivity</string>
+    <string name="title_activity_my_objects">Mes objets</string>
+    <string name="title_activity_all_objects">Résultats</string>
     <string name="title_activity_object_details">Détails de l\'objet</string>
+    <string name="title_activity_my_profile_activity">Mon profil</string>
     <string name="distance_test">2.5 km</string>
     <string name="contact">CONTACT</string>
 
@@ -32,6 +32,14 @@
     <string name="object_detail_username_label">Appartient à :</string>
     <string name="object_detail_cityname_label">Est situé à :</string>
     <string name="object_detail_distance_label">Distance :</string>
+
+    <!-- My profile -->
+    <string name="profile_name">Prénom :</string>
+    <string name="profile_surname">Nom :</string>
+    <string name="profile_mail">Email :</string>
+    <string name="modify_profile">Modifier</string>
+
+    <!-- Connection -->
     <string name="connexion">Connexion</string>
     <string name="rapid_connect">Connectez vous plus rapidement :</string>
     <string name="new_member">Nouveau Membre ?</string>

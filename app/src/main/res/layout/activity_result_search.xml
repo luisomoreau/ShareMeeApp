@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginRight="20dp"
     android:layout_marginLeft="20dp"
-    tools:context="com.sharemee.app.sharemee.ResultSearchActivity">
+    tools:context="com.sharemee.app.sharemee.activity.ResultSearchActivity">
     <!-- List View permetant d'afficher tous les résultats d'une recherche. Le layout qui défini les items est "serach_item.xml"-->
 
 

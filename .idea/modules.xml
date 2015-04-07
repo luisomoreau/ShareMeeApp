@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ShareMee.iml" filepath="$PROJECT_DIR$/ShareMee.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ShareMeeAndroid.iml" filepath="$PROJECT_DIR$/ShareMeeAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/ShareMeeApp.iml" filepath="$PROJECT_DIR$/ShareMeeApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
