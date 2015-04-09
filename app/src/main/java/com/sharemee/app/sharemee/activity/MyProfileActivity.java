@@ -54,6 +54,8 @@ public class MyProfileActivity extends BaseActivity {
     private static final String TAG_MAIL_USER = "mailUser";
     private static final String TAG_IMAGE_PROFILE_PICTURE = "profilePictureUser";
 
+    private TextView modify;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,15 @@ public class MyProfileActivity extends BaseActivity {
 
         // Loading objects in Background Thread
         new LoadObjectDetails().execute();
+
+        modify = (TextView) findViewById(R.id.modify_user_profile);
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ModifyProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

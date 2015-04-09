@@ -23,6 +23,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
 
 
     <application
@@ -74,6 +77,10 @@
         <activity
             android:name=".activity.ContactActivity"
             android:label="@string/title_activity_contact" >
+        </activity>
+        <activity
+            android:name=".activity.ModifyProfileActivity"
+            android:label="@string/title_activity_modify_profile" >
         </activity>
 
         <meta-data

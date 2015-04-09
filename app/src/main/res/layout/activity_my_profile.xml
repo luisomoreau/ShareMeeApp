@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
         <ScrollView
             android:id="@+id/scrollViewUserProfile"
             android:layout_width="wrap_content"
@@ -183,7 +178,7 @@
                             android:orientation="vertical">
                             <!-- Contact-->
                             <TextView
-                                android:id="@+id/modifyUserProfile"
+                                android:id="@+id/modify_user_profile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
@@ -261,9 +256,6 @@
             </LinearLayout>
 
         </ScrollView>
-
-
-    </LinearLayout>
 
 </FrameLayout>
 

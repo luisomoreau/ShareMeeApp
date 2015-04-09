@@ -1,11 +1,19 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:gravity="center_horizontal"
-    android:orientation="vertical" android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.sharemee.app.sharemee.activity.LoginActivity">
+<?xml version="1.0" encoding="utf-8"?><!-- Layout général pour la page de présentation d'un objet -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <ScrollView
+        android:id="@+id/scrollViewUserProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
 
     <!-- Login progress -->
@@ -19,13 +27,15 @@
         android:id="@+id/connexion_label"
         android:text="@string/connexion"
         android:textSize="30dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"/>
     <ImageView
         android:layout_width="144dp"
         android:layout_height="144dp"
         android:src="@drawable/logo"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"/>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -119,8 +129,9 @@
                 android:layout_gravity="center_horizontal"
                 />
         </LinearLayout>
-
 </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
 
 
 
