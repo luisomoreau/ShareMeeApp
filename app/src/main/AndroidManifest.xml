@@ -82,6 +82,10 @@
             android:name=".activity.ModifyProfileActivity"
             android:label="@string/title_activity_modify_profile" >
         </activity>
+        <activity
+            android:name=".activity.SigninActivity"
+            android:label="@string/title_activity_signin" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

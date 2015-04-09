@@ -26,6 +26,7 @@
     <string name="title_activity_my_objects">Mes objets</string>
     <string name="title_activity_contact">Contacter</string>
     <string name="title_activity_modify_profile">Contacter</string>
+    <string name="title_activity_signin">Inscription</string>
 
 
     <string name="distance_test">2.5 km</string>
@@ -70,12 +71,21 @@
     <string name="object_message_label">Objet du message</string>
     <string name="exMail">ex: nom@exemple.com</string>
 
+    <!-- Sign in -->
+    <string name="signin">Inscription</string>
+    <string name="signin_profile_user_name">Prénom</string>
+    <string name="signin_profile_user_surname">Nom</string>
+    <string name="signin_profile_user_email">Adresse email</string>
+    <string name="signin_profile_user_password">Mot de passe</string>
+    <string name="signin_profile_user_reenter_password">Vérification mot de passe</string>
+    <string name="signin_profile_user_validate">S\'inscrire</string>
+
     <!-- modify profile -->
-    <string name="modify_profile_user_name">Prénom :</string>
-    <string name="modify_profile_user_surname">Nom :</string>
-    <string name="modify_profile_user_email">Adresse email :</string>
-    <string name="modify_profile_user_password">Mot de passe :</string>
-    <string name="modify_profile_user_reenter_password">Vérification mot de passe :</string>
-    <string name="modify_profile_user_photo">Photo de profil :</string>
+    <string name="modify_profile_user_name">Prénom</string>
+    <string name="modify_profile_user_surname">Nom</string>
+    <string name="modify_profile_user_email">Adresse email</string>
+    <string name="modify_profile_user_password">Mot de passe</string>
+    <string name="modify_profile_user_reenter_password">Vérification mot de passe</string>
+    <string name="modify_profile_user_photo">Photo de profil</string>
 
 </resources>
