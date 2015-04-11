@@ -15,21 +15,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <HorizontalScrollView
-                    android:id="@+id/scrollUserPhoto"
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:fillViewport="false">
+                    android:layout_height="match_parent"
+                    android:src="@drawable/profil"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:id="@+id/imageProfilPicture"
-                        android:src="@drawable/profil" />
-                </HorizontalScrollView>
 
                 <!-- Carte qui va être le support de l'item Contact-->
                 <LinearLayout

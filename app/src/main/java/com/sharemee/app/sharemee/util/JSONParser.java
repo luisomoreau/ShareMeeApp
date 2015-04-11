@@ -49,11 +49,16 @@ public class JSONParser {
                 // defaultHttpClient
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
+                //httpPost.setHeader("Content-type","application/json");
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
+                Log.d("url : ", url);
+                Log.d("params jsonparse : ", params.toString());
+                Log.d("httpPost : ", httpPost.toString());
 
                 HttpResponse httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
+                Log.d("is : ", is.toString());
 
             }else if(method == "GET"){
                 // request method is GET
@@ -72,10 +77,13 @@ public class JSONParser {
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            Log.d("probleme encodage",e.toString());
         } catch (ClientProtocolException e) {
             e.printStackTrace();
+            Log.d("probleme protocole",e.toString());
         } catch (IOException e) {
             e.printStackTrace();
+            Log.d("probleme IOexception",e.toString());
         }
 
         try {

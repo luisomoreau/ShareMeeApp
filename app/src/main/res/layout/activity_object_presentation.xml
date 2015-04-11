@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
         <!-- Permet de créer une galerie de photos de l'objet si il y en a plusieurs-->
         <ScrollView
@@ -38,11 +39,14 @@
                     android:fillViewport="false">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="2dp"
                             android:id="@+id/imageViewObjectPresenation1"
-                            android:src="@drawable/no_image" />
+                            android:src="@drawable/no_image"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"/>
 
 
                 </HorizontalScrollView>

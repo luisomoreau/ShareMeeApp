@@ -103,9 +103,12 @@
                     android:maxLines="1"
                     android:singleLine="true" />
 
-                <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
-                    android:layout_width="250dp" android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp" android:text="@string/signin_profile_user_validate"
+                <Button android:id="@+id/sign_in_button"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/signin_profile_user_validate"
                     android:textStyle="bold"
                     android:layout_gravity="center_horizontal"
                     android:clickable="true" />
