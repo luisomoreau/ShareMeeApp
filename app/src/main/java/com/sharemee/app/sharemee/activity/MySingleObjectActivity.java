@@ -3,8 +3,12 @@ package com.sharemee.app.sharemee.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.DownloadImageTask;
 import com.sharemee.app.sharemee.util.JSONParser;
+import com.sharemee.app.sharemee.util.MyLocationListener;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -72,6 +77,8 @@ public class MySingleObjectActivity extends BaseActivity {
     private static final String TAG_ID_CITY = "idCity";
     private static final String TAG_NAME_CITY = "nameCity";
     private static final String TAG_ZIPCODE_CITY = "zipcodeCity";
+    private Double latitudePhone;
+    private Double longitudePhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,42 +124,54 @@ public class MySingleObjectActivity extends BaseActivity {
 
         @Override
         protected JSONObject doInBackground(String... args) {
+            Looper.prepare();
+            int success;
+            LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
-                    int success;
+            LocationListener mlocListener = new MyLocationListener();
+            Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+            latitudePhone=0.0;
+            longitudePhone=0.0;
+            latitudePhone=location.getLatitude();
+            longitudePhone=location.getLongitude();
 
-                    try {
-                        // Building Parameters
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("idObject", idObject));
+            Log.d("lattitudePhone :", latitudePhone.toString());
+            Log.d("longitudePhone :", longitudePhone.toString());
 
-                        //check params
-                        Log.d("params :", params.toString());
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("idObject", idObject));
 
-                        // getting product details by making HTTP request
-                        // Note that product details url will use GET request
-                        JSONObject json = jsonParser.makeHttpRequest(
-                                url_object_detail, "GET", params);
+                //check params
+                Log.d("params :", params.toString());
 
-                        // check your log for json response
-                        Log.d("Single Product Details", json.toString());
+                // getting product details by making HTTP request
+                // Note that product details url will use GET request
+                JSONObject json = jsonParser.makeHttpRequest(
+                        url_object_detail, "GET", params);
 
-                        success = json.getInt(TAG_SUCCESS);
-                        if (success == 1) {
+                // check your log for json response
+                Log.d("Single Product Details", json.toString());
 
-                            JSONArray productObj = json
-                                    .getJSONArray(TAG_OBJECT); // JSON Array
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
 
-                            // get first product object from JSON Array
-                            JSONObject object = productObj.getJSONObject(0);
-                            //check object variable
-                            //Log.d("First product object from Json Array", object.toString());
+                    JSONArray productObj = json
+                            .getJSONArray(TAG_OBJECT); // JSON Array
 
-                            return object;
-                        }
+                    // get first product object from JSON Array
+                    JSONObject object = productObj.getJSONObject(0);
+                    //check object variable
+                    //Log.d("First product object from Json Array", object.toString());
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    return object;
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
@@ -169,37 +188,50 @@ public class MySingleObjectActivity extends BaseActivity {
                     Context context = getBaseContext();
 
 
-            try {
-                Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
-                //The cardviews are set
-                objectName.setText(object1.getString(TAG_NAME_OBJECT));
-                objectDesc.setText(object1.getString(TAG_DESC_OBJECT));
-                objectCategory.setText(object1.getString(TAG_NAME_CATEGORY));
-                objectUsername.setText(object1.getString(TAG_NAME_USER));
-                objectCity.setText(object1.getString(TAG_NAME_CITY));
-                objectDistance.setText(object1.getString(TAG_LAT_OBJECT)+" m");
-
-                //Construct full image url to get the image
-                String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);
-                Log.d("image path 1", full_image_url_1);
-                String full_image_url_2 = url_object_image + object1.getString(TAG_IMAGE_PATH_2_OBJECT);
-                Log.d("image path 2", full_image_url_1);
 
 
-                //The DownloadImageTask is called to get the image on the server
-                if (!object1.getString(TAG_IMAGE_PATH_1_OBJECT).equals("null")) {
-                    new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation1))
-                            .execute(full_image_url_1);
-                }
+                    try {
+
+                        String longObjectSt = object1.getString(TAG_LONG_OBJECT);
+                        String latObjectSt = object1.getString(TAG_LAT_OBJECT);
+                        //Calcul de la distance
+                        String dist="";
+                        if(longObjectSt!="null"&&latObjectSt!="null"){
+                            Double longObject = Double.parseDouble(longObjectSt);
+                            Double latObject = Double.parseDouble(latObjectSt);
+                            String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+                            dist= String.valueOf(distanceCalcule);}
+
+                        Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
+                        //The cardviews are set
+                        objectName.setText(object1.getString(TAG_NAME_OBJECT));
+                        objectDesc.setText(object1.getString(TAG_DESC_OBJECT));
+                        objectCategory.setText(object1.getString(TAG_NAME_CATEGORY));
+                        objectUsername.setText(object1.getString(TAG_NAME_USER));
+                        objectCity.setText(object1.getString(TAG_NAME_CITY));
+                        objectDistance.setText(dist+" km");
+
+                        //Construct full image url to get the image
+                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);
+                        Log.d("image path 1", full_image_url_1);
+                        String full_image_url_2 = url_object_image + object1.getString(TAG_IMAGE_PATH_2_OBJECT);
+                        Log.d("image path 2", full_image_url_1);
+
+
+                        //The DownloadImageTask is called to get the image on the server
+                        if (!object1.getString(TAG_IMAGE_PATH_1_OBJECT).equals("null")) {
+                            new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation1))
+                                    .execute(full_image_url_1);
+                        }
                 /*
                 if (object1.getString(TAG_IMAGE_PATH_2_OBJECT)!=null) {
                     new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation2))
                             .execute(full_image_url_2);
                 }
 */
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
 
                 }
             });

@@ -1,7 +1,9 @@
 package com.sharemee.app.sharemee.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -55,6 +57,8 @@ public class ResultSearchActivity extends BaseActivity{
     private static final String TAG_NAME_CITY = "nameCity";
     private static final String TAG_LONG_OBJECT = "longObject";
     private static final String TAG_LAT_OBJECT = "latObject";
+    private Double latitudePhone;
+    private Double longitudePhone;
 
     // objects JSONArray
     JSONArray objects = null;
@@ -132,7 +136,7 @@ public class ResultSearchActivity extends BaseActivity{
          * */
         private ListView lv;
 
-         @Override
+        @Override
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(ResultSearchActivity.this);
@@ -158,15 +162,16 @@ public class ResultSearchActivity extends BaseActivity{
             Log.d("All Products: ", json.toString());
 
             //Requesting location data
-            LocationManager mlocManager=null;
-            LocationListener mlocListener;
-            mlocManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-            mlocListener = new MyLocationListener();
-            mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+            LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
-            //if (mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                Double latitudePhone=MyLocationListener.latitude;
-                Double longitudePhone=MyLocationListener.longitude;
+            LocationListener mlocListener = new MyLocationListener();
+            Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+            latitudePhone=0.0;
+            longitudePhone=0.0;
+            Double latitudePhone=location.getLatitude();
+            Double longitudePhone=location.getLongitude();
+
             Log.d("lattitudePhone :", latitudePhone.toString());
             Log.d("longitudePhone :", longitudePhone.toString());
 
@@ -193,18 +198,17 @@ public class ResultSearchActivity extends BaseActivity{
                         String latObjectSt = c.getString(TAG_LAT_OBJECT);
 
 
-                        //Log.d("lattitudePhone :", latObjectSt);
-                        //Log.d("longitudePhone :", longObjectSt);
+
                         String dist="";
                         if(longObjectSt!="null"&&latObjectSt!="null"){
-                        Double longObject = Double.parseDouble(longObjectSt);
-                        Double latObject = Double.parseDouble(latObjectSt);
+                            Double longObject = Double.parseDouble(longObjectSt);
+                            Double latObject = Double.parseDouble(latObjectSt);
 
-                        //Double distance =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
 
-                        String distancetest =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
-                        //distancetest=distancetest/1000000;
-                        dist= String.valueOf(distancetest);
+
+                            String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+
+                            dist= String.valueOf(distanceCalcule);
                         }
 
                         // creating new HashMap
@@ -214,7 +218,7 @@ public class ResultSearchActivity extends BaseActivity{
                         map.put(TAG_ID_OBJECT, idObject);
                         map.put(TAG_NAME_OBJECT, nameObject);
                         map.put(TAG_NAME_CATEGORY, nameCategory);
-                        map.put(TAG_NAME_CITY, dist+" m");
+                        map.put(TAG_NAME_CITY, dist+" km");
 
                         // adding HashList to ArrayList
                         objectsList.add(map);
