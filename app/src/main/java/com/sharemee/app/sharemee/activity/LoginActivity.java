@@ -12,13 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.PrefUtils;
 
 
 public class LoginActivity extends BaseActivity {
+
+    private String usermail;
+    private String password;
+
+    AutoCompleteTextView logInUsename;
+    EditText logInPassword;
+    public static String PREFS_LOGIN_USERNAME_KEY = "EMAIL";
+    public static String PREFS_LOGIN_PASSWORD_KEY = "PASSWORD";
 
 
     private TextView signin;
@@ -34,6 +44,11 @@ public class LoginActivity extends BaseActivity {
         frameLayout.addView(activityView);
         // now you can do all your other stuffs
 
+        logInUsename = (AutoCompleteTextView) findViewById(R.id.login_email);
+        logInPassword = (EditText) findViewById(R.id.login_password);
+
+
+
         signin = (TextView) findViewById(R.id.login_new_member);
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +57,14 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        // Saving user credentials on successful login case
+        PrefUtils.saveToPrefs(LoginActivity.this, PREFS_LOGIN_USERNAME_KEY, usermail);
+        PrefUtils.saveToPrefs(LoginActivity.this, PREFS_LOGIN_PASSWORD_KEY, password);
+
+// To retrieve values back
+        String loggedInUserName = PrefUtils.getFromPrefs(LoginActivity.this, PREFS_LOGIN_USERNAME_KEY, "0");
+        String loggedInUserPassword = PrefUtils.getFromPrefs(LoginActivity.this, PREFS_LOGIN_PASSWORD_KEY, "0");
     }
 
 }
