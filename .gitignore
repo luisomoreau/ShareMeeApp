@@ -2,9 +2,6 @@
 gradle.*
 /local.properties
 .idea/*
-ShareMeeAndroid.iml
-ShareMeeApp.iml
-ShareMee.iml
 .idea/module.xml
 .DS_Store
 /build
