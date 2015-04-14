@@ -3,6 +3,7 @@ package com.sharemee.app.sharemee.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +60,7 @@ public class MyProfileActivity extends BaseActivity {
     private static final String TAG_IMAGE_PROFILE_PICTURE = "profilPictureUser";
 
     private TextView modify;
+    private TextView logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,17 @@ public class MyProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ModifyProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        logout = (TextView) findViewById(R.id.logout_user_profile);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userID="0";
+                PrefUtils.saveToPrefs(MyProfileActivity.this, PREFS_USER_ID, userID);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });

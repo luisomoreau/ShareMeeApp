@@ -3,15 +3,22 @@ package com.sharemee.app.sharemee.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.PrefUtils;
 
 
 public class SplashScreen extends Activity {
+
+    //Store user_ID variable declarations
+    String idUser;
+    public static String PREFS_USER_ID = "user_ID" ;
+
 
     /** Durée d'affichage du SplashScreen */
     protected int _splashTime = 3000;
@@ -25,6 +32,10 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        //parameter
+        String savedUserId = PrefUtils.getFromPrefs(SplashScreen.this, PREFS_USER_ID, "0");
+        Log.d("savedUserId", savedUserId);
+        idUser = savedUserId;
 
         RotateAnimation anim = new RotateAnimation(0f, 350f, 15f, 15f);
         anim.setInterpolator(new LinearInterpolator());
@@ -57,9 +68,16 @@ public class SplashScreen extends Activity {
                 finally
                 {
                     finish();
-                    Intent i = new Intent();
-                    i.setClass(sPlashScreen, LoginActivity.class);
-                    startActivity(i);
+                    if (idUser.equals("0")){
+                        Intent i = new Intent();
+                        i.setClass(sPlashScreen, LoginActivity.class);
+                        startActivity(i);
+                    }
+                    else {
+                        Intent i = new Intent();
+                        i.setClass(sPlashScreen, MyProfileActivity.class);
+                        startActivity(i);
+                    }
                 }
             }
         };

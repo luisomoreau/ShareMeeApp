@@ -205,7 +205,7 @@
                             android:orientation="vertical">
                             <!-- Contact-->
                             <TextView
-                                android:id="@+id/logoutUserProfile"
+                                android:id="@+id/logout_user_profile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
