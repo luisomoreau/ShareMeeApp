@@ -80,7 +80,7 @@ public class SigninActivity extends BaseActivity {
                 String password2 = txtReenterpassword.getText().toString();
 
                 if (password.equals(password2)) {
-                    new Login().execute();
+                    new Signin().execute();
                 }else {
                     Context context = getApplicationContext();
                     CharSequence text = "Les mots de passes ne correspondent pas";
@@ -98,7 +98,7 @@ public class SigninActivity extends BaseActivity {
     /**
      * Background Async Task to  Save product Details
      * */
-    class Login extends AsyncTask<String, String, String> {
+    class Signin extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
@@ -117,8 +117,6 @@ public class SigninActivity extends BaseActivity {
          * Saving product
          * */
         protected String doInBackground(String... args) {
-
-
 
             // getting updated data from EditTexts
 

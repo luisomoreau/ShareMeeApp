@@ -169,6 +169,7 @@ public class ResultSearchActivity extends BaseActivity{
             mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
             latitudePhone=0.0;
             longitudePhone=0.0;
+            //TODO check if locationListener not available
             Double latitudePhone=location.getLatitude();
             Double longitudePhone=location.getLongitude();
 

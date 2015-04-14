@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.JSONParser;
+import com.sharemee.app.sharemee.util.PrefUtils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,6 +28,7 @@ import java.util.List;
 public class MyProfileActivity extends BaseActivity {
 
     String idUser;
+    public static String PREFS_USER_ID = "user_ID" ;
 
     TextView userName;
     TextView userSurname;
@@ -39,8 +41,8 @@ public class MyProfileActivity extends BaseActivity {
     JSONParser jsonParser = new JSONParser();
 
     // url to get all objects list
-    private static String url_user_details = "http://sharemee.com/webservice/model/get_user_details.php";
-    //private static String url_object_detail = "http://10.0.2.2/sharemee/webservice/model/get_object_details.php";
+    //private static String url_user_details = "http://sharemee.com/webservice/model/get_user_details.php";
+    private static String url_user_details = "http://10.0.2.2/sharemee/webservice/model/get_user_details.php";
 
     private static String url_user_image = "http://sharemee.com/webservice/images/";
     //private static String url_object_image = "http://10.0.2.2/sharemee/webservice/images/no-image.jpg";
@@ -72,7 +74,12 @@ public class MyProfileActivity extends BaseActivity {
 
         // getting product id (pid) from intent
         //idUser = i.getStringExtra(TAG_ID_USER);
-        idUser = "1";
+
+        String savedUserId = PrefUtils.getFromPrefs(MyProfileActivity.this, PREFS_USER_ID, "0");
+
+        Log.d("savedUserId",savedUserId);
+
+        idUser = savedUserId;
 
         userName = (TextView) findViewById(R.id.user_name);
         userSurname = (TextView) findViewById(R.id.user_surname);
