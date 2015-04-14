@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends Activity {
 
     private String usermail;
     private String password;
@@ -64,18 +64,19 @@ public class LoginActivity extends BaseActivity {
     private static final String TAG_ID_USER = "idUser";
     public int success;
 
-    private static String url_connection = "http://10.0.2.2/sharemee/webservice/model/check_connection.php";
+    private static String url_connection = "http://sharemee.com/webservice/model/check_connection.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
+        //FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
         // inflate the custom activity layout
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_login, null, false);
+        //View activityView = layoutInflater.inflate(R.layout.activity_login, null, false);
         // add the custom layout of this activity to frame layout.
-        frameLayout.addView(activityView);
+        //frameLayout.addView(activityView);
         // now you can do all your other stuffs
 
         String savedUserId = PrefUtils.getFromPrefs(LoginActivity.this, PREFS_USER_ID, "0");

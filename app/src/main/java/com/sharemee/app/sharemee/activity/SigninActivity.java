@@ -1,5 +1,6 @@
 package com.sharemee.app.sharemee.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +26,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class SigninActivity extends BaseActivity {
+//TODO check empty fields
+public class SigninActivity extends Activity {
 
     AutoCompleteTextView txtName;
     AutoCompleteTextView txtSurname;
@@ -52,13 +53,14 @@ public class SigninActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signin);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        //FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         // inflate the custom activity layout
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_signin, null,false);
+        //View activityView = layoutInflater.inflate(R.layout.activity_signin, null,false);
         // add the custom layout of this activity to frame layout.
-        frameLayout.addView(activityView);
+        //frameLayout.addView(activityView);
         // now you can do all your other stuffs
 
         txtName = (AutoCompleteTextView) findViewById(R.id.signin_name);
@@ -78,16 +80,25 @@ public class SigninActivity extends BaseActivity {
                 // starting background task to update product
                 String password = txtPassword.getText().toString();
                 String password2 = txtReenterpassword.getText().toString();
-
-                if (password.equals(password2)) {
-                    new Signin().execute();
-                }else {
+                if((txtName.getText().toString().isEmpty())||(txtSurname.getText().toString().isEmpty())||(txtEmail.getText().toString().isEmpty())||(txtPassword.getText().toString().isEmpty())||(txtReenterpassword.getText().toString().isEmpty())){
                     Context context = getApplicationContext();
-                    CharSequence text = "Les mots de passes ne correspondent pas";
+                    CharSequence text = "Veuillez renseigner tous les champs";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
+                }
+                else {
+                    if (password.equals(password2)) {
+                        new Signin().execute();
+                    }else {
+                        Context context = getApplicationContext();
+                        CharSequence text = "Les mots de passes ne correspondent pas";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
                 }
             }
 

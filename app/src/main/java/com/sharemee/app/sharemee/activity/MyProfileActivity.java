@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.DownloadImageTask;
 import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.PrefUtils;
 
@@ -41,8 +43,8 @@ public class MyProfileActivity extends BaseActivity {
     JSONParser jsonParser = new JSONParser();
 
     // url to get all objects list
-    //private static String url_user_details = "http://sharemee.com/webservice/model/get_user_details.php";
-    private static String url_user_details = "http://10.0.2.2/sharemee/webservice/model/get_user_details.php";
+    private static String url_user_details = "http://sharemee.com/webservice/model/get_user_details.php";
+    //private static String url_user_details = "http://10.0.2.2/sharemee/webservice/model/get_user_details.php";
 
     private static String url_user_image = "http://sharemee.com/webservice/images/";
     //private static String url_object_image = "http://10.0.2.2/sharemee/webservice/images/no-image.jpg";
@@ -54,7 +56,7 @@ public class MyProfileActivity extends BaseActivity {
     private static final String TAG_NAME_USER = "nameUser";
     private static final String TAG_SURNAME_USER = "surnameUser";
     private static final String TAG_MAIL_USER = "mailUser";
-    private static final String TAG_IMAGE_PROFILE_PICTURE = "profilePictureUser";
+    private static final String TAG_IMAGE_PROFILE_PICTURE = "profilPictureUser";
 
     private TextView modify;
 
@@ -76,9 +78,7 @@ public class MyProfileActivity extends BaseActivity {
         //idUser = i.getStringExtra(TAG_ID_USER);
 
         String savedUserId = PrefUtils.getFromPrefs(MyProfileActivity.this, PREFS_USER_ID, "0");
-
         Log.d("savedUserId",savedUserId);
-
         idUser = savedUserId;
 
         userName = (TextView) findViewById(R.id.user_name);
@@ -176,6 +176,12 @@ public class MyProfileActivity extends BaseActivity {
                 //Construct full image url to get the image
                 String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE);
                 Log.d("image path 1", full_image_url_1);
+
+                //The DownloadImageTask is called to get the image on the server
+                if (!user1.getString(TAG_IMAGE_PROFILE_PICTURE).equals("null")) {
+                    new DownloadImageTask((ImageView) findViewById(R.id.profile_picture))
+                            .execute(full_image_url_1);
+                }
 
             }catch (JSONException e){
                 e.printStackTrace();

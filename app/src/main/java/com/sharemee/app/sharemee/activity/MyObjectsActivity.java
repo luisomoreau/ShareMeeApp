@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.MyLocationListener;
+import com.sharemee.app.sharemee.util.PrefUtils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -36,6 +37,9 @@ import java.util.List;
 
 public class MyObjectsActivity extends BaseActivity {
 
+    //Store user_ID variable declarations
+    String idUser;
+    public static String PREFS_USER_ID = "user_ID" ;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -47,11 +51,8 @@ public class MyObjectsActivity extends BaseActivity {
 
     // url to get all objects list
     private static String url_user_objects = "http://sharemee.com/webservice/model/get_user_objects.php";
-    //private static String url_all_objects = "http://10.0.2.2/sharemee/webservice/model/get_user_objects.php";
+    //private static String url_user_objects = "http://10.0.2.2/sharemee/webservice/model/get_user_objects.php";
 
-
-    //parameter
-    String idUser = "1";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -81,6 +82,10 @@ public class MyObjectsActivity extends BaseActivity {
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
 
+        //parameter
+        String savedUserId = PrefUtils.getFromPrefs(MyObjectsActivity.this, PREFS_USER_ID, "0");
+        Log.d("savedUserId",savedUserId);
+        idUser = savedUserId;
 
         // Hashmap for ListView
         objectsList = new ArrayList<HashMap<String, String>>();
