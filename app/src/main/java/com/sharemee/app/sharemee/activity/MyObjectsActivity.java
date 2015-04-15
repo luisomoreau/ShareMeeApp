@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +71,7 @@ public class MyObjectsActivity extends BaseActivity {
     JSONArray objects = null;
 
     private ListView lv;
+    private CardView btnAddObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class MyObjectsActivity extends BaseActivity {
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         // inflate the custom activity layout
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_result_search, null,false);
+        View activityView = layoutInflater.inflate(R.layout.activity_my_object, null,false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
 
@@ -116,6 +118,14 @@ public class MyObjectsActivity extends BaseActivity {
 
                 // starting new activity and expecting some response back
                 startActivityForResult(in, 100);
+            }
+        });
+        btnAddObj = (CardView) findViewById(R.id.add_object_buttonProf);
+        btnAddObj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddObjectActivity.class);
+                startActivity(intent);
             }
         });
 

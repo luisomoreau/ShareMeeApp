@@ -27,8 +27,6 @@
     <string name="title_activity_contact">Contacter</string>
     <string name="title_activity_modify_profile">Modifier</string>
     <string name="title_activity_signin">Inscription</string>
-
-
     <string name="distance_test">2.5 km</string>
 
     <!-- Cardview labels -->
@@ -36,7 +34,6 @@
     <string name="modify">MODIFIER</string>
     <string name="delete">SUPPRIMER</string>
     <string name="logout">DECONNEXION</string>
-
 
     <!-- Object details labels -->
     <string name="object_detail_desc_label">Description :</string>
@@ -87,5 +84,11 @@
     <string name="modify_profile_user_password">Mot de passe</string>
     <string name="modify_profile_user_reenter_password">Vérification mot de passe</string>
     <string name="modify_profile_user_photo">Photo de profil</string>
+    <string name="add_object">Ajouter un Objet</string>
+    <string name="add_object_name">Nom de l\'objet</string>
+    <string name="add_object_description_label">Description de l\'Objet</string>
+    <string name="add_label">AJOUTER</string>
+    <string name="add_picture_label">Ajouter une Photo</string>
+    <string name="title_activity_add_object">Ajouter un Objet</string>
 
 </resources>
