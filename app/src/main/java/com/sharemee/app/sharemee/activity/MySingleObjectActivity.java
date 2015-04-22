@@ -131,10 +131,12 @@ public class MySingleObjectActivity extends BaseActivity {
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
-            latitudePhone=0.0;
-            longitudePhone=0.0;
-           // latitudePhone=location.getLatitude();
-            //longitudePhone=location.getLongitude();
+            if (!isDeviceSupportLocation()) {
+                latitudePhone=0.0;
+                longitudePhone=0.0;
+            }else{
+                latitudePhone=location.getLatitude();
+                longitudePhone=location.getLongitude();}
 
             Log.d("lattitudePhone :", latitudePhone.toString());
             Log.d("longitudePhone :", longitudePhone.toString());
@@ -199,8 +201,9 @@ public class MySingleObjectActivity extends BaseActivity {
                         if(longObjectSt!="null"&&latObjectSt!="null"){
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
-                            String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
-                            dist= String.valueOf(distanceCalcule);}
+                            if (isDeviceSupportLocation()) {
+                                String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+                                dist= String.valueOf(distanceCalcule)+" km";}}
 
                         Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
                         //The cardviews are set
@@ -209,7 +212,7 @@ public class MySingleObjectActivity extends BaseActivity {
                         objectCategory.setText(object1.getString(TAG_NAME_CATEGORY));
                         objectUsername.setText(object1.getString(TAG_NAME_USER));
                         objectCity.setText(object1.getString(TAG_NAME_CITY));
-                        objectDistance.setText(dist+" km");
+                        objectDistance.setText(dist);
 
                         //Construct full image url to get the image
                         String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);
@@ -237,6 +240,17 @@ public class MySingleObjectActivity extends BaseActivity {
             });
             // dismiss the dialog once got all details
             pDialog.dismiss();
+        }
+
+        private boolean isDeviceSupportLocation() {
+            if (getApplicationContext().getPackageManager().hasSystemFeature(
+                    LOCATION_SERVICE)) {
+                // this device has a camera
+                return true;
+            } else {
+                // no camera on this device
+                return false;
+            }
         }
 
     }

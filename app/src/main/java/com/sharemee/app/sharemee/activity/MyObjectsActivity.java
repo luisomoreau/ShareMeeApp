@@ -3,6 +3,7 @@ package com.sharemee.app.sharemee.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,6 +20,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.JSONParser;
@@ -197,10 +199,13 @@ public class MyObjectsActivity extends BaseActivity {
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
-            latitudePhone=0.0;
-            longitudePhone=0.0;
-            //latitudePhone=location.getLatitude();
-            //longitudePhone=location.getLongitude();
+
+            if (!isDeviceSupportLocation()) {
+                latitudePhone=0.0;
+                longitudePhone=0.0;
+            }else{
+                latitudePhone=location.getLatitude();
+                longitudePhone=location.getLongitude();}
 
             Log.d("lattitudePhone :", latitudePhone.toString());
             Log.d("longitudePhone :", longitudePhone.toString());
@@ -233,12 +238,10 @@ public class MyObjectsActivity extends BaseActivity {
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
 
-
-
+                            if (isDeviceSupportLocation()) {
                             String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+                            dist= String.valueOf(distanceCalcule)+" km";}}
 
-                            dist= String.valueOf(distanceCalcule);
-                        }
 
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -247,7 +250,7 @@ public class MyObjectsActivity extends BaseActivity {
                         map.put(TAG_ID_OBJECT, idObject);
                         map.put(TAG_NAME_OBJECT, nameObject);
                         map.put(TAG_NAME_CATEGORY, nameCategory);
-                        map.put(TAG_NAME_CITY, dist+" km");
+                        map.put(TAG_NAME_CITY, dist);
 
                         // adding HashList to ArrayList
                         objectsList.add(map);
@@ -285,6 +288,19 @@ public class MyObjectsActivity extends BaseActivity {
             });
 
         }
+
+        private boolean isDeviceSupportLocation() {
+            if (getApplicationContext().getPackageManager().hasSystemFeature(
+                    LOCATION_SERVICE)) {
+                // this device has a camera
+                return true;
+            } else {
+                // no camera on this device
+                return false;
+            }
+        }
+
+
 
     }
 }

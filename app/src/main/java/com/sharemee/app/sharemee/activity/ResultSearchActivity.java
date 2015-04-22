@@ -151,7 +151,7 @@ public class ResultSearchActivity extends BaseActivity{
          * */
         protected String doInBackground(String... args) {
 
-            Looper.prepare();
+           // Looper.prepare();
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -166,12 +166,15 @@ public class ResultSearchActivity extends BaseActivity{
 
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
-            latitudePhone=0.0;
-            longitudePhone=0.0;
-            //TODO check if locationListener not available
-            Double latitudePhone=location.getLatitude();
-            Double longitudePhone=location.getLongitude();
+
+            if (!isDeviceSupportLocation()) {
+
+                latitudePhone=0.0;
+                longitudePhone=0.0;
+            }else{
+                mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+                latitudePhone=location.getLatitude();
+                longitudePhone=location.getLongitude();}
 
             Log.d("lattitudePhone :", latitudePhone.toString());
             Log.d("longitudePhone :", longitudePhone.toString());
@@ -204,13 +207,9 @@ public class ResultSearchActivity extends BaseActivity{
                         if(longObjectSt!="null"&&latObjectSt!="null"){
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
-
-
-
-                            String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
-
-                            dist= String.valueOf(distanceCalcule);
-                        }
+                            if (isDeviceSupportLocation()) {
+                                String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+                                dist= String.valueOf(distanceCalcule)+" km";}}
 
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -219,7 +218,7 @@ public class ResultSearchActivity extends BaseActivity{
                         map.put(TAG_ID_OBJECT, idObject);
                         map.put(TAG_NAME_OBJECT, nameObject);
                         map.put(TAG_NAME_CATEGORY, nameCategory);
-                        map.put(TAG_NAME_CITY, dist+" km");
+                        map.put(TAG_NAME_CITY, dist);
 
                         // adding HashList to ArrayList
                         objectsList.add(map);
@@ -256,6 +255,17 @@ public class ResultSearchActivity extends BaseActivity{
                 }
             });
 
+        }
+
+        private boolean isDeviceSupportLocation() {
+            if (getApplicationContext().getPackageManager().hasSystemFeature(
+                    LOCATION_SERVICE)) {
+                // this device has a camera
+                return true;
+            } else {
+                // no camera on this device
+                return false;
+            }
         }
 
     }

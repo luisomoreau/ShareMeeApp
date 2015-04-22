@@ -48,7 +48,10 @@ public class SplashScreen extends Activity {
 
 // Later.. stop the animation
         splashLogo.setAnimation(null);
-
+        /*
+        String userID="0";
+        PrefUtils.saveToPrefs(SplashScreen.this, PREFS_USER_ID, userID);
+        */
 
         final SplashScreen sPlashScreen = this;
 
