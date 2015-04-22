@@ -31,9 +31,9 @@
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center"/>
             <ImageView
-                android:layout_width="144dp"
-                android:layout_height="144dp"
-                android:src="@drawable/logo"
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                android:src="@drawable/no_image"
                 android:id="@+id/add_picture_image"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"

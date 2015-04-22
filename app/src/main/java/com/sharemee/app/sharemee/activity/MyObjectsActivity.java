@@ -199,8 +199,8 @@ public class MyObjectsActivity extends BaseActivity {
             mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
             latitudePhone=0.0;
             longitudePhone=0.0;
-            latitudePhone=location.getLatitude();
-            longitudePhone=location.getLongitude();
+            //latitudePhone=location.getLatitude();
+            //longitudePhone=location.getLongitude();
 
             Log.d("lattitudePhone :", latitudePhone.toString());
             Log.d("longitudePhone :", longitudePhone.toString());

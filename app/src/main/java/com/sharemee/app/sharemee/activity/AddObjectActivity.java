@@ -128,7 +128,6 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         objCategory = (Spinner) findViewById(R.id.spinner_category);
 
         btnAddObject = (CardView) findViewById(R.id.add_object_button);
-        btnImage = (Button) findViewById(R.id.add_picture_button);
 
 
         // save button click event
@@ -219,7 +218,7 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     try {
                         outFile = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
-                        outFile.flush();
+                        //outFile.flush();
                         outFile.close();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -240,6 +239,9 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
+               // BitmapFactory.Options options = new BitmapFactory.Options();
+               //options.outHeight=260;
+               // options.outWidth=260;
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 Log.w("path of imgfrom gall", picturePath+"");
                 objImage.setImageBitmap(thumbnail);

@@ -68,7 +68,7 @@ public class SplashScreen extends Activity {
                 finally
                 {
                     finish();
-                    if (idUser.equals("0")){
+                    if (idUser.equals("0")||idUser.equals("null")){
                         Intent i = new Intent();
                         i.setClass(sPlashScreen, LoginActivity.class);
                         startActivity(i);
