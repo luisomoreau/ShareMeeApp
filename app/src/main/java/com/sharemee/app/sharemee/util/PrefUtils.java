@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 public class PrefUtils {
 
     public static final String PREFS_USER_ID = "user_ID" ;
+    public static final String PREFS_USER_MAIL = "user_mail" ;
+    public static final String PREFS_USER_NAME = "user_name" ;
 
     /**
      * Called to save supplied value in shared preferences against given key.

@@ -46,9 +46,9 @@ public class LoginActivity extends Activity {
 
     AutoCompleteTextView logInUsename;
     EditText logInPassword;
-    public static String PREFS_LOGIN_USERNAME_KEY = "EMAIL";
-    public static String PREFS_LOGIN_PASSWORD_KEY = "PASSWORD";
+
     public static String PREFS_USER_ID = "user_ID" ;
+    public static String PREFS_USER_MAIL = "user_mail" ;
 
     private TextView signin;
     private Button login;
@@ -62,6 +62,7 @@ public class LoginActivity extends Activity {
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_ID_USER = "idUser";
+    private static final String TAG_USER_MAIL = "mailUser";
     public int success;
 
     private static String url_connection = "http://sharemee.com/webservice/model/check_connection.php";
@@ -174,8 +175,11 @@ public class LoginActivity extends Activity {
 
                 if (success == 1){
                     userID = json.getString(TAG_ID_USER);
+                    usermail = json.getString(TAG_USER_MAIL);
                     Log.d("UserID :",userID);
                     PrefUtils.saveToPrefs(LoginActivity.this, PREFS_USER_ID, userID);
+                    PrefUtils.saveToPrefs(LoginActivity.this, PREFS_USER_MAIL, usermail);
+
                 /*
                 PrefUtils.saveToPrefs(LoginActivity.this, PREFS_LOGIN_USERNAME_KEY, usermail);
                 PrefUtils.saveToPrefs(LoginActivity.this, PREFS_LOGIN_PASSWORD_KEY, password);*/

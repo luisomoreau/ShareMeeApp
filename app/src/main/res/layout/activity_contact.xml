@@ -27,7 +27,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="2dp"
-        android:layout_marginLeft="2dp"/>
+        android:layout_marginLeft="2dp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textColor="@color/body_text_3"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +51,12 @@
         android:id="@+id/email_user"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="2dp"
-        android:layout_marginLeft="2dp"/>
+        android:layout_marginLeft="2dp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textColor="@color/body_text_3"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,7 +93,6 @@
         android:layout_height="150dp"
         android:id="@+id/mailMessage"
         android:inputType="textMultiLine"
-        android:text="@string/exemple_message"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="2dp"

@@ -32,6 +32,7 @@ public class MyProfileActivity extends BaseActivity {
 
     String idUser;
     public static String PREFS_USER_ID = "user_ID" ;
+    public static String PREFS_USER_NAME = "user_name" ;
 
     TextView userName;
     TextView userSurname;
@@ -185,6 +186,8 @@ public class MyProfileActivity extends BaseActivity {
                 userName.setText(user1.getString(TAG_NAME_USER));
                 userSurname.setText(user1.getString(TAG_SURNAME_USER));
                 userMail.setText(user1.getString(TAG_MAIL_USER));
+
+                PrefUtils.saveToPrefs(MyProfileActivity.this, PREFS_USER_NAME, user1.getString(TAG_NAME_USER));
 
                 //Construct full image url to get the image
                 String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE);
