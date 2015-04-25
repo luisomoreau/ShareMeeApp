@@ -33,7 +33,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:configChanges="keyboardHidden|orientation|screenSize">
         <uses-library android:name="com.google.android.maps" />
 
         <activity
@@ -52,39 +53,49 @@
 
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name=".activity.ResultSearchActivity"
-            android:label="@string/title_activity_all_objects" >
+            android:label="@string/title_activity_all_objects"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name=".activity.ObjectPresentationActivity"
-            android:label="@string/title_activity_object_details" >
+            android:label="@string/title_activity_object_details"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name=".activity.MyProfileActivity"
-            android:label="@string/title_activity_my_profile_activity" >
+            android:label="@string/title_activity_my_profile_activity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name=".activity.MyObjectsActivity"
-            android:label="@string/title_activity_my_objects" >
+            android:label="@string/title_activity_my_objects"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name=".activity.MySingleObjectActivity"
-            android:label="@string/title_activity_object_details" >
+            android:label="@string/title_activity_object_details"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name=".activity.ContactActivity"
-            android:label="@string/title_activity_contact" >
+            android:label="@string/title_activity_contact"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name=".activity.ModifyProfileActivity"
-            android:label="@string/title_activity_modify_profile" >
+            android:label="@string/title_activity_modify_profile"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name=".activity.SigninActivity"
-            android:label="@string/title_activity_signin" >
+            android:label="@string/title_activity_signin"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:noHistory="true">
         </activity>
 
         <meta-data
@@ -93,7 +104,8 @@
 
         <activity
             android:name=".activity.AddObjectActivity"
-            android:label="@string/title_activity_add_object" >
+            android:label="@string/title_activity_add_object"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
     </application>
 

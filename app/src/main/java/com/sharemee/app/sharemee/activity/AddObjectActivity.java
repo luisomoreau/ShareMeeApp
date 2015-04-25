@@ -2,13 +2,17 @@ package com.sharemee.app.sharemee.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -16,6 +20,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +36,9 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.BitmapScaler;
 import com.sharemee.app.sharemee.util.JSONParser;
+import com.sharemee.app.sharemee.util.PrefUtils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -48,6 +55,7 @@ import java.util.List;
 
 public class AddObjectActivity extends BaseActivity {
 
+    final int PIC_CROP = 2;
     AutoCompleteTextView objName;
     AutoCompleteTextView objDescription;
     ImageView objImage;
@@ -55,6 +63,10 @@ public class AddObjectActivity extends BaseActivity {
     Button btnImage;
     Spinner objCategory;
     Spinner spinner;
+    Uri baseUri;
+    String idUser;
+    Matrix matrix;
+    public static String PREFS_USER_ID = "user_ID" ;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -67,7 +79,7 @@ public class AddObjectActivity extends BaseActivity {
     JSONParser jsonParser = new JSONParser();
 
     // url to update product
-    private static final String url_signin = "http://sharemee.com/webservice/model/signin.php";
+    private static final String url_add_object = "http://192.168.1.34/ShareMeeWeb/webservice/model/add_object.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +95,7 @@ public class AddObjectActivity extends BaseActivity {
 
 
 /* ************************** Création du Spinner pour categories******************/
+
         //Récupération du Spinner déclaré dans le fichier main.xml de res/layout
         spinner = (Spinner) findViewById(R.id.spinner_category);
         //Création d'une liste d'élément à mettre dans le Spinner(pour l'exemple)
@@ -118,10 +131,6 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 selectImage();
             }
         });
-
-
-
-
         objName = (AutoCompleteTextView) findViewById(R.id.add_object_name);
         objDescription = (AutoCompleteTextView) findViewById(R.id.add_object_description);
         objImage = (ImageView) findViewById(R.id.add_picture_image);
@@ -154,8 +163,44 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             }});}
 
+    private void performCrop(Uri selectedImage){
+        try {
+            //call the standard crop action intent (the user device may not support it)
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            //indicate image type and Uri
+            cropIntent.setDataAndType(selectedImage, "image/*");
+            //set crop properties
+            cropIntent.putExtra("crop", "true");
+            //indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            //indicate output X and Y
+            cropIntent.putExtra("outputX", 256);
+            cropIntent.putExtra("outputY", 256);
+            //retrieve data on return
+            cropIntent.putExtra("return-data", true);
+            //start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, PIC_CROP);
+        }
+
+        catch(ActivityNotFoundException anfe){
+            //display an error message
+            String errorMessage = "Whoops - your device doesn't support the crop action!";
+            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 
             private void selectImage() {
+
+                // Check if there is a camera.
+                Context context = getApplicationContext();
+                PackageManager packageManager = context.getPackageManager();
+                if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) == false){
+                    Toast.makeText(getApplicationContext(), "Vous n'avez pas de caméra sur votre appareil.", Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
 
                 final CharSequence[] options = { "Prendre une Photo", "Choisir depuis Gallery","Annuler" };
 
@@ -204,8 +249,9 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
+                    Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
 
-                    objImage.setImageBitmap(bitmap);
+                    objImage.setImageBitmap(bitmapScaled);
 
                     String path = android.os.Environment
                             .getExternalStorageDirectory()
@@ -233,18 +279,49 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             } else if (requestCode == 2) {
 
                 Uri selectedImage = data.getData();
+
                 String[] filePath = { MediaStore.Images.Media.DATA };
                 Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
                 c.moveToFirst();
+                Log.d("path of single image : ",filePath+"");
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-               // BitmapFactory.Options options = new BitmapFactory.Options();
-               //options.outHeight=260;
-               // options.outWidth=260;
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 Log.w("path of imgfrom gall", picturePath+"");
-                objImage.setImageBitmap(thumbnail);
+
+                int width = thumbnail.getWidth();
+                int height = thumbnail.getHeight();
+
+                String widthBit= Integer.toString(width);
+                String heigthBit= Integer.toString(height);
+
+                Log.d("WIDTH BITMAP : ",widthBit);
+                Log.d("HEIGHT BITMAP : ",heigthBit);
+
+             // create a matrix for the manipulation
+                Matrix matrix = new Matrix();
+
+                // rotate the Bitmap
+                matrix.postRotate(-90);
+
+                // recreate the new Bitmap
+                Bitmap resizedBitmap = Bitmap.createBitmap(thumbnail,0,0,
+                        width, height, matrix, true);
+
+                // make a Drawable from Bitmap to allow to set the BitMap
+                // to the ImageView, ImageButton or what ever
+                BitmapDrawable bmd = new BitmapDrawable(resizedBitmap);
+
+
+                // set the Drawable on the ImageView
+                objImage.setImageDrawable(bmd);
+
+                // center the Image
+                objImage.setScaleType(ImageView.ScaleType.CENTER);
+
+                /*Bitmap bitmapScaled = BitmapScaler.scaleToFit(thumbnail,300,300);
+                objImage.setImageBitmap(bitmapScaled);*/
             }
         }
     }
@@ -277,16 +354,35 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         protected String doInBackground(String... args) {
 
 
-
+//TODO rajouter envoui de l'image à la base de données
             // getting updated data from EditTexts
 
+            String savedUserId = PrefUtils.getFromPrefs(AddObjectActivity.this, PREFS_USER_ID, "0");
+            Log.d("savedUserId",savedUserId);
+            idUser = savedUserId;
             String nameObject = objName.getText().toString();
             String descObject = objDescription.getText().toString();
-           // String catObject= objCategory.getText().toString();
+            String catObject = objCategory.getSelectedItem().toString();
+            String idCategory="";
+            if(catObject.compareTo("Bricolage")==0){
+                idCategory="1";
+                }
+            else if(catObject.compareTo("Cuisine")==0){
+                idCategory="2";
+            }
+            else if(catObject.compareTo("Livre")==0){
+                idCategory="3";
+            }
+            else if(catObject.compareTo("Jardinage")==0){
+                idCategory="4";
+            }
+            else if(catObject.compareTo("Menage")==0){
+                idCategory="5";
+            }
 
-
-            Log.d("nameUser", nameObject);
-            Log.d("surnameUser", descObject);
+            Log.d("nameObject : ", nameObject);
+            Log.d("descObject : ", descObject);
+            Log.d("catObject : ", idCategory);
 
 
             // Building Parameters
@@ -295,13 +391,15 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             params.add(new BasicNameValuePair("nameObject", nameObject));
             params.add(new BasicNameValuePair("descObject", descObject));
             //params.add(new BasicNameValuePair("catObject", catObject));
+            params.add(new BasicNameValuePair("smUser_idUser", idUser));
+            params.add(new BasicNameValuePair("smCategory_idCategory", idCategory));
 
 
             Log.d("params", params.toString());
 
             // sending modified data through http request
             // Notice that update product url accepts POST method
-            JSONObject json = jsonParser.makeHttpRequest(url_signin,
+            JSONObject json = jsonParser.makeHttpRequest(url_add_object,
                     "POST", params);
 
             Log.d("json", json.toString());

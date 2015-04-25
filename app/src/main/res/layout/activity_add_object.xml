@@ -31,13 +31,16 @@
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center"/>
             <ImageView
-                android:layout_width="260dp"
-                android:layout_height="260dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:maxWidth="300dip"
+                android:maxHeight="300dip"
                 android:src="@drawable/no_image"
                 android:id="@+id/add_picture_image"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:adjustViewBounds="true" />
 
             <Button android:id="@+id/add_picture_button"
                 style="?android:textAppearanceSmall"
