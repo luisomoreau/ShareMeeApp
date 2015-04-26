@@ -424,9 +424,11 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             params.add(new BasicNameValuePair("descObject", descObject));
             params.add(new BasicNameValuePair("latObject", latitudeObject.toString()));
             params.add(new BasicNameValuePair("longObject", longitudeObject.toString()));
-            params.add(new BasicNameValuePair("imagePath1Object", imageName.toString()));
             params.add(new BasicNameValuePair("smUser_idUser", idUser));
             params.add(new BasicNameValuePair("smCategory_idCategory", idCategory));
+            if(imageName!=null){
+                params.add(new BasicNameValuePair("imagePath1Object", imageName.toString()));
+            }
 
 
             Log.d("params", params.toString());
