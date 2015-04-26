@@ -63,18 +63,12 @@ public class ObjectPresentationActivity extends BaseActivity {
     private static final String TAG_DESC_OBJECT = "descObject";
     private static final String TAG_LAT_OBJECT = "latObject";
     private static final String TAG_LONG_OBJECT = "longObject";
-    private static final String TAG_YEAR_OBJECT = "yearObject";
     private static final String TAG_IMAGE_PATH_1_OBJECT = "imagePath1Object";
-    private static final String TAG_IMAGE_PATH_2_OBJECT = "imagePath2Object";
-    private static final String TAG_DATE_OBJECT = "addedDateTimeObject";
     private static final String TAG_ID_USER = "idUser";
     private static final String TAG_NAME_USER = "nameUser";
     private static final String TAG_SURNAME_USER = "surnameUser";
     private static final String TAG_ID_CATEGORY = "idCategory";
     private static final String TAG_NAME_CATEGORY = "nameCategory";
-    private static final String TAG_ID_CITY = "idCity";
-    private static final String TAG_NAME_CITY = "nameCity";
-    private static final String TAG_ZIPCODE_CITY = "zipcodeCity";
 
     private Double latitudePhone;
     private Double longitudePhone;
@@ -113,6 +107,7 @@ public class ObjectPresentationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
+                intent.putExtra(TAG_ID_OBJECT, idObject);
                 startActivity(intent);
             }
         });
@@ -224,14 +219,12 @@ public class ObjectPresentationActivity extends BaseActivity {
                         objectDesc.setText(object1.getString(TAG_DESC_OBJECT));
                         objectCategory.setText(object1.getString(TAG_NAME_CATEGORY));
                         objectUsername.setText(object1.getString(TAG_NAME_USER));
-                        objectCity.setText(object1.getString(TAG_NAME_CITY));
+                        //objectCity.setText(object1.getString(TAG_NAME_CITY));
                         objectDistance.setText(dist);
 
                         //Construct full image url to get the image
-                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT);
+                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT)+".jpg";
                         Log.d("image path 1", full_image_url_1);
-                        String full_image_url_2 = url_object_image + object1.getString(TAG_IMAGE_PATH_2_OBJECT);
-                        Log.d("image path 2", full_image_url_1);
 
 
                         //The DownloadImageTask is called to get the image on the server

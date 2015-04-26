@@ -90,6 +90,7 @@ public class AddObjectActivity extends BaseActivity {
     // url to update product
    private static final String url_add_object = "http://sharemee.com/webservice/model/add_object.php";
    //private static final String url_add_object = "http://192.168.1.34/ShareMeeWeb/webservice/model/add_object.php";
+   //private static final String url_add_object = "http://10.0.2.2/sharemee/webservice/model/add_object.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,9 +270,9 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             + "Phoenix" + File.separator + "default";
                     f.delete();
                     OutputStream outFile = null;
-                    imageName =String.valueOf(System.currentTimeMillis()) + ".jpg";
+                    imageName =String.valueOf(System.currentTimeMillis());
                     Log.d("Nom de l'image : ",imageName);
-                    File file = new File(path, imageName);
+                    File file = new File(path, imageName + ".jpg");
                     //TODO rajouter id de l'user si besoin pour eviter les doublons
 
                     try {
@@ -411,6 +412,7 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             Log.d("nameObject : ", nameObject);
             Log.d("descObject : ", descObject);
             Log.d("catObject : ", idCategory);
+            Log.d("imagePath1Object : ", idCategory);
             Log.d("latObject : ", latitudeObject.toString());
             Log.d("longObject : ", longitudeObject.toString());
 
@@ -422,6 +424,7 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             params.add(new BasicNameValuePair("descObject", descObject));
             params.add(new BasicNameValuePair("latObject", latitudeObject.toString()));
             params.add(new BasicNameValuePair("longObject", longitudeObject.toString()));
+            params.add(new BasicNameValuePair("imagePath1Object", imageName.toString()));
             params.add(new BasicNameValuePair("smUser_idUser", idUser));
             params.add(new BasicNameValuePair("smCategory_idCategory", idCategory));
 

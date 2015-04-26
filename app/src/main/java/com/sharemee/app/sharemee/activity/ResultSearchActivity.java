@@ -53,6 +53,7 @@ public class ResultSearchActivity extends BaseActivity{
     private static final String TAG_OBJECTS = "objects";
     private static final String TAG_ID_OBJECT = "idObject";
     private static final String TAG_NAME_OBJECT = "nameObject";
+    private static final String TAG_IMAGE_PATH_OBJECT = "imagePath1Object";
     private static final String TAG_NAME_CATEGORY = "nameCategory";
     private static final String TAG_NAME_CITY = "nameCity";
     private static final String TAG_LONG_OBJECT = "longObject";
@@ -197,7 +198,7 @@ public class ResultSearchActivity extends BaseActivity{
                         String idObject = c.getString(TAG_ID_OBJECT);
                         String nameObject = c.getString(TAG_NAME_OBJECT);
                         String nameCategory = c.getString(TAG_NAME_CATEGORY);
-                        String nameCity = c.getString(TAG_NAME_CITY);
+                        //String nameCity = c.getString(TAG_NAME_CITY);
                         String longObjectSt = c.getString(TAG_LONG_OBJECT);
                         String latObjectSt = c.getString(TAG_LAT_OBJECT);
 
