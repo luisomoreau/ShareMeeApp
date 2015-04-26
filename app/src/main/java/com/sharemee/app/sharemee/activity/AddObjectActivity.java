@@ -11,6 +11,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import com.sharemee.app.sharemee.util.MyLocationListener;
 import android.net.Uri;
 import android.graphics.Matrix;
 import android.os.AsyncTask;
@@ -38,6 +42,7 @@ import android.widget.Toast;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.BitmapScaler;
 import com.sharemee.app.sharemee.util.JSONParser;
+import com.sharemee.app.sharemee.util.MyLocationListener;
 import com.sharemee.app.sharemee.util.PrefUtils;
 
 import org.apache.http.NameValuePair;
@@ -66,6 +71,10 @@ public class AddObjectActivity extends BaseActivity {
     Uri baseUri;
     String idUser;
     Matrix matrix;
+    String imageName;
+
+    private Double longitudeObject;
+    private Double latitudeObject;
     public static String PREFS_USER_ID = "user_ID" ;
 
     // JSON Node names
@@ -79,7 +88,8 @@ public class AddObjectActivity extends BaseActivity {
     JSONParser jsonParser = new JSONParser();
 
     // url to update product
-    private static final String url_add_object = "http://192.168.1.34/ShareMeeWeb/webservice/model/add_object.php";
+   private static final String url_add_object = "http://sharemee.com/webservice/model/add_object.php";
+   //private static final String url_add_object = "http://192.168.1.34/ShareMeeWeb/webservice/model/add_object.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,8 +269,11 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             + "Phoenix" + File.separator + "default";
                     f.delete();
                     OutputStream outFile = null;
-                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+                    imageName =String.valueOf(System.currentTimeMillis()) + ".jpg";
+                    Log.d("Nom de l'image : ",imageName);
+                    File file = new File(path, imageName);
                     //TODO rajouter id de l'user si besoin pour eviter les doublons
+
                     try {
                         outFile = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
@@ -354,7 +367,7 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         protected String doInBackground(String... args) {
 
 
-//TODO rajouter envoui de l'image à la base de données
+//TODO rajouter envoi de l'image à la base de données
             // getting updated data from EditTexts
 
             String savedUserId = PrefUtils.getFromPrefs(AddObjectActivity.this, PREFS_USER_ID, "0");
@@ -379,10 +392,27 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             else if(catObject.compareTo("Menage")==0){
                 idCategory="5";
             }
+            Context myContext;
+            myContext=getApplicationContext();
+            LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+            LocationListener mlocListener = new MyLocationListener();
+            Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            if (!MyLocationListener.isDeviceSupportLocation(myContext)) {
+                latitudeObject=0.01;
+                longitudeObject=0.01;
+            }else{
+                mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+                latitudeObject=location.getLatitude();
+                longitudeObject=location.getLongitude();}
+
 
             Log.d("nameObject : ", nameObject);
             Log.d("descObject : ", descObject);
             Log.d("catObject : ", idCategory);
+            Log.d("latObject : ", latitudeObject.toString());
+            Log.d("longObject : ", longitudeObject.toString());
 
 
             // Building Parameters
@@ -390,7 +420,8 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             params.add(new BasicNameValuePair("nameObject", nameObject));
             params.add(new BasicNameValuePair("descObject", descObject));
-            //params.add(new BasicNameValuePair("catObject", catObject));
+            params.add(new BasicNameValuePair("latObject", latitudeObject.toString()));
+            params.add(new BasicNameValuePair("longObject", longitudeObject.toString()));
             params.add(new BasicNameValuePair("smUser_idUser", idUser));
             params.add(new BasicNameValuePair("smCategory_idCategory", idCategory));
 

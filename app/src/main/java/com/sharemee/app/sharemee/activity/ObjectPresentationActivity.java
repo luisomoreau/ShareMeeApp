@@ -137,12 +137,14 @@ public class ObjectPresentationActivity extends BaseActivity {
         protected JSONObject doInBackground(String... args) {
             //Looper.prepare();
             int success;
+            Context myContext;
+            myContext=getApplicationContext();
             LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            if (!isDeviceSupportLocation()) {
+            if (!MyLocationListener.isDeviceSupportLocation(myContext)) {
                 latitudePhone=0.0;
                 longitudePhone=0.0;
             }else{
@@ -212,7 +214,7 @@ public class ObjectPresentationActivity extends BaseActivity {
                         if(longObjectSt!="null"&&latObjectSt!="null"){
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
-                            if (isDeviceSupportLocation()) {
+                            if (MyLocationListener.isDeviceSupportLocation(getApplicationContext())) {
                                 String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
                                 dist= String.valueOf(distanceCalcule)+" km";}}
 
@@ -253,16 +255,7 @@ public class ObjectPresentationActivity extends BaseActivity {
             pDialog.dismiss();
         }
 
-        private boolean isDeviceSupportLocation() {
-            if (getApplicationContext().getPackageManager().hasSystemFeature(
-                    LOCATION_SERVICE)) {
-                // this device has a camera
-                return true;
-            } else {
-                // no camera on this device
-                return false;
-            }
-        }
+
 
     }
 }

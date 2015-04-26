@@ -3,6 +3,7 @@ package com.sharemee.app.sharemee.util;
 /**
  * Created by Marin on 18/03/2015.
  */
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -79,5 +80,17 @@ public class MyLocationListener implements LocationListener {
 
     public static void setLatitudePhone(double latitudePhone) {
         MyLocationListener.latitudePhone = latitudePhone;
+    }
+
+    public static boolean isDeviceSupportLocation(Context myContext) {
+
+        if (myContext.getPackageManager().hasSystemFeature(
+                Context.LOCATION_SERVICE)) {
+            // this device has a location service
+            return true;
+        } else {
+            // no location service on this device
+            return false;
+        }
     }
 }
