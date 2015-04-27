@@ -10,46 +10,46 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import com.sharemee.app.sharemee.util.MyLocationListener;
 import android.net.Uri;
-import android.graphics.Matrix;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Base64;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.*;
 import com.sharemee.app.sharemee.R;
-import com.sharemee.app.sharemee.util.BitmapScaler;
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.MyLocationListener;
 import com.sharemee.app.sharemee.util.PrefUtils;
 
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -87,10 +87,23 @@ public class AddObjectActivity extends BaseActivity {
     // JSON parser class
     JSONParser jsonParser = new JSONParser();
 
+    private String baseURL = new ConnectionConfig().getBaseURL();
+
     // url to update product
-   private static final String url_add_object = "http://sharemee.com/webservice/model/add_object.php";
+   private String url_add_object = baseURL+"webservice/model/add_object.php";
    //private static final String url_add_object = "http://192.168.1.34/ShareMeeWeb/webservice/model/add_object.php";
    //private static final String url_add_object = "http://10.0.2.2/sharemee/webservice/model/add_object.php";
+
+    private String url_upload_image = baseURL+"webservice/model/upload_picture.php";
+
+    //Upload Image
+    ProgressDialog prgDialog;
+    String encodedString;
+    RequestParams params = new RequestParams();
+    String imgPath, fileName;
+    Bitmap bitmap;
+    private static int RESULT_LOAD_IMG = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +116,10 @@ public class AddObjectActivity extends BaseActivity {
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
         // now you can do all your other stuffs
+
+        prgDialog = new ProgressDialog(this);
+        // Set Cancelable as False
+        prgDialog.setCancelable(false);
 
 
 /* ************************** Création du Spinner pour categories******************/
@@ -158,10 +175,11 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // starting background task to update product
                 String nameObj = objName.getText().toString();
                 String descObj = objDescription.getText().toString();
-                String catObj= " t";
+                //String catObj= " t";
 
-                if ((!nameObj.isEmpty())&&(!descObj.isEmpty())&&(!catObj.isEmpty())) {
+                if ((!nameObj.isEmpty())&&(!descObj.isEmpty())) {
                     new AddObject().execute();
+                    encodeImagetoString();
                 }
                 else {
                     Context context = getApplicationContext();
@@ -171,6 +189,8 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 }
+
+                encodeImagetoString();
 
             }});}
 
@@ -245,6 +265,8 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        try{
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 File f = new File(Environment.getExternalStorageDirectory().toString());
@@ -255,12 +277,13 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     }
                 }
                 try {
-                    Bitmap bitmap;
+
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
                     Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+                    bitmap = bitmapScaled;
 
                     objImage.setImageBitmap(bitmapScaled);
 
@@ -269,6 +292,7 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             + File.separator
                             + "Phoenix" + File.separator + "default";
                     f.delete();
+                    Log.d("path",path);
                     OutputStream outFile = null;
                     imageName =String.valueOf(System.currentTimeMillis());
                     Log.d("Nom de l'image : ",imageName);
@@ -293,50 +317,39 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             } else if (requestCode == 2) {
 
                 Uri selectedImage = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                c.moveToFirst();
-                Log.d("path of single image : ",filePath+"");
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                Log.w("path of imgfrom gall", picturePath+"");
+                // Get the cursor
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                // Move to first row
+                cursor.moveToFirst();
 
-                int width = thumbnail.getWidth();
-                int height = thumbnail.getHeight();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgPath = cursor.getString(columnIndex);
+                Log.d("imgPath",imgPath);
+                cursor.close();
+                ImageView imgView = (ImageView) findViewById(R.id.add_picture_image);
+                // Set the Image in ImageView
+                imgView.setImageBitmap(BitmapFactory
+                        .decodeFile(imgPath));
+                // Get the Image's file name
+                String fileNameSegments[] = imgPath.split("/");
+                fileName = fileNameSegments[fileNameSegments.length - 1];
+                Log.d("fileName",fileName);
+                // Put file name in Async Http Post Param which will used in Php web app
+                params.put("filename", fileName);
 
-                String widthBit= Integer.toString(width);
-                String heigthBit= Integer.toString(height);
-
-                Log.d("WIDTH BITMAP : ",widthBit);
-                Log.d("HEIGHT BITMAP : ",heigthBit);
-
-             // create a matrix for the manipulation
-                Matrix matrix = new Matrix();
-
-                // rotate the Bitmap
-                matrix.postRotate(-90);
-
-                // recreate the new Bitmap
-                Bitmap resizedBitmap = Bitmap.createBitmap(thumbnail,0,0,
-                        width, height, matrix, true);
-
-                // make a Drawable from Bitmap to allow to set the BitMap
-                // to the ImageView, ImageButton or what ever
-                BitmapDrawable bmd = new BitmapDrawable(resizedBitmap);
-
-
-                // set the Drawable on the ImageView
-                objImage.setImageDrawable(bmd);
-
-                // center the Image
-                objImage.setScaleType(ImageView.ScaleType.CENTER);
-
-                /*Bitmap bitmapScaled = BitmapScaler.scaleToFit(thumbnail,300,300);
-                objImage.setImageBitmap(bitmapScaled);*/
+            } else {
+                Toast.makeText(this, "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
             }
+
+        }
+    }
+        catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -412,7 +425,7 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             Log.d("nameObject : ", nameObject);
             Log.d("descObject : ", descObject);
             Log.d("catObject : ", idCategory);
-            Log.d("imagePath1Object : ", idCategory);
+            Log.d("imagePath1Object : ", fileName);
             Log.d("latObject : ", latitudeObject.toString());
             Log.d("longObject : ", longitudeObject.toString());
 
@@ -426,8 +439,9 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             params.add(new BasicNameValuePair("longObject", longitudeObject.toString()));
             params.add(new BasicNameValuePair("smUser_idUser", idUser));
             params.add(new BasicNameValuePair("smCategory_idCategory", idCategory));
-            if(imageName!=null){
-                params.add(new BasicNameValuePair("imagePath1Object", imageName.toString()));
+            if(fileName!=null){
+                fileName = fileName.substring(0, fileName.length()-4);
+                params.add(new BasicNameValuePair("imagePath1Object", fileName.toString()));
             }
 
 
@@ -469,5 +483,128 @@ adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             pDialog.dismiss();
         }
     }
+
+
+
+
+    // When Upload button is clicked
+    public void uploadImage(View v) {
+        // When Image is selected from Gallery
+        if (imgPath != null && !imgPath.isEmpty()) {
+            prgDialog.setMessage("Converting Image to Binary Data");
+            prgDialog.show();
+            // Convert image to String using Base64
+            encodeImagetoString();
+            // When Image is not selected from Gallery
+        } else {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "You must select image from gallery before you try to upload",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // AsyncTask - To convert Image to String
+    public void encodeImagetoString() {
+        new AsyncTask<Void, Void, String>() {
+
+            protected void onPreExecute() {
+
+            };
+
+            @Override
+            protected String doInBackground(Void... params) {
+                BitmapFactory.Options options = null;
+                options = new BitmapFactory.Options();
+                options.inSampleSize = 3;
+                bitmap = BitmapFactory.decodeFile(imgPath,
+                        options);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                // Must compress the Image to reduce image size to make upload easy
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                byte[] byte_arr = stream.toByteArray();
+                // Encode Image to String
+                encodedString = Base64.encodeToString(byte_arr, 0);
+                return "";
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                prgDialog.setMessage("Calling Upload");
+                // Put converted Image string into Async Http Post param
+                params.put("image", encodedString);
+                // Trigger Image upload
+                triggerImageUpload();
+            }
+        }.execute(null, null, null);
+    }
+
+    public void triggerImageUpload() {
+        makeHTTPCall();
+    }
+
+    // http://192.168.2.4:9000/imgupload/upload_image.php
+    // http://192.168.2.4:9999/ImageUploadWebApp/uploadimg.jsp
+    // Make Http call to upload Image to Php server
+    public void makeHTTPCall() {
+        prgDialog.setMessage("Envois de la photo");
+        AsyncHttpClient client = new AsyncHttpClient();
+        // Don't forget to change the IP address to your LAN address. Port no as well.
+        client.post(url_upload_image,
+                params, new AsyncHttpResponseHandler() {
+                    // When the response returned by REST has Http
+                    // response code '200'
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        // Hide Progress Dialog
+                        prgDialog.hide();
+                        Toast.makeText(getApplicationContext(), "Image envoyée",
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    // When the response returned by REST has Http
+                    // response code other than '200' such as '404',
+                    // '500' or '403' etc
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        // Hide Progress Dialog
+                        prgDialog.hide();
+                        // When Http response code is '404'
+                        if (statusCode == 404) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Requested resource not found",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // When Http response code is '500'
+                        else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Something went wrong at server end",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // When Http response code other than 404, 500
+                        else {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Error Occured \n Most Common Error: \n1. Device not connected to Internet\n2. Web App is not deployed in App server\n3. App server is not running\n HTTP Status code : "
+                                            + statusCode, Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+
+
+
+                });
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        // Dismiss the progress bar when application is closed
+        if (prgDialog != null) {
+            prgDialog.dismiss();
+        }
+    }
+
 
 }

@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.MyLocationListener;
 import com.sharemee.app.sharemee.R;
@@ -44,8 +45,10 @@ public class ResultSearchActivity extends BaseActivity{
 
     ArrayList<HashMap<String, String>> objectsList;
 
+    private String baseURL = new ConnectionConfig().getBaseURL();
+
     // url to get all objects list
-    private static String url_all_objects = "http://sharemee.com/webservice/model/get_all_objects.php";
+    private String url_all_objects = baseURL+"webservice/model/get_all_objects.php";
     //private static String url_all_objects = "http://10.0.2.2/sharemee/webservice/model/get_all_objects.php";
 
     // JSON Node names

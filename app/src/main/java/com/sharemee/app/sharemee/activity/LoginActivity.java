@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.PrefUtils;
 
@@ -65,7 +66,9 @@ public class LoginActivity extends Activity {
     private static final String TAG_USER_MAIL = "mailUser";
     public int success;
 
-    private static String url_connection = "http://sharemee.com/webservice/model/check_connection.php";
+    private String baseURL = new ConnectionConfig().getBaseURL();
+
+    private String url_connection = baseURL+"webservice/model/check_connection.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

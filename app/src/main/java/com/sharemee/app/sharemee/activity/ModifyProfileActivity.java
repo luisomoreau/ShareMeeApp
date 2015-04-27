@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
 
 import org.apache.http.NameValuePair;
@@ -51,8 +52,10 @@ public class ModifyProfileActivity extends BaseActivity {
 
     // JSON parser class
     JSONParser jsonParser = new JSONParser();
+
+    private String baseURL = new ConnectionConfig().getBaseURL();
     // url to update product
-    private static final String url_modify = "http://sharemee.com/webservice/model/signin.php";
+    private String url_modify = baseURL+"webservice/model/signin.php";
 
     // Progress Dialog
     private ProgressDialog pDialog;

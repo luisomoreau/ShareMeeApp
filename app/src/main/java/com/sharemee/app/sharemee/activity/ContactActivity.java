@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.PrefUtils;
 
@@ -48,7 +49,9 @@ public class ContactActivity extends BaseActivity {
     // Progress Dialog
     private ProgressDialog pDialog;
 
-    private static String url_mail = "http://sharemee.com/webservice/model/send_email.php";
+    private String baseURL = new ConnectionConfig().getBaseURL();
+
+    private String url_mail = baseURL+"webservice/model/send_email.php";
     //private static String url_mail = "http://10.0.2.2/sharemee/webservice/model/send_email.php";
 
     private static final String TAG_SUCCESS = "success";

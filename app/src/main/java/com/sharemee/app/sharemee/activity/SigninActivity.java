@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
 
 import org.apache.http.NameValuePair;
@@ -47,8 +48,10 @@ public class SigninActivity extends Activity {
     // JSON parser class
     JSONParser jsonParser = new JSONParser();
 
+    private String baseURL = new ConnectionConfig().getBaseURL();
+
     // url to update product
-    private static final String url_signin = "http://sharemee.com/webservice/model/signin.php";
+    private String url_signin = baseURL+"webservice/model/signin.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

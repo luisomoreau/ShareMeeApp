@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.MyLocationListener;
 import com.sharemee.app.sharemee.util.PrefUtils;
@@ -52,8 +53,10 @@ public class MyObjectsActivity extends BaseActivity {
 
     ArrayList<HashMap<String, String>> objectsList;
 
+    private String baseURL = new ConnectionConfig().getBaseURL();
+
     // url to get all objects list
-    private static String url_user_objects = "http://sharemee.com/webservice/model/get_user_objects.php";
+    private String url_user_objects = baseURL+ "webservice/model/get_user_objects.php";
     //private static String url_user_objects = "http://10.0.2.2/sharemee/webservice/model/get_user_objects.php";
 
 

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.DownloadImageTask;
 import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.MyLocationListener;
@@ -50,11 +51,13 @@ public class MySingleObjectActivity extends BaseActivity {
     // JSON parser class
     JSONParser jsonParser = new JSONParser();
 
+    private String baseURL = new ConnectionConfig().getBaseURL();
+
     // url to get all objects list
-    private static String url_object_detail = "http://sharemee.com/webservice/model/get_object_details.php";
+    private String url_object_detail = baseURL+"webservice/model/get_object_details.php";
     //private static String url_object_detail = "http://10.0.2.2/sharemee/webservice/model/get_object_details.php";
 
-    private static String url_object_image = "http://sharemee.com/webservice/images/";
+    private String url_object_image = baseURL+ "webservice/images/";
     //private static String url_object_image = "http://10.0.2.2/sharemee/webservice/images/no-image.jpg";
 
     // JSON Node names
