@@ -3,6 +3,7 @@ package com.sharemee.app.sharemee.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -50,6 +51,8 @@ public class ResultSearchActivity extends BaseActivity{
     // url to get all objects list
     private String url_all_objects = baseURL+"webservice/model/get_all_objects.php";
     //private static String url_all_objects = "http://10.0.2.2/sharemee/webservice/model/get_all_objects.php";
+
+    private String url_object_image = baseURL+"webservice/images/";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -139,6 +142,7 @@ public class ResultSearchActivity extends BaseActivity{
          * Before starting background thread Show Progress Dialog
          * */
         private ListView lv;
+        private String full_image_url_1;
 
         @Override
         protected void onPreExecute() {
@@ -155,7 +159,9 @@ public class ResultSearchActivity extends BaseActivity{
          * */
         protected String doInBackground(String... args) {
 
-           // Looper.prepare();
+            //Looper.prepare();
+            Context myContext;
+            myContext=getApplicationContext();
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -171,14 +177,15 @@ public class ResultSearchActivity extends BaseActivity{
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            if (!isDeviceSupportLocation()) {
+            if (!MyLocationListener.isDeviceSupportLocation(myContext)) {
 
                 latitudePhone=0.0;
                 longitudePhone=0.0;
             }else{
-                mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+                //mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
                 latitudePhone=location.getLatitude();
-                longitudePhone=location.getLongitude();}
+                longitudePhone=location.getLongitude();
+            }
 
             Log.d("lattitudePhone :", latitudePhone.toString());
             Log.d("longitudePhone :", longitudePhone.toString());
@@ -196,6 +203,7 @@ public class ResultSearchActivity extends BaseActivity{
                     // looping through All Products
                     for (int i = 0; i < objects.length(); i++) {
                         JSONObject c = objects.getJSONObject(i);
+                        Log.d("objects", c.toString());
 
                         // Storing each json item in variable
                         String idObject = c.getString(TAG_ID_OBJECT);
@@ -204,16 +212,21 @@ public class ResultSearchActivity extends BaseActivity{
                         //String nameCity = c.getString(TAG_NAME_CITY);
                         String longObjectSt = c.getString(TAG_LONG_OBJECT);
                         String latObjectSt = c.getString(TAG_LAT_OBJECT);
+                        String imagePath1Object = c.getString(TAG_IMAGE_PATH_OBJECT);
 
 
-
+                        //Distance
                         String dist="";
                         if(longObjectSt!="null"&&latObjectSt!="null"){
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
-                            if (isDeviceSupportLocation()) {
+                            if (MyLocationListener.isDeviceSupportLocation(myContext)) {
                                 String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
                                 dist= String.valueOf(distanceCalcule)+" km";}}
+
+                        //Image
+                        //Construct full image url to get the image
+                        full_image_url_1 = url_object_image + imagePath1Object+".jpg";
 
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -242,6 +255,7 @@ public class ResultSearchActivity extends BaseActivity{
 
             lv = (ListView) findViewById(R.id.list_view_activity_results);
 
+
             // dismiss the dialog after getting all objects
             pDialog.dismiss();
             // updating UI from Background Thread
@@ -253,7 +267,7 @@ public class ResultSearchActivity extends BaseActivity{
                     ListAdapter adapter = new SimpleAdapter(
                             ResultSearchActivity.this, objectsList,
                             R.layout.search_item, new String[] { TAG_ID_OBJECT, TAG_NAME_OBJECT, TAG_NAME_CATEGORY, TAG_NAME_CITY},
-                            new int[] { R.id.idObjectSearch, R.id.objectNameSearch, R.id.objectCategorieSearch, R.id.objectDistanceSearch });
+                            new int[] { R.id.idObjectSearch, R.id.objectNameSearch, R.id.objectCategorieSearch, R.id.objectDistanceSearch, });
                     // updating listview
                     lv.setAdapter(adapter);
                 }
@@ -261,16 +275,7 @@ public class ResultSearchActivity extends BaseActivity{
 
         }
 
-        private boolean isDeviceSupportLocation() {
-            if (getApplicationContext().getPackageManager().hasSystemFeature(
-                    LOCATION_SERVICE)) {
-                // this device has a camera
-                return true;
-            } else {
-                // no camera on this device
-                return false;
-            }
-        }
+
 
     }
 }

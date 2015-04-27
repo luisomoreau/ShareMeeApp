@@ -145,7 +145,8 @@ public class ObjectPresentationActivity extends BaseActivity {
                 latitudePhone=0.0;
                 longitudePhone=0.0;
             }else{
-                mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+                //Location has been asked in previous activity
+                //mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
                 latitudePhone=location.getLatitude();
                 longitudePhone=location.getLongitude();}
 
@@ -231,8 +232,7 @@ public class ObjectPresentationActivity extends BaseActivity {
 
                         //The DownloadImageTask is called to get the image on the server
                         if (!object1.getString(TAG_IMAGE_PATH_1_OBJECT).equals("null")) {
-                            new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation1))
-                                    .execute(full_image_url_1);
+                            new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation1)).execute(full_image_url_1);
                         }
                 /*
                 if (object1.getString(TAG_IMAGE_PATH_2_OBJECT)!=null) {

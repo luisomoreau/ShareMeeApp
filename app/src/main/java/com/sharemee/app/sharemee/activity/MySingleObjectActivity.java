@@ -45,6 +45,7 @@ public class MySingleObjectActivity extends BaseActivity {
     TextView objectCity;
     TextView objectDistance;
 
+
     // Progress Dialog
     private ProgressDialog pDialog;
 
@@ -77,6 +78,8 @@ public class MySingleObjectActivity extends BaseActivity {
 
     private Double latitudePhone;
     private Double longitudePhone;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,17 +125,20 @@ public class MySingleObjectActivity extends BaseActivity {
         @Override
         protected JSONObject doInBackground(String... args) {
             //Looper.prepare();
+            Context myContext;
+            myContext=getApplicationContext();
             int success;
             LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            if (!isDeviceSupportLocation()) {
+            if (!MyLocationListener.isDeviceSupportLocation(myContext)) {
                 latitudePhone=0.0;
                 longitudePhone=0.0;
             }else{
-                mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+                //Location has been asked in previous activity
+                //mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
                 latitudePhone=location.getLatitude();
                 longitudePhone=location.getLongitude();}
 
@@ -185,11 +191,7 @@ public class MySingleObjectActivity extends BaseActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Context context = getBaseContext();
-
-
-
-
+                    Context myContext = getBaseContext();
                     try {
 
                         String longObjectSt = object1.getString(TAG_LONG_OBJECT);
@@ -199,7 +201,7 @@ public class MySingleObjectActivity extends BaseActivity {
                         if(longObjectSt!="null"&&latObjectSt!="null"){
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
-                            if (isDeviceSupportLocation()) {
+                            if (MyLocationListener.isDeviceSupportLocation(myContext)) {
                                 String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
                                 dist= String.valueOf(distanceCalcule)+" km";}}
 
@@ -237,16 +239,6 @@ public class MySingleObjectActivity extends BaseActivity {
             pDialog.dismiss();
         }
 
-        private boolean isDeviceSupportLocation() {
-            if (getApplicationContext().getPackageManager().hasSystemFeature(
-                    LOCATION_SERVICE)) {
-                // this device has a camera
-                return true;
-            } else {
-                // no camera on this device
-                return false;
-            }
-        }
 
     }
 }

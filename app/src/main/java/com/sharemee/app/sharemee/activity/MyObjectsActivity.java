@@ -181,10 +181,9 @@ public class MyObjectsActivity extends BaseActivity {
          * getting All objects from url
          * */
         protected String doInBackground(String... args) {
+            //Looper.prepare();
 
-            Looper.prepare();
-
-
+            Context myContext = getBaseContext();
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("idUser", idUser));
@@ -202,12 +201,14 @@ public class MyObjectsActivity extends BaseActivity {
 
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
 
-            if (!isDeviceSupportLocation()) {
+
+            if (!MyLocationListener.isDeviceSupportLocation(myContext)) {
+
                 latitudePhone=0.0;
                 longitudePhone=0.0;
             }else{
+                //mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
                 latitudePhone=location.getLatitude();
                 longitudePhone=location.getLongitude();}
 
@@ -242,7 +243,7 @@ public class MyObjectsActivity extends BaseActivity {
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
 
-                            if (isDeviceSupportLocation()) {
+                            if (MyLocationListener.isDeviceSupportLocation(myContext)) {
                             String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
                             dist= String.valueOf(distanceCalcule)+" km";}}
 
@@ -292,19 +293,6 @@ public class MyObjectsActivity extends BaseActivity {
             });
 
         }
-
-        private boolean isDeviceSupportLocation() {
-            if (getApplicationContext().getPackageManager().hasSystemFeature(
-                    LOCATION_SERVICE)) {
-                // this device has a camera
-                return true;
-            } else {
-                // no camera on this device
-                return false;
-            }
-        }
-
-
 
     }
 }

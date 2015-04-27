@@ -24,6 +24,7 @@
                 android:visibility="gone" />
             <!-- Affcihege image de l'objet-->
             <ImageView
+                android:id="@+id/objectSearchImage"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:src="@drawable/logo" />
