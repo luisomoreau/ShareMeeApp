@@ -35,6 +35,7 @@ import java.util.List;
 public class ObjectPresentationActivity extends BaseActivity {
 
     String idObject;
+    String idUser;
 
     TextView objectName;
     TextView objectDesc;
@@ -77,6 +78,7 @@ public class ObjectPresentationActivity extends BaseActivity {
     private Double longitudePhone;
 
     private TextView contact;
+    private TextView userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,16 @@ public class ObjectPresentationActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
                 intent.putExtra(TAG_ID_OBJECT, idObject);
+                startActivity(intent);
+            }
+        });
+
+        userProfile = (TextView) findViewById(R.id.userProfilTextView);
+        userProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                intent.putExtra(TAG_ID_USER, idUser );
                 startActivity(intent);
             }
         });
@@ -203,7 +215,8 @@ public class ObjectPresentationActivity extends BaseActivity {
 
 
                     try {
-                        Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
+                        Log.d("userId :", object1.getString(TAG_ID_USER));
+                        idUser = object1.getString(TAG_ID_USER);
 
                         String longObjectSt = object1.getString(TAG_LONG_OBJECT);
                         String latObjectSt = object1.getString(TAG_LAT_OBJECT);
@@ -222,6 +235,8 @@ public class ObjectPresentationActivity extends BaseActivity {
                         objectDesc.setText(object1.getString(TAG_DESC_OBJECT));
                         objectCategory.setText(object1.getString(TAG_NAME_CATEGORY));
                         objectUsername.setText(object1.getString(TAG_NAME_USER));
+
+
                         //objectCity.setText(object1.getString(TAG_NAME_CITY));
                         objectDistance.setText(dist);
 

@@ -27,10 +27,14 @@
     <string name="title_activity_contact">Contacter</string>
     <string name="title_activity_modify_profile">Modifier</string>
     <string name="title_activity_signin">Inscription</string>
+    <string name="title_activity_user_profile">Profil</string>
+
+
     <string name="distance_test">2.5 km</string>
 
     <!-- Cardview labels -->
     <string name="contact">CONTACT</string>
+    <string name="see_profil">VOIR LE PROFIL</string>
     <string name="modify">MODIFIER</string>
     <string name="delete">SUPPRIMER</string>
     <string name="logout">DECONNEXION</string>

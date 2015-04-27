@@ -88,6 +88,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
+            android:name=".activity.UserProfileActivity"
+            android:label="@string/title_activity_user_profile"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+        </activity>
+        <activity
             android:name=".activity.SigninActivity"
             android:label="@string/title_activity_signin"
             android:configChanges="keyboardHidden|orientation|screenSize"

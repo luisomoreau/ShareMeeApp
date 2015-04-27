@@ -84,7 +84,7 @@ public class MyLocationListener implements LocationListener {
 
     public static boolean isDeviceSupportLocation(Context myContext) {
 
-        if (myContext.getPackageManager().hasSystemFeature(
+        if (!myContext.getPackageManager().hasSystemFeature(
                 Context.LOCATION_SERVICE)) {
             // this device has a location service
             return true;
@@ -92,5 +92,6 @@ public class MyLocationListener implements LocationListener {
             // no location service on this device
             return false;
         }
+
     }
 }

@@ -16,8 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
+            android:layout_marginTop="20dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
         <!-- Permet de créer une galerie de photos de l'objet si il y en a plusieurs-->
         <ScrollView
@@ -31,18 +31,17 @@
                 android:orientation="vertical">
 
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="350dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:id="@+id/imageViewObjectPresenation1"
-                            android:src="@drawable/no_image"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"/>
+                <ImageView
+                    android:id="@+id/imageViewObjectPresenation1"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/no_image" />
 
 
-                <!-- Carte qui va être le support de l'item Contact-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -50,184 +49,215 @@
                     android:layout_marginRight="20dp"
                     android:orientation="vertical">
 
-
-
-                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/contactCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:paddingLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:clickable="true"
-                    android:orientation="horizontal"
-                    >
-
-                    <LinearLayout
+                    <!-- Carte qui va être le support de l'item Contact-->
+                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/contactCard"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/third_color"
-                        android:orientation="vertical"
-                        android:id="@+id/contactUser"
-                        >
-                        <!-- Contact-->
-                        <TextView
-                            android:id="@+id/contactObject"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/contact"
-                            android:textColor="#ffffffff"
-                            android:textSize="25sp" />
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:clickable="true"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp">
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-                <!--Description cardview  -->
-                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:clickable="false"
-                    android:orientation="horizontal">
+                        <LinearLayout
+                            android:id="@+id/contactUser"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/third_color"
+                            android:orientation="vertical">
+                            <!-- Contact-->
+                            <TextView
+                                android:id="@+id/contactObject"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/contact"
+                                android:textColor="#ffffffff"
+                                android:textSize="25sp" />
 
-                    <LinearLayout
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <!-- Carte qui va être le support de l'item du Profil-->
+                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/userProfilCard"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <!-- Label de l'item -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/object_detail_desc_label" />
-                        <!--Séparateur -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@color/dividers" />
-                        <!-- Contenu de l'item-->
-                        <TextView
-                            android:id="@+id/objectPresentationItemDescription"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="5dp" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:clickable="true"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp">
 
-                <!--Description cardview  -->
-                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:clickable="false"
-                    android:orientation="horizontal">
+                        <LinearLayout
+                            android:id="@+id/userProfil"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/secondary_color"
+                            android:orientation="vertical">
+                            <!-- Contact-->
+                            <TextView
+                                android:id="@+id/userProfilTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/see_profil"
+                                android:textColor="#ffffffff"
+                                android:textSize="25sp" />
 
-                    <LinearLayout
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <!--Description cardview  -->
+                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <!-- Label de l'item -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/object_detail_category_label" />
-                        <!--Séparateur -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@color/dividers" />
-                        <!-- Contenu de l'item-->
-                        <TextView
-                            android:id="@+id/objectPresentationItemCategory"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="5dp" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:clickable="false"
+                        android:orientation="horizontal">
 
-                <!--Username cardview  -->
-                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:clickable="false"
-                    android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <!-- Label de l'item -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/object_detail_desc_label" />
+                            <!--Séparateur -->
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@color/dividers" />
+                            <!-- Contenu de l'item-->
+                            <TextView
+                                android:id="@+id/objectPresentationItemDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="5dp" />
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
-                    <LinearLayout
+                    <!--Description cardview  -->
+                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <!-- Label de l'item -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/object_detail_username_label" />
-                        <!--Séparateur -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@color/dividers" />
-                        <!-- Contenu de l'item-->
-                        <TextView
-                            android:id="@+id/objectPresentationItemUsername"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="5dp" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:clickable="false"
+                        android:orientation="horizontal">
 
-                <!--Distance cardview  -->
-                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:clickable="false"
-                    android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <!-- Label de l'item -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/object_detail_category_label" />
+                            <!--Séparateur -->
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@color/dividers" />
+                            <!-- Contenu de l'item-->
+                            <TextView
+                                android:id="@+id/objectPresentationItemCategory"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="5dp" />
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
-                    <LinearLayout
+                    <!--Username cardview  -->
+                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <!-- Label de l'item -->
-                        <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:clickable="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/object_detail_distance_label" />
-                        <!--Séparateur -->
-                        <View
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <!-- Label de l'item -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/object_detail_username_label" />
+                            <!--Séparateur -->
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@color/dividers" />
+                            <!-- Contenu de l'item-->
+                            <TextView
+                                android:id="@+id/objectPresentationItemUsername"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="5dp" />
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <!--Distance cardview  -->
+                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:clickable="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@color/dividers" />
-                        <!-- Contenu de l'item-->
-                        <TextView
-                            android:id="@+id/objectPresentationItemDistance"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="5dp" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <!-- Label de l'item -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/object_detail_distance_label" />
+                            <!--Séparateur -->
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@color/dividers" />
+                            <!-- Contenu de l'item-->
+                            <TextView
+                                android:id="@+id/objectPresentationItemDistance"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="5dp" />
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
                 </LinearLayout>
             </LinearLayout>
 
