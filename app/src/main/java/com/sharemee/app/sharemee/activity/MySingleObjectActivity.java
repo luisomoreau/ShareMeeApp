@@ -99,7 +99,6 @@ public class MySingleObjectActivity extends BaseActivity {
         objectDesc = (TextView) findViewById(R.id.objectPresentationItemDescription);
         objectCategory = (TextView) findViewById(R.id.objectPresentationItemCategory);
         objectUsername = (TextView) findViewById(R.id.objectPresentationItemUsername);
-        objectCity = (TextView) findViewById(R.id.objectPresentationItemCityName);
         objectDistance = (TextView) findViewById(R.id.objectPresentationItemDistance);
 
         // Loading objects in Background Thread

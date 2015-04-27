@@ -21,20 +21,9 @@
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp" android:visibility="gone" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/add_object_label"
-                android:text="@string/add_object"
-                android:textSize="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="center"/>
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:maxWidth="300dip"
-                android:maxHeight="300dip"
+                android:layout_height="350dp"
                 android:src="@drawable/no_image"
                 android:id="@+id/add_picture_image"
                 android:layout_marginTop="10dp"
