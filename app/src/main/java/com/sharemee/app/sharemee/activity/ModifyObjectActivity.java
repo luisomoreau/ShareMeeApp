@@ -49,7 +49,7 @@ import java.util.List;
  * Created by Marin on 28/04/2015.
  */
 public class ModifyObjectActivity extends BaseActivity {
-
+//TODO rajouter une checkbox si on veut modifier la position de l'objet
 
     String idObject;
     Button btnPicture;

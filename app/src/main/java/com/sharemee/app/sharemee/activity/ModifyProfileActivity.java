@@ -57,6 +57,7 @@ public class ModifyProfileActivity extends BaseActivity {
     TextView userSurname;
     TextView userMail;
     TextView userPassword;
+    AutoCompleteTextView txtReenterpassword;
 
     String idUser;
     public static String PREFS_USER_ID = "user_ID" ;
@@ -126,6 +127,8 @@ public class ModifyProfileActivity extends BaseActivity {
                 selectImage();
             }
         });
+        txtReenterpassword = (AutoCompleteTextView) findViewById(R.id.modify_user_profile_reenter_password);
+
 
         userName =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_name);
         userMail =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_email);
@@ -142,9 +145,21 @@ public class ModifyProfileActivity extends BaseActivity {
                 String nameUser = userName.getText().toString();
                 String mailUser = userMail.getText().toString();
                 String surnameUser = userSurname.getText().toString();
+                String password = userPassword.getText().toString();
+                String password2 = txtReenterpassword.getText().toString();
 
-                if ((!nameUser.isEmpty())&&(!surnameUser.isEmpty())&&(!mailUser.isEmpty())) {
-                    confirmModifyUser();
+                if ((!nameUser.isEmpty())&&(!surnameUser.isEmpty())&&(!mailUser.isEmpty())&&(!password.isEmpty())&&(!password2.isEmpty())) {
+
+                    if (password.equals(password2)) {
+                        confirmModifyUser();
+                    }else {
+                        Context context = getApplicationContext();
+                        CharSequence text = "Les mots de passes ne correspondent pas";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
                 }
                 else {
                     Context context = getApplicationContext();
@@ -306,18 +321,23 @@ public class ModifyProfileActivity extends BaseActivity {
             Log.d("surnameUser", surnameUser);
             Log.d("mailUser", mailUser);
             Log.d("passwordUser", passwordUser);
-            Log.d("filePath", fileName);
+            Log.d("idUser", idUser);
+            //Log.d("filePath", fileName);
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
+            params.add(new BasicNameValuePair("idUser", idUser));
             params.add(new BasicNameValuePair("nameUser", nameUser));
             params.add(new BasicNameValuePair("surnameUser", surnameUser));
             params.add(new BasicNameValuePair("mailUser", mailUser));
             params.add(new BasicNameValuePair("passwordUser", passwordUser));
             if (fileName != null) {
                 fileName = fileName.substring(0, fileName.length() - 4);
-                params.add(new BasicNameValuePair("imagePath1Object", fileName.toString()));
+                params.add(new BasicNameValuePair("profilePictureUser", fileName.toString()));
+            }
+            else{
+                params.add(new BasicNameValuePair("profilePictureUser", "NULL"));
             }
 
             Log.d("params", params.toString());
@@ -356,7 +376,7 @@ public class ModifyProfileActivity extends BaseActivity {
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once product uupdated
             pDialog.dismiss();
-            Intent intent = new Intent(getApplicationContext(), ModifyProfile.class);
+            Intent intent = new Intent(getApplicationContext(), MyProfileActivity.class);
             startActivity(intent);
         }
 
@@ -480,7 +500,7 @@ public class ModifyProfileActivity extends BaseActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(550, 300);
+        //alertDialog.getWindow().setLayout(550, 300);
     }
 }
 

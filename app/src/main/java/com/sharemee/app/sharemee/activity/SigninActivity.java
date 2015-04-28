@@ -27,7 +27,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO check empty fields
+//TODO check empty fields et vérifier si l'utilisateur existe déjà
+
 public class SigninActivity extends Activity {
 
     AutoCompleteTextView txtName;

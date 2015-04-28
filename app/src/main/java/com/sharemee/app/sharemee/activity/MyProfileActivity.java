@@ -53,8 +53,8 @@ public class MyProfileActivity extends BaseActivity {
     private String url_user_details = baseURL+"webservice/model/get_user_details.php";
 
     // url to delete user and his objects
-    //private String url_user_delete = baseURL+"webservice/model/delete_user.php";
-    private String url_user_delete = "http://192.168.1.34/ShareMeeWeb/webservice/model/delete_user.php";
+    private String url_user_delete = baseURL+"webservice/model/delete_user.php";
+
     //URL to get image
     private String url_user_image = baseURL+"webservice/images/";
 
@@ -247,7 +247,7 @@ public class MyProfileActivity extends BaseActivity {
 
             // getting updated data from EditTexts
             Intent i1 = getIntent();
-            String idUser = i1.getStringExtra(TAG_ID_USER);
+            //idUser = i1.getStringExtra(TAG_ID_USER);
             Log.d("IDUSER qu'on supp : ", idUser);
 
 
@@ -319,6 +319,6 @@ public class MyProfileActivity extends BaseActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(550, 300);
+        //alertDialog.getWindow().setLayout(550, 300);
     }
 }
