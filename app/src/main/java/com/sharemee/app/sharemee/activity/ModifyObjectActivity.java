@@ -9,28 +9,31 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.loopj.android.http.RequestParams;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.DownloadImageTask;
 import com.sharemee.app.sharemee.util.JSONParser;
+import com.sharemee.app.sharemee.util.MyLocationListener;
 import com.sharemee.app.sharemee.util.PrefUtils;
 
 import org.apache.http.NameValuePair;
@@ -39,36 +42,38 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Marin on 28/04/2015.
+ */
+public class ModifyObjectActivity extends BaseActivity {
 
-public class ModifyProfileActivity extends BaseActivity {
 
+    String idObject;
     Button btnPicture;
     Button btnModify;
-    ImageView userPicture;
-    TextView userName;
-    TextView userSurname;
-    TextView userMail;
-    TextView userPassword;
+    ImageView objectPicture;
+    TextView objectName;
+    TextView objectDesc;
+    Spinner objCategory;
+    Spinner spinner;
+
+    private Double longitudeObject;
+    private Double latitudeObject;
 
     String idUser;
-    public static String PREFS_USER_ID = "user_ID" ;
-    public static String PREFS_USER_NAME = "user_name" ;
+    public static String PREFS_USER_NAME = "user_name";
 
     // JSON Node names
     private static final String TAG_USER = "user";
-    private static final String TAG_ID_USER = "idUser";
-    private static final String TAG_NAME_USER = "nameUser";
-    private static final String TAG_SURNAME_USER = "surnameUser";
-    private static final String TAG_MAIL_USER = "mailUser";
-    private static final String TAG_IMAGE_PROFILE_PICTURE = "profilPictureUser";
+    private static final String TAG_OBJECT = "object";
+    private static final String TAG_ID_OBJECT = "idObject";
+    private static final String TAG_NAME_OBJECT = "nameObject";
+    private static final String TAG_DESC_OBJECT = "descObject";
+    public static String PREFS_USER_ID = "user_ID";
+    private static final String TAG_IMAGE_PATH_1_OBJECT = "imagePath1Object";
 
     final int CROP_RESULT = 3;
     final int CAMERA_CAPTURE = 1;
@@ -85,11 +90,10 @@ public class ModifyProfileActivity extends BaseActivity {
 
     private String baseURL = new ConnectionConfig().getBaseURL();
     // url to update product
-    private String url_modify = baseURL+"webservice/model/modify_user.php";
-    // url to get user details
-    private String url_user_details = baseURL+"webservice/model/get_user_details.php";
+    private String url_modify_object = baseURL + "webservice/model/modify_object.php";
     //URL to get image
-    private String url_user_image = baseURL+"webservice/images/";
+    private String url_object_image = baseURL + "webservice/images/";
+    private String url_object_detail = baseURL+"webservice/model/get_object_details.php";
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -97,29 +101,56 @@ public class ModifyProfileActivity extends BaseActivity {
     private static final String TAG_SUCCESS = "success";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_modify_profile, null,false);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity_modify_object, null, false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
         // now you can do all your other stuffs
 
-        /****Récupération image et bouton ****/
-        String savedUserId = PrefUtils.getFromPrefs(ModifyProfileActivity.this, PREFS_USER_ID, "0");
-        Log.d("savedUserId",savedUserId);
-        idUser = savedUserId;
-        // Loading objects in Background Thread
-        new LoadUserDetails().execute();
 
-        btnPicture=(Button)findViewById(R.id.add_user_picture_button);
-        btnModify=(Button)findViewById(R.id.modify_user_profile_button);
-        userPicture=(ImageView)findViewById(R.id.add_user_picture);
+        // getting product details from intent
+        Intent i = getIntent();
+
+        // getting product id (pid) from intent
+        idObject = i.getStringExtra(TAG_ID_OBJECT);
+        // Loading objects in Background Thread
+        new LoadObjectDetails().execute();
+
+        /* ************************** Création du Spinner pour categories******************/
+
+        //Récupération du Spinner déclaré dans le fichier main.xml de res/layout
+        spinner = (Spinner) findViewById(R.id.spinner_category);
+        //Création d'une liste d'élément à mettre dans le Spinner(pour l'exemple)
+        List categoryList = new ArrayList();
+        categoryList.add("Bricolage");
+        categoryList.add("Cuisine");
+        categoryList.add("Livre");
+        categoryList.add("Jardinage");
+        categoryList.add("Menage");
+
+ /*Le Spinner a besoin d'un adapter pour sa presentation alors on lui passe le context(this) et
+                un fichier de presentation par défaut( android.R.layout.simple_spinner_item)
+ Avec la liste des elements (exemple) */
+        ArrayAdapter adapter = new ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                categoryList
+        );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+       /* On definit une présentation du spinner quand il est déroulé         (android.R.layout.simple_spinner_dropdown_item) */
+        //Enfin on passe l'adapter au Spinner et c'est tout
+        spinner.setAdapter(adapter);
+
+        btnPicture = (Button) findViewById(R.id.add_object_picture_button);
+        btnModify = (Button) findViewById(R.id.modify_object_button);
+        objectPicture = (ImageView) findViewById(R.id.add_object_picture);
         btnPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,10 +158,8 @@ public class ModifyProfileActivity extends BaseActivity {
             }
         });
 
-        userName =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_name);
-        userMail =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_email);
-        userSurname =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_surname);
-        userPassword =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_password);
+        objectName = (AutoCompleteTextView) findViewById(R.id.modify_object_name);
+        objectDesc = (AutoCompleteTextView) findViewById(R.id.modify_object_desc);
 
 
         // save button click event
@@ -139,23 +168,23 @@ public class ModifyProfileActivity extends BaseActivity {
             @Override
             public void onClick(View arg0) {
                 // starting background task to update product
-                String nameUser = userName.getText().toString();
-                String mailUser = userMail.getText().toString();
-                String surnameUser = userSurname.getText().toString();
+                String nameObject = objectName.getText().toString();
+                String descObject = objectDesc.getText().toString();
 
-                if ((!nameUser.isEmpty())&&(!surnameUser.isEmpty())&&(!mailUser.isEmpty())) {
-                    confirmModifyUser();
-                }
-                else {
+                if ((!nameObject.isEmpty()) && (!descObject.isEmpty()) ) {
+                    confirmModifyObject();
+                } else {
                     Context context = getApplicationContext();
-                    CharSequence text = "Un ou plusieurs champs ne sont pas renseignés";
+                    CharSequence text = "Le nom ou la description de l'objet ne sont pas renseignés";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 }
 
-            }});}
+            }
+        });
+    }
 
 
     private void selectImage() {
@@ -171,7 +200,7 @@ public class ModifyProfileActivity extends BaseActivity {
 
         final CharSequence[] options = {"Prendre une Photo", "Choisir depuis Gallery", "Annuler"};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ModifyProfileActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ModifyObjectActivity.this);
         builder.setTitle("Ajouter une Photo");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
@@ -275,16 +304,16 @@ public class ModifyProfileActivity extends BaseActivity {
         }
     }
 
-    class ModifyProfile extends AsyncTask<String, String, String> {
+    class ModifyObject extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
-         * */
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(ModifyProfileActivity.this);
-            pDialog.setMessage("Modification du profil ...");
+            pDialog = new ProgressDialog(ModifyObjectActivity.this);
+            pDialog.setMessage("Modification de l'objet ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -292,39 +321,74 @@ public class ModifyProfileActivity extends BaseActivity {
 
         /**
          * Saving product
-         * */
+         */
         protected String doInBackground(String... args) {
 
             // getting updated data from EditTexts
 
-            String nameUser = userName.getText().toString();
-            String surnameUser = userSurname.getText().toString();
-            String mailUser = userMail.getText().toString();
-            String passwordUser = userPassword.getText().toString();
+            String savedUserId = PrefUtils.getFromPrefs(ModifyObjectActivity.this, PREFS_USER_ID, "0");
+            Log.d("savedUserId", savedUserId);
+            idUser = savedUserId;
+            String nameObject = objectName.getText().toString();
+            String descObject = objectDesc.getText().toString();
+            String catObject = objCategory.getSelectedItem().toString();
+            String idCategory = "";
+            if (catObject.compareTo("Bricolage") == 0) {
+                idCategory = "1";
+            } else if (catObject.compareTo("Cuisine") == 0) {
+                idCategory = "2";
+            } else if (catObject.compareTo("Livre") == 0) {
+                idCategory = "3";
+            } else if (catObject.compareTo("Jardinage") == 0) {
+                idCategory = "4";
+            } else if (catObject.compareTo("Menage") == 0) {
+                idCategory = "5";
+            }
+            Context myContext;
+            myContext = getApplicationContext();
+            LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            Log.d("nameUser", nameUser);
-            Log.d("surnameUser", surnameUser);
-            Log.d("mailUser", mailUser);
-            Log.d("passwordUser", passwordUser);
-            Log.d("filePath", fileName);
+            LocationListener mlocListener = new MyLocationListener();
+            Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            if (!MyLocationListener.isDeviceSupportLocation(myContext)) {
+                latitudeObject = 0.01;
+                longitudeObject = 0.01;
+            } else {
+                mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+                latitudeObject = location.getLatitude();
+                longitudeObject = location.getLongitude();
+            }
+
+
+            Log.d("nameObject : ", nameObject);
+            Log.d("descObject : ", descObject);
+            Log.d("catObject : ", idCategory);
+            Log.d("imagePath1Object : ", fileName);
+            Log.d("latObject : ", latitudeObject.toString());
+            Log.d("longObject : ", longitudeObject.toString());
+
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-            params.add(new BasicNameValuePair("nameUser", nameUser));
-            params.add(new BasicNameValuePair("surnameUser", surnameUser));
-            params.add(new BasicNameValuePair("mailUser", mailUser));
-            params.add(new BasicNameValuePair("passwordUser", passwordUser));
+            params.add(new BasicNameValuePair("nameObject", nameObject));
+            params.add(new BasicNameValuePair("descObject", descObject));
+            params.add(new BasicNameValuePair("latObject", latitudeObject.toString()));
+            params.add(new BasicNameValuePair("longObject", longitudeObject.toString()));
+            params.add(new BasicNameValuePair("smUser_idUser", idUser));
+            params.add(new BasicNameValuePair("smCategory_idCategory", idCategory));
             if (fileName != null) {
                 fileName = fileName.substring(0, fileName.length() - 4);
                 params.add(new BasicNameValuePair("imagePath1Object", fileName.toString()));
             }
 
+
             Log.d("params", params.toString());
 
             // sending modified data through http request
             // Notice that update product url accepts POST method
-            JSONObject json = jsonParser.makeHttpRequest(url_modify,
+            JSONObject json = jsonParser.makeHttpRequest(url_modify_object,
                     "POST", params);
 
             Log.d("json", json.toString());
@@ -352,24 +416,32 @@ public class ModifyProfileActivity extends BaseActivity {
 
         /**
          * After completing background task Dismiss the progress dialog
-         * **/
+         * *
+         */
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once product uupdated
             pDialog.dismiss();
-            Intent intent = new Intent(getApplicationContext(), ModifyProfile.class);
-            startActivity(intent);
+            Intent in = new Intent(getApplicationContext(),
+                    MySingleObjectActivity.class);
+            // sending idObject to next activity
+            in.putExtra(TAG_ID_OBJECT, idObject);
+            Log.d("Id objet récupéré : ", idObject );
+
+            // starting new activity and expecting some response back
+            startActivityForResult(in, 100);
         }
 
 
     }
-    class LoadUserDetails extends AsyncTask<String, String, JSONObject>{
+
+    class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
 
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(ModifyProfileActivity.this);
-            pDialog.setMessage("Chargement du Profil");
+            pDialog = new ProgressDialog(ModifyObjectActivity.this);
+            pDialog.setMessage("Recherche de l'objet...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -377,13 +449,14 @@ public class ModifyProfileActivity extends BaseActivity {
 
         @Override
         protected JSONObject doInBackground(String... args) {
-
+            //Looper.prepare();
             int success;
+
 
             try {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("idUser", idUser));
+                params.add(new BasicNameValuePair("idObject", idObject));
 
                 //check params
                 Log.d("params :", params.toString());
@@ -391,16 +464,16 @@ public class ModifyProfileActivity extends BaseActivity {
                 // getting product details by making HTTP request
                 // Note that product details url will use GET request
                 JSONObject json = jsonParser.makeHttpRequest(
-                        url_user_details, "GET", params);
+                        url_object_detail, "GET", params);
 
                 // check your log for json response
-                Log.d("Single User Profile", json.toString());
+                Log.d("Single Product Details", json.toString());
 
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
 
                     JSONArray productObj = json
-                            .getJSONArray(TAG_USER); // JSON Array
+                            .getJSONArray(TAG_OBJECT); // JSON Array
 
                     // get first product object from JSON Array
                     JSONObject object = productObj.getJSONObject(0);
@@ -418,9 +491,9 @@ public class ModifyProfileActivity extends BaseActivity {
         }
 
         @Override
-        protected void onPostExecute(final JSONObject user) {
+        protected void onPostExecute(final JSONObject object) {
             //get the parameter
-            final JSONObject user1 = user;
+            final JSONObject object1 = object;
 
             //Here is where the UI is called, thus the following code will appear in the User Interface Thread
             runOnUiThread(new Runnable() {
@@ -428,25 +501,28 @@ public class ModifyProfileActivity extends BaseActivity {
                 public void run() {
                     Context context = getBaseContext();
 
-                    try {
-                        Log.d("user name :", user1.getString(TAG_NAME_USER));
-                        //The cardviews are set
-                        userName.setText(user1.getString(TAG_NAME_USER));
-                        userSurname.setText(user1.getString(TAG_SURNAME_USER));
-                        userMail.setText(user1.getString(TAG_MAIL_USER));
 
-                        PrefUtils.saveToPrefs(ModifyProfileActivity.this, PREFS_USER_NAME, user1.getString(TAG_NAME_USER));
+
+
+                    try {
+
+
+
+                        Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
+                        //The cardviews are set
+                        objectName.setText(object1.getString(TAG_NAME_OBJECT));
+                        objectDesc.setText(object1.getString(TAG_DESC_OBJECT));
+
 
                         //Construct full image url to get the image
-                        String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE+".jpg");
+                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT)+".jpg";
                         Log.d("image path 1", full_image_url_1);
 
                         //The DownloadImageTask is called to get the image on the server
-                        if (!user1.getString(TAG_IMAGE_PROFILE_PICTURE).equals("null")) {
-                            new DownloadImageTask((ImageView) findViewById(R.id.profile_picture))
+                        if (!object1.getString(TAG_IMAGE_PATH_1_OBJECT).equals("null")) {
+                            new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation1))
                                     .execute(full_image_url_1);
                         }
-
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
@@ -457,22 +533,20 @@ public class ModifyProfileActivity extends BaseActivity {
             pDialog.dismiss();
         }
 
+
     }
+    public void confirmModifyObject() {
 
-    public void confirmModifyUser() {
+        final CharSequence[] options = {"OUI", "NON"};
 
-        final CharSequence[] options = { "OUI", "NON"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(ModifyProfileActivity.this);
-        builder.setTitle("Etes vous sur de vouloir modifier votre profil ?");
+        AlertDialog.Builder builder = new AlertDialog.Builder(ModifyObjectActivity.this);
+        builder.setTitle("Etes vous sur de vouloir modifier cet objet ?");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("OUI"))
-                {
-                    new ModifyProfile().execute();
-                }
-                else if (options[item].equals("NON")){
+                if (options[item].equals("OUI")) {
+                    new ModifyObject().execute();
+                } else if (options[item].equals("NON")) {
 
                     dialog.dismiss();
                 }
@@ -483,6 +557,3 @@ public class ModifyProfileActivity extends BaseActivity {
         alertDialog.getWindow().setLayout(550, 300);
     }
 }
-
-
-

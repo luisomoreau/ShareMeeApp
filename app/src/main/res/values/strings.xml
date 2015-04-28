@@ -94,5 +94,14 @@
     <string name="add_label">AJOUTER</string>
     <string name="add_picture_label">Ajouter une Photo</string>
     <string name="title_activity_add_object">Ajouter un Objet</string>
+    <string name="search_hint">Rechercher des objets</string>
+    <string name="title_activity_searchable">Recherche</string>
+    <string name="title_base_activity">BASE</string>
+    <string name="cancel">ANNULER</string>
+    <string name="ok">OK</string>
+    <string name="delete_title">SUPPRIMER</string>
+    <string name="delete_message">Etes vous sur de vouloir supprimer cet objet ?</string>
+    <string name="modify_object_name">Nom de l\'objet</string>
+    <string name="modify_object_desc">Description de l\'objet</string>
 
 </resources>

@@ -1,9 +1,10 @@
 package com.sharemee.app.sharemee.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class MyProfileActivity extends BaseActivity {
     TextView userName;
     TextView userSurname;
     TextView userMail;
+    TextView deleteUser;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -47,12 +49,14 @@ public class MyProfileActivity extends BaseActivity {
 
     private String baseURL = new ConnectionConfig().getBaseURL();
 
-    // url to get all objects list
+    // url to get user details
     private String url_user_details = baseURL+"webservice/model/get_user_details.php";
-    //private static String url_user_details = "http://10.0.2.2/sharemee/webservice/model/get_user_details.php";
 
+    // url to delete user and his objects
+    //private String url_user_delete = baseURL+"webservice/model/delete_user.php";
+    private String url_user_delete = "http://192.168.1.34/ShareMeeWeb/webservice/model/delete_user.php";
+    //URL to get image
     private String url_user_image = baseURL+"webservice/images/";
-    //private static String url_object_image = "http://10.0.2.2/sharemee/webservice/images/no-image.jpg";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -87,12 +91,20 @@ public class MyProfileActivity extends BaseActivity {
         Log.d("savedUserId",savedUserId);
         idUser = savedUserId;
 
+        deleteUser=(TextView) findViewById(R.id.deleteUserProfile);
         userName = (TextView) findViewById(R.id.user_name);
         userSurname = (TextView) findViewById(R.id.user_surname);
         userMail = (TextView) findViewById(R.id.user_mail);
 
+        deleteUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDeleteUser();
+            }
+        });
+
         // Loading objects in Background Thread
-        new LoadObjectDetails().execute();
+        new LoadUserDetails().execute();
 
         modify = (TextView) findViewById(R.id.modify_user_profile);
         modify.setOnClickListener(new View.OnClickListener() {
@@ -116,14 +128,14 @@ public class MyProfileActivity extends BaseActivity {
 
     }
 
-    class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
+    class LoadUserDetails extends AsyncTask<String, String, JSONObject>{
 
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(MyProfileActivity.this);
-            //pDialog.setMessage("Recherche de l'objet...");
+            pDialog.setMessage("Chargement du Profil");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -212,5 +224,101 @@ public class MyProfileActivity extends BaseActivity {
             pDialog.dismiss();
         }
 
+    }
+    class DeleteUser extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MyProfileActivity.this);
+            pDialog.setMessage("Suppression de l'utilisateur ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        /**
+         * Saving product
+         * */
+        protected String doInBackground(String... args) {
+
+            // getting updated data from EditTexts
+            Intent i1 = getIntent();
+            String idUser = i1.getStringExtra(TAG_ID_USER);
+            Log.d("IDUSER qu'on supp : ", idUser);
+
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            params.add(new BasicNameValuePair("idUser", idUser));
+
+            Log.d("params", params.toString());
+
+            // sending modified data through http request
+            // Notice that update product url accepts POST method
+            JSONObject json = jsonParser.makeHttpRequest(url_user_delete,
+                    "POST", params);
+
+            Log.d("json", json.toString());
+
+            // check json success tag
+            try {
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // successfully updated
+                    Intent i = getIntent();
+                    // send result code 100 to notify about product update
+                    setResult(100, i);
+                    finish();
+                } else {
+                    // failed to update product
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once product uupdated
+            pDialog.dismiss();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+    private void confirmDeleteUser() {
+
+        final CharSequence[] options = { "OUI", "NON"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MyProfileActivity.this);
+        builder.setTitle("Etes vous sur ? La suppression entrainera celle de tous vos objets");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("OUI"))
+                {
+                    new DeleteUser().execute();
+                }
+                else if (options[item].equals("NON")){
+
+                    dialog.dismiss();
+                }
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getWindow().setLayout(550, 300);
     }
 }

@@ -1,6 +1,8 @@
 package com.sharemee.app.sharemee.activity;
 
 import android.app.ActionBar;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -9,12 +11,16 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 
 import com.sharemee.app.sharemee.R;
 
@@ -57,7 +63,30 @@ public class BaseActivity extends ActionBarActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        handleIntent(getIntent());
     }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //doMySearch(query);
+            //use the query to search your data somehow
+        }
+    }
+    public void doMySearch(String query){
+
+        Log.d("Je fais un test :", query);
+        Log.d("Je fais un test :", "CA MARCHE");
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
@@ -122,7 +151,7 @@ public class BaseActivity extends ActionBarActivity {
                     break;
                 }
                 case 3: {
-                    Intent intent = new Intent(BaseActivity.this, ResultSearchActivity.class);
+                    Intent intent = new Intent(BaseActivity.this, SearchableActivity.class);
                     startActivity(intent);
                     break;
                 }

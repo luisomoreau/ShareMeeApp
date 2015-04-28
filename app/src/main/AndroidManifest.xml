@@ -21,20 +21,26 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
     <application
         android:allowBackup="true"
+        android:configChanges="keyboardHidden|orientation|screenSize"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:configChanges="keyboardHidden|orientation|screenSize">
+        android:theme="@style/AppTheme">
+
+        <meta-data android:name="android.app.default_searchable"
+            android:value=".SearchableActivity" />
+
         <uses-library android:name="com.google.android.maps" />
 
         <activity
@@ -49,43 +55,50 @@
 
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/app_name"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name=".activity.ModifyObjectActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/modify_profile" >
         </activity>
         <activity
             android:name=".activity.ResultSearchActivity"
-            android:label="@string/title_activity_all_objects"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_all_objects" >
         </activity>
         <activity
             android:name=".activity.ObjectPresentationActivity"
-            android:label="@string/title_activity_object_details"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_object_details" >
         </activity>
         <activity
             android:name=".activity.MyProfileActivity"
-            android:label="@string/title_activity_my_profile_activity"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_my_profile_activity">
+
         </activity>
         <activity
             android:name=".activity.MyObjectsActivity"
-            android:label="@string/title_activity_my_objects"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_my_objects" >
         </activity>
         <activity
             android:name=".activity.MySingleObjectActivity"
-            android:label="@string/title_activity_object_details"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_object_details" >
         </activity>
         <activity
             android:name=".activity.ContactActivity"
-            android:label="@string/title_activity_contact"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_contact" >
         </activity>
         <activity
             android:name=".activity.ModifyProfileActivity"
-            android:label="@string/title_activity_modify_profile"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_modify_profile" >
         </activity>
         <activity
             android:name=".activity.UserProfileActivity"
@@ -94,9 +107,9 @@
         </activity>
         <activity
             android:name=".activity.SigninActivity"
-            android:label="@string/title_activity_signin"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:noHistory="true">
+            android:label="@string/title_activity_signin"
+            android:noHistory="true" >
         </activity>
 
         <meta-data
@@ -105,9 +118,21 @@
 
         <activity
             android:name=".activity.AddObjectActivity"
-            android:label="@string/title_activity_add_object"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_add_object" >
         </activity>
+        <activity
+            android:name=".activity.SearchableActivity"
+            android:label="@string/title_activity_searchable"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+
     </application>
 
 </manifest>

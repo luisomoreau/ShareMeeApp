@@ -28,5 +28,7 @@
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
     <item name="android:textColor">@color/navdrawer_background</item>
     </style>
+
+
     </resources>
 
