@@ -36,9 +36,9 @@
         android:configChanges="keyboardHidden|orientation|screenSize"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
-        <meta-data android:name="android.app.default_searchable"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="android.app.default_searchable"
             android:value=".SearchableActivity" />
 
         <uses-library android:name="com.google.android.maps" />
@@ -52,13 +52,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" >
         </activity>
-
         <activity
             android:name=".activity.ModifyObjectActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -77,8 +75,7 @@
         <activity
             android:name=".activity.MyProfileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_my_profile_activity">
-
+            android:label="@string/title_activity_my_profile_activity" >
         </activity>
         <activity
             android:name=".activity.MyObjectsActivity"
@@ -102,8 +99,8 @@
         </activity>
         <activity
             android:name=".activity.UserProfileActivity"
-            android:label="@string/title_activity_user_profile"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_user_profile" >
         </activity>
         <activity
             android:name=".activity.SigninActivity"
@@ -125,15 +122,21 @@
         <activity
             android:name=".activity.SearchableActivity"
             android:label="@string/title_activity_searchable"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-        </activity>
 
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="@string/title_activity_about" >
+        </activity>
     </application>
 
 </manifest>

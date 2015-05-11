@@ -103,5 +103,19 @@
     <string name="delete_message">Etes vous sur de vouloir supprimer cet objet ?</string>
     <string name="modify_object_name">Nom de l\'objet</string>
     <string name="modify_object_desc">Description de l\'objet</string>
+    <string name="title_activity_about">A Propos</string>
+    <string name="utilisation_guide">Guide d\'utilisation</string>
+    <string name="user_create">1) Je crée un compte utilisateur</string>
+    <string name="share_object">2) Je partage mes ojets avec la communauté</string>
+    <string name="clause_pret">Clauses de prêt</string>
+    <string name="clauses">Lorsque vous empruntez un objet, il est nécessaire de vérifier certaines choses avant.
+        Vérifiez bien que l\'objet correspond bien à la description et qu\'iln\'est pas endommagé.
+        Si vous constatez des dégradations sur celui ci, montrer les au préteur de sorte qu\'il ne puisse pas vous les imputer.
+        Lors de son utilisation, respectez bien les consignes données par le préteur et faites y attention.</string>
+    <string name="emprunteur">Lorsqu\'on emprunte un objet :</string>
+    <string name="preteur">Lorsqu\'on prete un objet :</string>
+    <string name="search_object">3) Je recherche l\'objet que je veux emprunter dans ma communauté</string>
+    <string name="credentials">ShareMee© est un projet d\'étude réalisé par deux étudiants de HEI. Toute reproduction ou exploitation sans le consentement de ses créateurs sont interdites.</string>
+    <string name="mail_sharemee">Plus d\'informations sur sharemee.com ou par mail : contact@sharemee.com</string>
 
 </resources>
