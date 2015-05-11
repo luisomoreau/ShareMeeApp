@@ -121,6 +121,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_add_object" >
         </activity>
+
         <activity
             android:name=".activity.SearchableActivity"
             android:label="@string/title_activity_searchable"

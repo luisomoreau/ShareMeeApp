@@ -80,8 +80,7 @@ public class UserProfileActivity extends BaseActivity {
         //idUser = i.getStringExtra(TAG_ID_USER);
 
         userName = (TextView) findViewById(R.id.user_name);
-        userSurname = (TextView) findViewById(R.id.user_surname);
-        userMail = (TextView) findViewById(R.id.user_mail);
+
 
         // Loading objects in Background Thread
         new LoadObjectDetails().execute();
@@ -159,9 +158,6 @@ public class UserProfileActivity extends BaseActivity {
                 Log.d("user name :", user1.getString(TAG_NAME_USER));
                 //The cardviews are set
                 userName.setText(user1.getString(TAG_NAME_USER));
-
-
-                PrefUtils.saveToPrefs(UserProfileActivity.this, PREFS_USER_NAME, user1.getString(TAG_NAME_USER));
 
                 //Construct full image url to get the image
                 String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE);

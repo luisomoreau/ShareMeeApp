@@ -162,6 +162,9 @@ public class ContactActivity extends BaseActivity {
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
+
+                    Intent intent = new Intent(context, ResultSearchActivity.class);
+                    startActivity(intent);
                 }
                 else{
                     Context context = getApplicationContext();

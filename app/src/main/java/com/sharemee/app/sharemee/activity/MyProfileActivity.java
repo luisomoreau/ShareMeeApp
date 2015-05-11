@@ -205,7 +205,7 @@ public class MyProfileActivity extends BaseActivity {
                 PrefUtils.saveToPrefs(MyProfileActivity.this, PREFS_USER_NAME, user1.getString(TAG_NAME_USER));
 
                 //Construct full image url to get the image
-                String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE);
+                String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE)+".jpg";
                 Log.d("image path 1", full_image_url_1);
 
                 //The DownloadImageTask is called to get the image on the server

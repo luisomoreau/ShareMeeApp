@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.util.Base64;
@@ -184,7 +185,7 @@ public class AddObjectActivity extends BaseActivity {
 
                 if ((!nameObj.isEmpty()) && (!descObj.isEmpty())) {
                     new AddObject().execute();
-                    encodeImagetoString();
+                    //encodeImagetoString();
                 } else {
                     Context context = getApplicationContext();
                     CharSequence text = "Le nom ou la description de l'objet ne sont pas renseignés";
@@ -194,7 +195,7 @@ public class AddObjectActivity extends BaseActivity {
                     toast.show();
                 }
 
-                encodeImagetoString();
+                //encodeImagetoString();
 
             }
         });
@@ -342,10 +343,8 @@ public class AddObjectActivity extends BaseActivity {
          */
         protected String doInBackground(String... args) {
 
-
-//TODO rajouter envoi de l'image à la base de données
             // getting updated data from EditTexts
-
+            Looper.prepare();
             String savedUserId = PrefUtils.getFromPrefs(AddObjectActivity.this, PREFS_USER_ID, "0");
             Log.d("savedUserId", savedUserId);
             idUser = savedUserId;
@@ -445,24 +444,6 @@ public class AddObjectActivity extends BaseActivity {
         }
     }
 
-
-    // When Upload button is clicked
-    public void uploadImage(View v) {
-        // When Image is selected from Gallery
-        if (imgPath != null && !imgPath.isEmpty()) {
-            prgDialog.setMessage("Converting Image to Binary Data");
-            prgDialog.show();
-            // Convert image to String using Base64
-            encodeImagetoString();
-            // When Image is not selected from Gallery
-        } else {
-            Toast.makeText(
-                    getApplicationContext(),
-                    "You must select image from gallery before you try to upload",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
     // AsyncTask - To convert Image to String
     public void encodeImagetoString() {
         new AsyncTask<Void, Void, String>() {
@@ -481,7 +462,7 @@ public class AddObjectActivity extends BaseActivity {
                 bitmap = thePic;
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // Must compress the Image to reduce image size to make upload easy
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, stream);
                 byte[] byte_arr = stream.toByteArray();
                 // Encode Image to String
                 encodedString = Base64.encodeToString(byte_arr, 0);
@@ -503,8 +484,6 @@ public class AddObjectActivity extends BaseActivity {
         makeHTTPCall();
     }
 
-    // http://192.168.2.4:9000/imgupload/upload_image.php
-    // http://192.168.2.4:9999/ImageUploadWebApp/uploadimg.jsp
     // Make Http call to upload Image to Php server
     public void makeHTTPCall() {
         prgDialog.setMessage("Envois de la photo");
