@@ -72,6 +72,9 @@
     <string name="object_message_label">Objet du message</string>
     <string name="exMail">ex: nom@exemple.com</string>
 
+    <!--Search-->
+    <string name="search">RECHERCHER</string>
+
     <!-- Sign in -->
     <string name="signin">Inscription</string>
     <string name="signin_profile_user_name">Prénom</string>

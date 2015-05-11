@@ -135,6 +135,7 @@
         </activity>
         <activity
             android:name=".activity.AboutActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_about" >
         </activity>
     </application>
