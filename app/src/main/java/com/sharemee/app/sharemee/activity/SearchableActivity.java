@@ -1,5 +1,6 @@
 package com.sharemee.app.sharemee.activity;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -22,16 +23,16 @@ public class SearchableActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
-        // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_searchable, null,false);
-        // add the custom layout of this activity to frame layout.
-        frameLayout.addView(activityView);
+        setContentView(R.layout.activity_searchable);
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doMySearch(query);}
+
     }
 
-    @Override
+   /* @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
         handleIntent(intent);
@@ -42,7 +43,7 @@ public class SearchableActivity extends BaseActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             doMySearch(query);
         }
-    }
+    }*/
 
     public void doMySearch(String query){
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.SignInButton;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
@@ -44,6 +46,7 @@ public class LoginActivity extends Activity {
     private String password;
 
     private String userID;
+    SignInButton btnSingIn;
 
     AutoCompleteTextView logInUsename;
     EditText logInPassword;
@@ -87,8 +90,28 @@ public class LoginActivity extends Activity {
 
         Log.d("savedUserId",savedUserId);
 
+        btnSingIn = (SignInButton) findViewById(R.id.plus_sign_in_button);
         logInUsename = (AutoCompleteTextView) findViewById(R.id.login_email);
         logInPassword = (EditText) findViewById(R.id.login_password);
+       /* btnSingIn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                if (view.getId() == R.id.sign_in_button && !mPlusClient.isConnected()) {
+                    if (mConnectionResult == null) {
+                        mConnectionProgressDialog.show();
+                    } else {
+                        try {
+                            mConnectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Nouvelle tentative de connexion
+                            mConnectionResult = null;
+                            mPlusClient.connect();
+                        }
+                    }
+                }
+
+        });*/
 
         /*
         String loggedInUserName = PrefUtils.getFromPrefs(LoginActivity.this, PREFS_LOGIN_USERNAME_KEY, PREFS_LOGIN_USERNAME_KEY);
