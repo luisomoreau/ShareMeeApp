@@ -9,13 +9,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.ConnectionConfig;
@@ -36,12 +41,14 @@ import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.MyLocationListener;
 import com.sharemee.app.sharemee.util.PrefUtils;
 
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,19 +58,21 @@ import java.util.List;
 public class ModifyObjectActivity extends BaseActivity {
 //TODO rajouter une checkbox si on veut modifier la position de l'objet
 
-    String idObject;
+    private String idObject;
     Button btnPicture;
     Button btnModify;
     ImageView objectPicture;
+    TextView objectID;
     TextView objectName;
     TextView objectDesc;
-    Spinner objCategory;
+    Spinner objectCategory;
     Spinner spinner;
 
     private Double longitudeObject;
     private Double latitudeObject;
 
     String idUser;
+    String idObj;
     public static String PREFS_USER_NAME = "user_name";
 
     // JSON Node names
@@ -85,6 +94,9 @@ public class ModifyObjectActivity extends BaseActivity {
     private static int RESULT_LOAD_IMG = 0;
     RequestParams params = new RequestParams();
 
+    ProgressDialog prgDialog;
+    String encodedString;
+
     // JSON parser class
     JSONParser jsonParser = new JSONParser();
 
@@ -94,6 +106,7 @@ public class ModifyObjectActivity extends BaseActivity {
     //URL to get image
     private String url_object_image = baseURL + "webservice/images/";
     private String url_object_detail = baseURL+"webservice/model/get_object_details.php";
+    private String url_upload_image = baseURL + "webservice/model/upload_picture.php";
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -119,20 +132,24 @@ public class ModifyObjectActivity extends BaseActivity {
 
         // getting product id (pid) from intent
         idObject = i.getStringExtra(TAG_ID_OBJECT);
+
+
         // Loading objects in Background Thread
         new LoadObjectDetails().execute();
 
         /* ************************** Création du Spinner pour categories******************/
 
         //Récupération du Spinner déclaré dans le fichier main.xml de res/layout
-        spinner = (Spinner) findViewById(R.id.spinner_category);
+        spinner = (Spinner) findViewById(R.id.spinner_category_modify);
         //Création d'une liste d'élément à mettre dans le Spinner(pour l'exemple)
         List categoryList = new ArrayList();
+        categoryList.add("Livres");
+        categoryList.add("Jardinage");
         categoryList.add("Bricolage");
         categoryList.add("Cuisine");
-        categoryList.add("Livre");
-        categoryList.add("Jardinage");
-        categoryList.add("Menage");
+        categoryList.add("Ménage");
+        categoryList.add("Sport");
+        categoryList.add("Autres");
 
  /*Le Spinner a besoin d'un adapter pour sa presentation alors on lui passe le context(this) et
                 un fichier de presentation par défaut( android.R.layout.simple_spinner_item)
@@ -150,7 +167,7 @@ public class ModifyObjectActivity extends BaseActivity {
 
         btnPicture = (Button) findViewById(R.id.add_object_picture_button);
         btnModify = (Button) findViewById(R.id.modify_object_button);
-        objectPicture = (ImageView) findViewById(R.id.add_object_picture);
+        objectPicture = (ImageView) findViewById(R.id.modify_object_picture);
         btnPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,9 +175,13 @@ public class ModifyObjectActivity extends BaseActivity {
             }
         });
 
+
         objectName = (AutoCompleteTextView) findViewById(R.id.modify_object_name);
         objectDesc = (AutoCompleteTextView) findViewById(R.id.modify_object_desc);
-
+        objectCategory = (Spinner) findViewById(R.id.spinner_category_modify);
+        objectID = (TextView) findViewById(R.id.idObjectModify);
+        Log.d("object ID", idObject);
+        objectID.setText(idObject);
 
         // save button click event
         btnModify.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +205,108 @@ public class ModifyObjectActivity extends BaseActivity {
 
             }
         });
+    }
+
+    class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ModifyObjectActivity.this);
+            pDialog.setMessage("Recherche de l'objet...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            //Looper.prepare();
+            int success;
+
+
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("idObject", idObject));
+                //check params
+                Log.d("params :", params.toString());
+
+                // getting product details by making HTTP request
+                // Note that product details url will use GET request
+                JSONObject json = jsonParser.makeHttpRequest(
+                        url_object_detail, "GET", params);
+
+                // check your log for json response
+                Log.d("Single Product Details", json.toString());
+
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+
+                    JSONArray productObj = json
+                            .getJSONArray(TAG_OBJECT); // JSON Array
+
+                    // get first product object from JSON Array
+                    JSONObject object = productObj.getJSONObject(0);
+                    //check object variable
+                    //Log.d("First product object from Json Array", object.toString());
+
+                    return object;
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(final JSONObject object) {
+            //get the parameter
+            final JSONObject object1 = object;
+
+            //Here is where the UI is called, thus the following code will appear in the User Interface Thread
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Context context = getBaseContext();
+
+
+
+
+                    try {
+
+
+
+                        Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
+                        //The cardviews are set
+
+                        objectName.setText(object1.getString(TAG_NAME_OBJECT));
+                        objectDesc.setText(object1.getString(TAG_DESC_OBJECT));
+
+
+                        //Construct full image url to get the image
+                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT)+".jpg";
+                        Log.d("image path 1", full_image_url_1);
+
+                        //The DownloadImageTask is called to get the image on the server
+                        if (!object1.getString(TAG_IMAGE_PATH_1_OBJECT).equals("null")) {
+                            new DownloadImageTask((ImageView) findViewById(R.id.modify_object_picture))
+                                    .execute(full_image_url_1);
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            // dismiss the dialog once got all details
+            pDialog.dismiss();
+        }
+
+
     }
 
 
@@ -244,7 +367,7 @@ public class ModifyObjectActivity extends BaseActivity {
                 Bundle extras = data.getExtras();
                 //get the cropped bitmap
                 thePic = extras.getParcelable("data");
-                ImageView imgView = (ImageView) findViewById(R.id.add_picture_image);
+                ImageView imgView = (ImageView) findViewById(R.id.modify_object_picture);
 
                 imgView.setImageBitmap(thePic);
 
@@ -325,24 +448,30 @@ public class ModifyObjectActivity extends BaseActivity {
         protected String doInBackground(String... args) {
 
             // getting updated data from EditTexts
-
+            Looper.prepare();
             String savedUserId = PrefUtils.getFromPrefs(ModifyObjectActivity.this, PREFS_USER_ID, "0");
             Log.d("savedUserId", savedUserId);
             idUser = savedUserId;
+
+            idObj = objectID.getText().toString();
             String nameObject = objectName.getText().toString();
             String descObject = objectDesc.getText().toString();
-            String catObject = objCategory.getSelectedItem().toString();
+            String catObject = objectCategory.getSelectedItem().toString();
             String idCategory = "";
-            if (catObject.compareTo("Bricolage") == 0) {
+            if (catObject.compareTo("Livres") == 0) {
                 idCategory = "1";
-            } else if (catObject.compareTo("Cuisine") == 0) {
-                idCategory = "2";
-            } else if (catObject.compareTo("Livre") == 0) {
-                idCategory = "3";
             } else if (catObject.compareTo("Jardinage") == 0) {
+                idCategory = "2";
+            } else if (catObject.compareTo("Bricolage") == 0) {
+                idCategory = "3";
+            } else if (catObject.compareTo("Cuisine") == 0) {
                 idCategory = "4";
-            } else if (catObject.compareTo("Menage") == 0) {
+            } else if (catObject.compareTo("Ménage") == 0) {
                 idCategory = "5";
+            } else if (catObject.compareTo("Sport") == 0) {
+                idCategory = "6";
+            } else if (catObject.compareTo("Autres") == 0) {
+                idCategory = "7";
             }
             Context myContext;
             myContext = getApplicationContext();
@@ -361,6 +490,7 @@ public class ModifyObjectActivity extends BaseActivity {
             }
 
 
+            Log.d("idObject",idObj);
             Log.d("nameObject : ", nameObject);
             Log.d("descObject : ", descObject);
             Log.d("catObject : ", idCategory);
@@ -372,6 +502,7 @@ public class ModifyObjectActivity extends BaseActivity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
+            params.add(new BasicNameValuePair("idObject", idObj));
             params.add(new BasicNameValuePair("nameObject", nameObject));
             params.add(new BasicNameValuePair("descObject", descObject));
             params.add(new BasicNameValuePair("latObject", latitudeObject.toString()));
@@ -419,13 +550,16 @@ public class ModifyObjectActivity extends BaseActivity {
          * *
          */
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog once product uupdated
+            // dismiss the dialog once product updated
             pDialog.dismiss();
+            encodeImagetoString();
+
+            //TODO Mettre une pause pour ne pas crasher l'application au passage de l'autre activité
             Intent in = new Intent(getApplicationContext(),
                     MySingleObjectActivity.class);
             // sending idObject to next activity
-            in.putExtra(TAG_ID_OBJECT, idObject);
-            Log.d("Id objet récupéré : ", idObject );
+            in.putExtra(TAG_ID_OBJECT, idObj);
+            //Log.d("Id objet récupéré : ", idObject );
 
             // starting new activity and expecting some response back
             startActivityForResult(in, 100);
@@ -434,107 +568,6 @@ public class ModifyObjectActivity extends BaseActivity {
 
     }
 
-    class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(ModifyObjectActivity.this);
-            pDialog.setMessage("Recherche de l'objet...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            //Looper.prepare();
-            int success;
-
-
-            try {
-                // Building Parameters
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("idObject", idObject));
-
-                //check params
-                Log.d("params :", params.toString());
-
-                // getting product details by making HTTP request
-                // Note that product details url will use GET request
-                JSONObject json = jsonParser.makeHttpRequest(
-                        url_object_detail, "GET", params);
-
-                // check your log for json response
-                Log.d("Single Product Details", json.toString());
-
-                success = json.getInt(TAG_SUCCESS);
-                if (success == 1) {
-
-                    JSONArray productObj = json
-                            .getJSONArray(TAG_OBJECT); // JSON Array
-
-                    // get first product object from JSON Array
-                    JSONObject object = productObj.getJSONObject(0);
-                    //check object variable
-                    //Log.d("First product object from Json Array", object.toString());
-
-                    return object;
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(final JSONObject object) {
-            //get the parameter
-            final JSONObject object1 = object;
-
-            //Here is where the UI is called, thus the following code will appear in the User Interface Thread
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Context context = getBaseContext();
-
-
-
-
-                    try {
-
-
-
-                        Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
-                        //The cardviews are set
-                        objectName.setText(object1.getString(TAG_NAME_OBJECT));
-                        objectDesc.setText(object1.getString(TAG_DESC_OBJECT));
-
-
-                        //Construct full image url to get the image
-                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT)+".jpg";
-                        Log.d("image path 1", full_image_url_1);
-
-                        //The DownloadImageTask is called to get the image on the server
-                        if (!object1.getString(TAG_IMAGE_PATH_1_OBJECT).equals("null")) {
-                            new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation1))
-                                    .execute(full_image_url_1);
-                        }
-                    }catch (JSONException e){
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-            // dismiss the dialog once got all details
-            pDialog.dismiss();
-        }
-
-
-    }
     public void confirmModifyObject() {
 
         final CharSequence[] options = {"OUI", "NON"};
@@ -554,6 +587,98 @@ public class ModifyObjectActivity extends BaseActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(550, 300);
+        //alertDialog.getWindow().setLayout(550, 300);
+    }
+
+    // AsyncTask - To convert Image to String
+    public void encodeImagetoString() {
+        new AsyncTask<Void, Void, String>() {
+
+            protected void onPreExecute() {
+
+            }
+
+            ;
+
+            @Override
+            protected String doInBackground(Void... params) {
+                BitmapFactory.Options options = null;
+                options = new BitmapFactory.Options();
+                options.inSampleSize = 3;
+                bitmap = thePic;
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                // Must compress the Image to reduce image size to make upload easy
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, stream);
+                byte[] byte_arr = stream.toByteArray();
+                // Encode Image to String
+                encodedString = Base64.encodeToString(byte_arr, 0);
+                return "";
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                //prgDialog.setMessage("Calling Upload");
+                // Put converted Image string into Async Http Post param
+                params.put("image", encodedString);
+                // Trigger Image upload
+                triggerImageUpload();
+            }
+        }.execute(null, null, null);
+    }
+
+    public void triggerImageUpload() {
+        makeHTTPCall();
+    }
+
+    // Make Http call to upload Image to Php server
+    public void makeHTTPCall() {
+        //prgDialog.setMessage("Envois de la photo");
+        AsyncHttpClient client = new AsyncHttpClient();
+        // Don't forget to change the IP address to your LAN address. Port no as well.
+        client.post(url_upload_image,
+                params, new AsyncHttpResponseHandler() {
+                    // When the response returned by REST has Http
+                    // response code '200'
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        // Hide Progress Dialog
+                        //prgDialog.hide();
+                        Toast.makeText(getApplicationContext(), "Image envoyée",
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    // When the response returned by REST has Http
+                    // response code other than '200' such as '404',
+                    // '500' or '403' etc
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        // Hide Progress Dialog
+                        //prgDialog.hide();
+                        // When Http response code is '404'
+                        if (statusCode == 404) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Requested resource not found",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // When Http response code is '500'
+                        else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Something went wrong at server end",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        // When Http response code other than 404, 500
+                        else {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Error Occured \n Most Common Error: \n1. Device not connected to Internet\n2. Web App is not deployed in App server\n3. App server is not running\n HTTP Status code : "
+                                            + statusCode, Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+
+
+                });
     }
 }
+
+

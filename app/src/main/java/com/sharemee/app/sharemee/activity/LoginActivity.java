@@ -90,7 +90,7 @@ public class LoginActivity extends Activity {
 
         Log.d("savedUserId",savedUserId);
 
-        btnSingIn = (SignInButton) findViewById(R.id.plus_sign_in_button);
+        //btnSingIn = (SignInButton) findViewById(R.id.plus_sign_in_button);
         logInUsename = (AutoCompleteTextView) findViewById(R.id.login_email);
         logInPassword = (EditText) findViewById(R.id.login_password);
        /* btnSingIn.setOnClickListener(new View.OnClickListener() {

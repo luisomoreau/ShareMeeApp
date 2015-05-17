@@ -118,7 +118,9 @@ public class MySingleObjectActivity extends BaseActivity {
         modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(), ModifyObjectActivity.class);
+                intent.putExtra(TAG_ID_OBJECT, idObject);
                 startActivity(intent);
             }
         });

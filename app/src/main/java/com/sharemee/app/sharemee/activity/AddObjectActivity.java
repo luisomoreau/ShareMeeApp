@@ -134,11 +134,13 @@ public class AddObjectActivity extends BaseActivity {
         spinner = (Spinner) findViewById(R.id.spinner_category);
         //Création d'une liste d'élément à mettre dans le Spinner(pour l'exemple)
         List categoryList = new ArrayList();
+        categoryList.add("Livres");
+        categoryList.add("Jardinage");
         categoryList.add("Bricolage");
         categoryList.add("Cuisine");
-        categoryList.add("Livre");
-        categoryList.add("Jardinage");
-        categoryList.add("Menage");
+        categoryList.add("Ménage");
+        categoryList.add("Sport");
+        categoryList.add("Autres");
 
  /*Le Spinner a besoin d'un adapter pour sa presentation alors on lui passe le context(this) et
                 un fichier de presentation par défaut( android.R.layout.simple_spinner_item)
@@ -352,16 +354,20 @@ public class AddObjectActivity extends BaseActivity {
             String descObject = objDescription.getText().toString();
             String catObject = objCategory.getSelectedItem().toString();
             String idCategory = "";
-            if (catObject.compareTo("Bricolage") == 0) {
+            if (catObject.compareTo("Livres") == 0) {
                 idCategory = "1";
-            } else if (catObject.compareTo("Cuisine") == 0) {
-                idCategory = "2";
-            } else if (catObject.compareTo("Livre") == 0) {
-                idCategory = "3";
             } else if (catObject.compareTo("Jardinage") == 0) {
+                idCategory = "2";
+            } else if (catObject.compareTo("Bricolage") == 0) {
+                idCategory = "3";
+            } else if (catObject.compareTo("Cuisine") == 0) {
                 idCategory = "4";
-            } else if (catObject.compareTo("Menage") == 0) {
+            } else if (catObject.compareTo("Ménage") == 0) {
                 idCategory = "5";
+            } else if (catObject.compareTo("Sport") == 0) {
+                idCategory = "6";
+            } else if (catObject.compareTo("Autres") == 0) {
+                idCategory = "7";
             }
             Context myContext;
             myContext = getApplicationContext();
