@@ -115,15 +115,14 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_add_object" >
         </activity>
-
         <activity
             android:name=".activity.SearchableActivity"
             android:label="@string/title_activity_searchable"
             android:launchMode="singleTop" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
 
@@ -135,6 +134,10 @@
             android:name=".activity.AboutActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_about" >
+        </activity>
+        <activity
+            android:name=".activity.HomeActivity"
+            android:label="@string/title_activity_home" >
         </activity>
     </application>
 
