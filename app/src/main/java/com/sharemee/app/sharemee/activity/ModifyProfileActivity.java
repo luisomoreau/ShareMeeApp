@@ -329,7 +329,7 @@ public class ModifyProfileActivity extends BaseActivity {
             Log.d("mailUser", mailUser);
             Log.d("passwordUser", passwordUser);
             Log.d("idUser", idUser);
-            Log.d("filePath", fileName);
+            //Log.d("filePath", fileName);
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -340,6 +340,7 @@ public class ModifyProfileActivity extends BaseActivity {
             params.add(new BasicNameValuePair("mailUser", mailUser));
             params.add(new BasicNameValuePair("passwordUser", passwordUser));
             if (fileName != null) {
+                encodeImagetoString();
                 fileName = fileName.substring(0, fileName.length() - 4);
                 params.add(new BasicNameValuePair("profilPictureUser", fileName));
             } else {
@@ -383,7 +384,7 @@ public class ModifyProfileActivity extends BaseActivity {
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once product uupdated
             pDialog.dismiss();
-            encodeImagetoString();
+
 
         }
 

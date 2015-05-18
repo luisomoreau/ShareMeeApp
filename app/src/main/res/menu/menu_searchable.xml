@@ -1,6 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:sharemee="http://schemas.android.com/apk/res-auto">
+    xmlns:sharemee="http://schemas.android.com/apk/res-auto"
+    tools:context=".BaseActivity">
 
 
     <item

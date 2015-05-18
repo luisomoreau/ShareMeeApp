@@ -498,7 +498,7 @@ public class ModifyObjectActivity extends BaseActivity {
             Log.d("nameObject : ", nameObject);
             Log.d("descObject : ", descObject);
             Log.d("catObject : ", idCategory);
-            Log.d("imagePath1Object : ", fileName);
+            //Log.d("imagePath1Object : ", fileName);
             Log.d("latObject : ", latitudeObject.toString());
             Log.d("longObject : ", longitudeObject.toString());
 
@@ -514,6 +514,7 @@ public class ModifyObjectActivity extends BaseActivity {
             params.add(new BasicNameValuePair("smUser_idUser", idUser));
             params.add(new BasicNameValuePair("smCategory_idCategory", idCategory));
             if (fileName != null) {
+                encodeImagetoString();
                 fileName = fileName.substring(0, fileName.length() - 4);
                 params.add(new BasicNameValuePair("imagePath1Object", fileName.toString()));
             }
@@ -560,7 +561,7 @@ public class ModifyObjectActivity extends BaseActivity {
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once product updated
             pDialog.dismiss();
-            encodeImagetoString();
+
 
             //TODO Mettre une pause pour ne pas crasher l'application au passage de l'autre activité
             Intent in = new Intent(getApplicationContext(),
