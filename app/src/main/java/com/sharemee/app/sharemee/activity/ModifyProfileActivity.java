@@ -86,6 +86,7 @@ public class ModifyProfileActivity extends BaseActivity {
     Bitmap bitmap;
     private static int RESULT_LOAD_IMG = 0;
 
+    boolean changePicture =false;
 
     RequestParams params = new RequestParams();
 
@@ -133,7 +134,9 @@ public class ModifyProfileActivity extends BaseActivity {
         btnPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changePicture=true;
                 selectImage();
+
             }
         });
         txtReenterpassword = (AutoCompleteTextView) findViewById(R.id.modify_user_profile_reenter_password);
@@ -339,12 +342,10 @@ public class ModifyProfileActivity extends BaseActivity {
             params.add(new BasicNameValuePair("surnameUser", surnameUser));
             params.add(new BasicNameValuePair("mailUser", mailUser));
             params.add(new BasicNameValuePair("passwordUser", passwordUser));
-            if (fileName != null) {
+            if (changePicture) {
                 encodeImagetoString();
                 fileName = fileName.substring(0, fileName.length() - 4);
                 params.add(new BasicNameValuePair("profilPictureUser", fileName));
-            } else {
-                params.add(new BasicNameValuePair("profilPictureUser", "NULL"));
             }
 
             Log.d("params", params.toString());

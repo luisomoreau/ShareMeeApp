@@ -79,6 +79,7 @@ public class ModifyObjectActivity extends BaseActivity {
     String idObj;
     public static String PREFS_USER_NAME = "user_name";
 
+    boolean changePicture=false;
     // JSON Node names
     private static final String TAG_USER = "user";
     private static final String TAG_OBJECT = "object";
@@ -175,6 +176,7 @@ public class ModifyObjectActivity extends BaseActivity {
         btnPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changePicture=true;
                 selectImage();
             }
         });
@@ -513,7 +515,7 @@ public class ModifyObjectActivity extends BaseActivity {
             params.add(new BasicNameValuePair("longObject", longitudeObject.toString()));
             params.add(new BasicNameValuePair("smUser_idUser", idUser));
             params.add(new BasicNameValuePair("smCategory_idCategory", idCategory));
-            if (fileName != null) {
+            if (changePicture) {
                 encodeImagetoString();
                 fileName = fileName.substring(0, fileName.length() - 4);
                 params.add(new BasicNameValuePair("imagePath1Object", fileName.toString()));
