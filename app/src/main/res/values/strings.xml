@@ -29,6 +29,8 @@
     <string name="title_activity_modify_profile">Modifier</string>
     <string name="title_activity_signin">Inscription</string>
     <string name="title_activity_user_profile">Profil</string>
+    <string name="title_activity_home">Accueil</string>
+
 
 
     <string name="distance_test">2.5 km</string>
@@ -121,7 +123,8 @@
     <string name="search_object">3) Je recherche l\'objet que je veux emprunter dans ma communauté</string>
     <string name="credentials">ShareMee© est un projet d\'étude réalisé par deux étudiants de HEI. Toute reproduction ou exploitation sans le consentement de ses créateurs sont interdites.</string>
     <string name="mail_sharemee">Plus d\'informations sur sharemee.com ou par mail : contact@sharemee.com</string>
-    <string name="title_activity_home">HomeActivity</string>
+
     <string name="welcome">Bienvenue sur ShareMee !</string>
+
 
 </resources>
