@@ -520,11 +520,6 @@ public class ModifyObjectActivity extends BaseActivity {
                 fileName = fileName.substring(0, fileName.length() - 4);
                 params.add(new BasicNameValuePair("imagePath1Object", fileName.toString()));
             }
-            else{
-                params.add(new BasicNameValuePair("profilPictureUser", "NULL"));
-            }
-
-
 
             Log.d("params", params.toString());
 
