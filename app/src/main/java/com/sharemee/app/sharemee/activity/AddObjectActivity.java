@@ -174,7 +174,6 @@ public class AddObjectActivity extends BaseActivity {
 
         btnAddObject = (CardView) findViewById(R.id.add_object_button);
 
-
         // save button click event
         btnAddObject.setOnClickListener(new View.OnClickListener() {
 
