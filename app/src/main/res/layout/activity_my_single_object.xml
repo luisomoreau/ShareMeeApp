@@ -38,7 +38,7 @@
                     android:layout_marginBottom="2dp"
                     android:layout_marginTop="2dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/no_image"/>
+                    android:src="@drawable/no_image" />
 
 
                 <!-- Carte qui va être le support de l'item Contact-->

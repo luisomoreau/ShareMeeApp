@@ -10,15 +10,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
@@ -37,7 +34,6 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.*;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.JSONParser;
@@ -51,15 +47,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ *This activty allow the user to add an object
+ *
+ **/
 public class AddObjectActivity extends BaseActivity {
 
 
@@ -97,8 +92,6 @@ public class AddObjectActivity extends BaseActivity {
 
     // url to update product
     private String url_add_object = baseURL + "webservice/model/add_object.php";
-    //private static final String url_add_object = "http://192.168.1.34/ShareMeeWeb/webservice/model/add_object.php";
-    //private static final String url_add_object = "http://10.0.2.2/sharemee/webservice/model/add_object.php";
 
     private String url_upload_image = baseURL + "webservice/model/upload_picture.php";
 
@@ -110,7 +103,7 @@ public class AddObjectActivity extends BaseActivity {
     Bitmap bitmap;
     private static int RESULT_LOAD_IMG = 0;
 
-
+//ACtivity created and listener deployed
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,7 +195,7 @@ public class AddObjectActivity extends BaseActivity {
         });
     }
 
-
+//Perform crop on an image if necessary
     private void performCrop(Uri selectedImage) {
         try {
             //call the standard crop action intent (the user device may not support it)
@@ -228,7 +221,7 @@ public class AddObjectActivity extends BaseActivity {
             toast.show();
         }
     }
-
+//select an image from gallery or take a picture
     private void selectImage() {
 
         // Check if there is a camera.
@@ -266,7 +259,7 @@ public class AddObjectActivity extends BaseActivity {
     }
 
     /**
-     * *****après validation de lajout de l'image *******
+     * *****after validation of adding image *******
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

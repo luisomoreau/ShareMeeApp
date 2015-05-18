@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Layout du navdrawer que l'on incluera dans les pages-->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/navdrawer_width"
     android:theme="@style/MyActionBar"
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:id="@+id/navdrawer"
     android:background="@color/navdrawer_background"
-    android:fitsSystemWindows="true"
-    >
+    android:fitsSystemWindows="true">
 
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <!-- Permet d'afficher le profil de la personne connecté -->
@@ -23,7 +21,8 @@
             android:layout_height="@dimen/navdrawer_chosen_account_height">
 
             <!-- Image de fond de profil-->
-            <ImageView android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/logo"
@@ -80,7 +79,8 @@
 
         </FrameLayout>
 
-        <FrameLayout android:layout_width="match_parent"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <!-- Drawer items -->

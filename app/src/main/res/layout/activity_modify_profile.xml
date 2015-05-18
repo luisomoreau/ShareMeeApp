@@ -25,7 +25,8 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true" />
 
-            <Button android:id="@+id/add_user_picture_button"
+            <Button
+                android:id="@+id/add_user_picture_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -35,33 +36,46 @@
                 android:layout_gravity="center_horizontal"
                 android:clickable="true" />
 
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/login_form"
                 android:layout_margin="10dp">
 
-                <LinearLayout android:id="@+id/plus_sign_out_buttons"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:visibility="gone" android:weightSum="2">
+                <LinearLayout
+                    android:id="@+id/plus_sign_out_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:weightSum="2">
 
-                    <Button android:id="@+id/plus_disconnect_button"
-                        style="?android:textAppearanceSmall" android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:layout_weight="1"
+                    <Button
+                        android:id="@+id/plus_disconnect_button"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:text="@string/plus_disconnect" />
 
-                    <Button android:id="@+id/plus_sign_out_button" style="?android:textAppearanceSmall"
-                        android:layout_width="match_parent" android:layout_height="match_parent"
-                        android:layout_weight="1" android:text="@string/plus_sign_out" />
+                    <Button
+                        android:id="@+id/plus_sign_out_button"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/plus_sign_out" />
 
                 </LinearLayout>
 
-                <LinearLayout android:id="@+id/email_login_form"
+                <LinearLayout
+                    android:id="@+id/email_login_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <AutoCompleteTextView android:id="@+id/modify_user_profile_name"
+                    <AutoCompleteTextView
+                        android:id="@+id/modify_user_profile_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/modify_profile_user_name"
@@ -69,7 +83,8 @@
                         android:maxLines="1"
                         android:singleLine="true" />
 
-                    <AutoCompleteTextView android:id="@+id/modify_user_profile_surname"
+                    <AutoCompleteTextView
+                        android:id="@+id/modify_user_profile_surname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/modify_profile_user_surname"
@@ -77,7 +92,8 @@
                         android:maxLines="1"
                         android:singleLine="true" />
 
-                    <AutoCompleteTextView android:id="@+id/modify_user_profile_email"
+                    <AutoCompleteTextView
+                        android:id="@+id/modify_user_profile_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/modify_profile_user_email"
@@ -85,7 +101,8 @@
                         android:maxLines="1"
                         android:singleLine="true" />
 
-                    <AutoCompleteTextView android:id="@+id/modify_user_profile_password"
+                    <AutoCompleteTextView
+                        android:id="@+id/modify_user_profile_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/modify_profile_user_password"
@@ -93,7 +110,8 @@
                         android:maxLines="1"
                         android:singleLine="true" />
 
-                    <AutoCompleteTextView android:id="@+id/modify_user_profile_reenter_password"
+                    <AutoCompleteTextView
+                        android:id="@+id/modify_user_profile_reenter_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/modify_profile_user_reenter_password"
@@ -101,7 +119,8 @@
                         android:maxLines="1"
                         android:singleLine="true" />
 
-                    <Button android:id="@+id/modify_user_profile_button"
+                    <Button
+                        android:id="@+id/modify_user_profile_button"
                         style="?android:textAppearanceSmall"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"

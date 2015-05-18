@@ -13,7 +13,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -25,7 +24,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -44,15 +42,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ *Allow the user to modify his profile if necessary
+ *
+ **/
 public class ModifyProfileActivity extends BaseActivity {
 
     Button btnPicture;
@@ -65,8 +61,8 @@ public class ModifyProfileActivity extends BaseActivity {
     AutoCompleteTextView txtReenterpassword;
 
     String idUser;
-    public static String PREFS_USER_ID = "user_ID" ;
-    public static String PREFS_USER_NAME = "user_name" ;
+    public static String PREFS_USER_ID = "user_ID";
+    public static String PREFS_USER_NAME = "user_name";
 
     // JSON Node names
     private static final String TAG_USER = "user";
@@ -79,7 +75,6 @@ public class ModifyProfileActivity extends BaseActivity {
     final int CROP_RESULT = 3;
     final int CAMERA_CAPTURE = 1;
     final int SELECT_GALLERY = 2;
-
 
 
     //Upload Image
@@ -99,11 +94,11 @@ public class ModifyProfileActivity extends BaseActivity {
 
     private String baseURL = new ConnectionConfig().getBaseURL();
     // url to update product
-    private String url_modify = baseURL+"webservice/model/modify_user.php";
+    private String url_modify = baseURL + "webservice/model/modify_user.php";
     // url to get user details
-    private String url_user_details = baseURL+"webservice/model/get_user_details.php";
+    private String url_user_details = baseURL + "webservice/model/get_user_details.php";
     //URL to get image
-    private String url_user_image = baseURL+"webservice/images/";
+    private String url_user_image = baseURL + "webservice/images/";
 
     private String url_upload_image = baseURL + "webservice/model/upload_picture.php";
 
@@ -112,30 +107,29 @@ public class ModifyProfileActivity extends BaseActivity {
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
 
-
-
+//creating the activity and setting listener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_modify_profile, null,false);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity_modify_profile, null, false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
-        // now you can do all your other stuffs
+
 
         /****Récupération image et bouton ****/
         String savedUserId = PrefUtils.getFromPrefs(ModifyProfileActivity.this, PREFS_USER_ID, "0");
-        Log.d("savedUserId",savedUserId);
+        Log.d("savedUserId", savedUserId);
         idUser = savedUserId;
         // Loading objects in Background Thread
         new LoadUserDetails().execute();
 
-        btnPicture=(Button)findViewById(R.id.add_user_picture_button);
-        btnModify=(Button)findViewById(R.id.modify_user_profile_button);
-        userPicture=(ImageView)findViewById(R.id.add_user_picture);
+        btnPicture = (Button) findViewById(R.id.add_user_picture_button);
+        btnModify = (Button) findViewById(R.id.modify_user_profile_button);
+        userPicture = (ImageView) findViewById(R.id.add_user_picture);
         btnPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,10 +139,10 @@ public class ModifyProfileActivity extends BaseActivity {
         txtReenterpassword = (AutoCompleteTextView) findViewById(R.id.modify_user_profile_reenter_password);
 
 
-        userName =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_name);
-        userMail =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_email);
-        userSurname =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_surname);
-        userPassword =(AutoCompleteTextView)findViewById(R.id.modify_user_profile_password);
+        userName = (AutoCompleteTextView) findViewById(R.id.modify_user_profile_name);
+        userMail = (AutoCompleteTextView) findViewById(R.id.modify_user_profile_email);
+        userSurname = (AutoCompleteTextView) findViewById(R.id.modify_user_profile_surname);
+        userPassword = (AutoCompleteTextView) findViewById(R.id.modify_user_profile_password);
 
 
         // save button click event
@@ -163,11 +157,11 @@ public class ModifyProfileActivity extends BaseActivity {
                 String password = userPassword.getText().toString();
                 String password2 = txtReenterpassword.getText().toString();
 
-                if ((!nameUser.isEmpty())&&(!surnameUser.isEmpty())&&(!mailUser.isEmpty())&&(!password.isEmpty())&&(!password2.isEmpty())) {
+                if ((!nameUser.isEmpty()) && (!surnameUser.isEmpty()) && (!mailUser.isEmpty()) && (!password.isEmpty()) && (!password2.isEmpty())) {
 
                     if (password.equals(password2)) {
                         confirmModifyUser();
-                    }else {
+                    } else {
                         Context context = getApplicationContext();
                         CharSequence text = "Les mots de passes ne correspondent pas";
                         int duration = Toast.LENGTH_SHORT;
@@ -175,8 +169,7 @@ public class ModifyProfileActivity extends BaseActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
                     }
-                }
-                else {
+                } else {
                     Context context = getApplicationContext();
                     CharSequence text = "Un ou plusieurs champs ne sont pas renseignés";
                     int duration = Toast.LENGTH_SHORT;
@@ -185,9 +178,11 @@ public class ModifyProfileActivity extends BaseActivity {
                     toast.show();
                 }
 
-            }});}
+            }
+        });
+    }
 
-
+//select image from gallery or take a picture
     private void selectImage() {
 
         // Check if there is a camera.
@@ -225,7 +220,7 @@ public class ModifyProfileActivity extends BaseActivity {
     }
 
     /**
-     * *****après validation de lajout de l'image *******
+     * *****after image add is confirmed *******
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -263,11 +258,6 @@ public class ModifyProfileActivity extends BaseActivity {
                 Log.d("imgPath", imgPath);
                 cursor.close();
 
-                //ImageView imgView = (ImageView) findViewById(R.id.add_picture_image);
-                // Set the Image in ImageView
-
-                //imgView.setImageBitmap(BitmapFactory.decodeFile(imgPath));
-                // Get the Image's file name
                 String fileNameSegments[] = imgPath.split("/");
                 fileName = fileNameSegments[fileNameSegments.length - 1];
                 Log.d("fileName", fileName);
@@ -279,6 +269,7 @@ public class ModifyProfileActivity extends BaseActivity {
         }
     }
 
+    //perform crop if necessary
     private void performCrop(Uri selectedImage) {
         try {
             //call the standard crop action intent (the user device may not support it)
@@ -305,11 +296,12 @@ public class ModifyProfileActivity extends BaseActivity {
         }
     }
 
+    //Asynctask to send new informations about the user to modify his profile
     class ModifyProfile extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
-         * */
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -322,7 +314,7 @@ public class ModifyProfileActivity extends BaseActivity {
 
         /**
          * Saving product
-         * */
+         */
         protected String doInBackground(String... args) {
 
             // getting updated data from EditTexts
@@ -350,8 +342,7 @@ public class ModifyProfileActivity extends BaseActivity {
             if (fileName != null) {
                 fileName = fileName.substring(0, fileName.length() - 4);
                 params.add(new BasicNameValuePair("profilPictureUser", fileName));
-            }
-            else{
+            } else {
                 params.add(new BasicNameValuePair("profilPictureUser", "NULL"));
             }
 
@@ -387,7 +378,8 @@ public class ModifyProfileActivity extends BaseActivity {
 
         /**
          * After completing background task Dismiss the progress dialog
-         * **/
+         * *
+         */
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once product uupdated
             pDialog.dismiss();
@@ -397,7 +389,10 @@ public class ModifyProfileActivity extends BaseActivity {
 
 
     }
-    class LoadUserDetails extends AsyncTask<String, String, JSONObject>{
+
+
+    //asynctask to load user credentials when the activity starts
+    class LoadUserDetails extends AsyncTask<String, String, JSONObject> {
 
 
         @Override
@@ -440,7 +435,7 @@ public class ModifyProfileActivity extends BaseActivity {
                     // get first product object from JSON Array
                     JSONObject object = productObj.getJSONObject(0);
                     //check object variable
-                    //Log.d("First product object from Json Array", object.toString());
+
 
                     return object;
                 }
@@ -473,7 +468,7 @@ public class ModifyProfileActivity extends BaseActivity {
                         PrefUtils.saveToPrefs(ModifyProfileActivity.this, PREFS_USER_NAME, user1.getString(TAG_NAME_USER));
 
                         //Construct full image url to get the image
-                        String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE)+".jpg";
+                        String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE) + ".jpg";
                         Log.d("image path 1", full_image_url_1);
 
                         //The DownloadImageTask is called to get the image on the server
@@ -482,7 +477,7 @@ public class ModifyProfileActivity extends BaseActivity {
                                     .execute(full_image_url_1);
                         }
 
-                    }catch (JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
@@ -537,7 +532,7 @@ public class ModifyProfileActivity extends BaseActivity {
 
     // Make Http call to upload Image to Php server
     public void makeHTTPCall() {
-        Log.d("makeHttpCall","MakeHttpCall");
+        Log.d("makeHttpCall", "MakeHttpCall");
         //prgDialog.setMessage("Envois de la photo");
         AsyncHttpClient client = new AsyncHttpClient();
         // Don't forget to change the IP address to your LAN address. Port no as well.
@@ -588,21 +583,21 @@ public class ModifyProfileActivity extends BaseActivity {
                 });
     }
 
+
+    //function to ask the user if he's sure to modify the profile
     public void confirmModifyUser() {
 
-        final CharSequence[] options = { "OUI", "NON"};
+        final CharSequence[] options = {"OUI", "NON"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ModifyProfileActivity.this);
         builder.setTitle("Etes vous sur de vouloir modifier votre profil ?");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("OUI"))
-                {
+                if (options[item].equals("OUI")) {
                     new ModifyProfile().execute();
 
-                }
-                else if (options[item].equals("NON")){
+                } else if (options[item].equals("NON")) {
 
                     dialog.dismiss();
 

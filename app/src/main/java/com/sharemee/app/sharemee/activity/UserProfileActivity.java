@@ -16,7 +16,6 @@ import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.DownloadImageTask;
 import com.sharemee.app.sharemee.util.JSONParser;
-import com.sharemee.app.sharemee.util.PrefUtils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,16 +26,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*
+* This activity display all the informations about the user. It has differents functions at the end
+*
+*/
 public class UserProfileActivity extends BaseActivity {
 
     String idUser;
-    public static String PREFS_USER_ID = "user_ID" ;
-    public static String PREFS_USER_NAME = "user_name" ;
+    public static String PREFS_USER_ID = "user_ID";
+    public static String PREFS_USER_NAME = "user_name";
 
     TextView userName;
-    TextView userSurname;
-    TextView userMail;
+
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -47,11 +48,9 @@ public class UserProfileActivity extends BaseActivity {
     private String baseURL = new ConnectionConfig().getBaseURL();
 
     // url to get all objects list
-    private String url_user_details = baseURL+"webservice/model/get_user_details.php";
-    //private static String url_user_details = "http://10.0.2.2/sharemee/webservice/model/get_user_details.php";
+    private String url_user_details = baseURL + "webservice/model/get_user_details.php";
 
-    private String url_user_image = baseURL+"webservice/images/";
-    //private static String url_object_image = "http://10.0.2.2/sharemee/webservice/images/no-image.jpg";
+    private String url_user_image = baseURL + "webservice/images/";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -61,14 +60,15 @@ public class UserProfileActivity extends BaseActivity {
 
     private static final String TAG_IMAGE_PROFILE_PICTURE = "profilPictureUser";
 
+//creating the activity and setting listener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_user_profile, null,false);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity_user_profile, null, false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
 
@@ -83,11 +83,12 @@ public class UserProfileActivity extends BaseActivity {
 
 
         // Loading objects in Background Thread
-        new LoadObjectDetails().execute();
+        new LoadUserDetails().execute();
 
     }
 
-    class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
+    //asynctask to load user crednetails when activity starts
+    class LoadUserDetails extends AsyncTask<String, String, JSONObject> {
 
 
         @Override
@@ -103,41 +104,41 @@ public class UserProfileActivity extends BaseActivity {
         @Override
         protected JSONObject doInBackground(String... args) {
 
-                    int success;
+            int success;
 
-                    try {
-                        // Building Parameters
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("idUser", idUser));
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("idUser", idUser));
 
-                        //check params
-                        Log.d("params :", params.toString());
+                //check params
+                Log.d("params :", params.toString());
 
-                        // getting product details by making HTTP request
-                        // Note that product details url will use GET request
-                        JSONObject json = jsonParser.makeHttpRequest(
-                                url_user_details, "GET", params);
+                // getting product details by making HTTP request
+                // Note that product details url will use GET request
+                JSONObject json = jsonParser.makeHttpRequest(
+                        url_user_details, "GET", params);
 
-                        // check your log for json response
-                        Log.d("Single User Profile", json.toString());
+                // check your log for json response
+                Log.d("Single User Profile", json.toString());
 
-                        success = json.getInt(TAG_SUCCESS);
-                        if (success == 1) {
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
 
-                            JSONArray productObj = json
-                                    .getJSONArray(TAG_USER); // JSON Array
+                    JSONArray productObj = json
+                            .getJSONArray(TAG_USER); // JSON Array
 
-                            // get first product object from JSON Array
-                            JSONObject object = productObj.getJSONObject(0);
-                            //check object variable
-                            //Log.d("First product object from Json Array", object.toString());
+                    // get first product object from JSON Array
+                    JSONObject object = productObj.getJSONObject(0);
+                    //check object variable
+                    //Log.d("First product object from Json Array", object.toString());
 
-                            return object;
-                        }
+                    return object;
+                }
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
@@ -154,24 +155,24 @@ public class UserProfileActivity extends BaseActivity {
                     Context context = getBaseContext();
 
 
-            try {
-                Log.d("user name :", user1.getString(TAG_NAME_USER));
-                //The cardviews are set
-                userName.setText(user1.getString(TAG_NAME_USER));
+                    try {
+                        Log.d("user name :", user1.getString(TAG_NAME_USER));
+                        //The cardviews are set
+                        userName.setText(user1.getString(TAG_NAME_USER));
 
-                //Construct full image url to get the image
-                String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE);
-                Log.d("image path 1", full_image_url_1);
+                        //Construct full image url to get the image
+                        String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE);
+                        Log.d("image path 1", full_image_url_1);
 
-                //The DownloadImageTask is called to get the image on the server
-                if (!user1.getString(TAG_IMAGE_PROFILE_PICTURE).equals("null")) {
-                    new DownloadImageTask((ImageView) findViewById(R.id.profile_picture))
-                            .execute(full_image_url_1);
-                }
+                        //The DownloadImageTask is called to get the image on the server
+                        if (!user1.getString(TAG_IMAGE_PROFILE_PICTURE).equals("null")) {
+                            new DownloadImageTask((ImageView) findViewById(R.id.profile_picture))
+                                    .execute(full_image_url_1);
+                        }
 
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });

@@ -28,13 +28,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *This activity shows the user's profile
+ *
+ **/
 
 public class MyProfileActivity extends BaseActivity {
 
     String idUser;
-    public static String PREFS_USER_ID = "user_ID" ;
-    public static String PREFS_USER_NAME = "user_name" ;
+    public static String PREFS_USER_ID = "user_ID";
+    public static String PREFS_USER_NAME = "user_name";
 
     TextView userName;
     TextView userSurname;
@@ -50,13 +53,13 @@ public class MyProfileActivity extends BaseActivity {
     private String baseURL = new ConnectionConfig().getBaseURL();
 
     // url to get user details
-    private String url_user_details = baseURL+"webservice/model/get_user_details.php";
+    private String url_user_details = baseURL + "webservice/model/get_user_details.php";
 
     // url to delete user and his objects
-    private String url_user_delete = baseURL+"webservice/model/delete_user.php";
+    private String url_user_delete = baseURL + "webservice/model/delete_user.php";
 
     //URL to get image
-    private String url_user_image = baseURL+"webservice/images/";
+    private String url_user_image = baseURL + "webservice/images/";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -70,14 +73,15 @@ public class MyProfileActivity extends BaseActivity {
     private TextView modify;
     private TextView logout;
 
+    //creating the activity and setting listener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_my_profile, null,false);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity_my_profile, null, false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
 
@@ -85,13 +89,13 @@ public class MyProfileActivity extends BaseActivity {
         Intent i = getIntent();
 
         // getting product id (pid) from intent
-        //idUser = i.getStringExtra(TAG_ID_USER);
+
 
         String savedUserId = PrefUtils.getFromPrefs(MyProfileActivity.this, PREFS_USER_ID, "0");
-        Log.d("savedUserId",savedUserId);
+        Log.d("savedUserId", savedUserId);
         idUser = savedUserId;
 
-        deleteUser=(TextView) findViewById(R.id.deleteUserProfile);
+        deleteUser = (TextView) findViewById(R.id.deleteUserProfile);
         userName = (TextView) findViewById(R.id.user_name);
         userSurname = (TextView) findViewById(R.id.user_surname);
         userMail = (TextView) findViewById(R.id.user_mail);
@@ -119,7 +123,7 @@ public class MyProfileActivity extends BaseActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userID="0";
+                String userID = "0";
                 PrefUtils.saveToPrefs(MyProfileActivity.this, PREFS_USER_ID, userID);
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
@@ -128,7 +132,8 @@ public class MyProfileActivity extends BaseActivity {
 
     }
 
-    class LoadUserDetails extends AsyncTask<String, String, JSONObject>{
+    //Asynctask to load user credentails when the activity start
+    class LoadUserDetails extends AsyncTask<String, String, JSONObject> {
 
 
         @Override
@@ -144,41 +149,41 @@ public class MyProfileActivity extends BaseActivity {
         @Override
         protected JSONObject doInBackground(String... args) {
 
-                    int success;
+            int success;
 
-                    try {
-                        // Building Parameters
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("idUser", idUser));
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("idUser", idUser));
 
-                        //check params
-                        Log.d("params :", params.toString());
+                //check params
+                Log.d("params :", params.toString());
 
-                        // getting product details by making HTTP request
-                        // Note that product details url will use GET request
-                        JSONObject json = jsonParser.makeHttpRequest(
-                                url_user_details, "GET", params);
+                // getting product details by making HTTP request
+                // Note that product details url will use GET request
+                JSONObject json = jsonParser.makeHttpRequest(
+                        url_user_details, "GET", params);
 
-                        // check your log for json response
-                        Log.d("Single User Profile", json.toString());
+                // check your log for json response
+                Log.d("Single User Profile", json.toString());
 
-                        success = json.getInt(TAG_SUCCESS);
-                        if (success == 1) {
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
 
-                            JSONArray productObj = json
-                                    .getJSONArray(TAG_USER); // JSON Array
+                    JSONArray productObj = json
+                            .getJSONArray(TAG_USER); // JSON Array
 
-                            // get first product object from JSON Array
-                            JSONObject object = productObj.getJSONObject(0);
-                            //check object variable
-                            //Log.d("First product object from Json Array", object.toString());
+                    // get first product object from JSON Array
+                    JSONObject object = productObj.getJSONObject(0);
+                    //check object variable
+                    //Log.d("First product object from Json Array", object.toString());
 
-                            return object;
-                        }
+                    return object;
+                }
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
@@ -195,28 +200,28 @@ public class MyProfileActivity extends BaseActivity {
                     Context context = getBaseContext();
 
 
-            try {
-                Log.d("user name :", user1.getString(TAG_NAME_USER));
-                //The cardviews are set
-                userName.setText(user1.getString(TAG_NAME_USER));
-                userSurname.setText(user1.getString(TAG_SURNAME_USER));
-                userMail.setText(user1.getString(TAG_MAIL_USER));
+                    try {
+                        Log.d("user name :", user1.getString(TAG_NAME_USER));
+                        //The cardviews are set
+                        userName.setText(user1.getString(TAG_NAME_USER));
+                        userSurname.setText(user1.getString(TAG_SURNAME_USER));
+                        userMail.setText(user1.getString(TAG_MAIL_USER));
 
-                PrefUtils.saveToPrefs(MyProfileActivity.this, PREFS_USER_NAME, user1.getString(TAG_NAME_USER));
+                        PrefUtils.saveToPrefs(MyProfileActivity.this, PREFS_USER_NAME, user1.getString(TAG_NAME_USER));
 
-                //Construct full image url to get the image
-                String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE)+".jpg";
-                Log.d("image path 1", full_image_url_1);
+                        //Construct full image url to get the image
+                        String full_image_url_1 = url_user_image + user1.getString(TAG_IMAGE_PROFILE_PICTURE) + ".jpg";
+                        Log.d("image path 1", full_image_url_1);
 
-                //The DownloadImageTask is called to get the image on the server
-                if (!user1.getString(TAG_IMAGE_PROFILE_PICTURE).equals("null")) {
-                    new DownloadImageTask((ImageView) findViewById(R.id.profile_picture))
-                            .execute(full_image_url_1);
-                }
+                        //The DownloadImageTask is called to get the image on the server
+                        if (!user1.getString(TAG_IMAGE_PROFILE_PICTURE).equals("null")) {
+                            new DownloadImageTask((ImageView) findViewById(R.id.profile_picture))
+                                    .execute(full_image_url_1);
+                        }
 
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });
@@ -225,11 +230,13 @@ public class MyProfileActivity extends BaseActivity {
         }
 
     }
+
+    //asynctask to delete the profile
     class DeleteUser extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
-         * */
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -242,7 +249,7 @@ public class MyProfileActivity extends BaseActivity {
 
         /**
          * Saving product
-         * */
+         */
         protected String doInBackground(String... args) {
 
             // getting updated data from EditTexts
@@ -288,7 +295,8 @@ public class MyProfileActivity extends BaseActivity {
 
         /**
          * After completing background task Dismiss the progress dialog
-         * **/
+         * *
+         */
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once product uupdated
             pDialog.dismiss();
@@ -297,21 +305,19 @@ public class MyProfileActivity extends BaseActivity {
         }
     }
 
-
+//function to ask the user if he wants to delete his profile
     private void confirmDeleteUser() {
 
-        final CharSequence[] options = { "OUI", "NON"};
+        final CharSequence[] options = {"OUI", "NON"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MyProfileActivity.this);
         builder.setTitle("Etes vous sur ? La suppression entrainera celle de tous vos objets");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("OUI"))
-                {
+                if (options[item].equals("OUI")) {
                     new DeleteUser().execute();
-                }
-                else if (options[item].equals("NON")){
+                } else if (options[item].equals("NON")) {
 
                     dialog.dismiss();
                 }

@@ -11,5 +11,4 @@
     android:textColor="@color/body_text_3"
     android:textSize="25sp"
     android:minHeight="40dp"
-    android:background="@color/navdrawer_background">
-</TextView>
+    android:background="@color/navdrawer_background"></TextView>

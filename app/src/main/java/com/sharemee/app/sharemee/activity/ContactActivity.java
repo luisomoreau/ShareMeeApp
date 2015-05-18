@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -26,7 +25,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *
+ *This activity allow the user to send a request to another one if he wants to borrow his object
+ **/
 
 public class ContactActivity extends BaseActivity {
 
@@ -34,8 +36,8 @@ public class ContactActivity extends BaseActivity {
     private EditText name_user;
     private EditText mail_subject;
     private EditText mail_content;
-    public static String PREFS_USER_MAIL = "user_mail" ;
-    public static String PREFS_USER_NAME = "user_name" ;
+    public static String PREFS_USER_MAIL = "user_mail";
+    public static String PREFS_USER_NAME = "user_name";
 
     private String name;
     private String mail;
@@ -51,7 +53,7 @@ public class ContactActivity extends BaseActivity {
 
     private String baseURL = new ConnectionConfig().getBaseURL();
 
-    private String url_mail = baseURL+"webservice/model/send_email.php";
+    private String url_mail = baseURL + "webservice/model/send_email.php";
     //private static String url_mail = "http://10.0.2.2/sharemee/webservice/model/send_email.php";
 
     private static final String TAG_SUCCESS = "success";
@@ -62,14 +64,15 @@ public class ContactActivity extends BaseActivity {
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
+    //creating the activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_contact, null,false);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity_contact, null, false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
         // now you can do all your other stuffs
@@ -107,10 +110,10 @@ public class ContactActivity extends BaseActivity {
         });
 
 
-
     }
 
-    class SendMessage extends AsyncTask<String, String, JSONObject>{
+    //asynctask to send a message to another user
+    class SendMessage extends AsyncTask<String, String, JSONObject> {
 
         @Override
         protected void onPreExecute() {
@@ -165,8 +168,7 @@ public class ContactActivity extends BaseActivity {
 
                     Intent intent = new Intent(context, SearchableActivity.class);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     Context context = getApplicationContext();
                     CharSequence text = "Nous ne sommes pas parvenu à envoyer votre mail";
                     int duration = Toast.LENGTH_LONG;

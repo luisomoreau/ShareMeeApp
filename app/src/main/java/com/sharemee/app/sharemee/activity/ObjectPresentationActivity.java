@@ -8,7 +8,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sharemee.app.sharemee.util.ConnectionConfig;
-import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.R;
+import com.sharemee.app.sharemee.util.ConnectionConfig;
 import com.sharemee.app.sharemee.util.DownloadImageTask;
+import com.sharemee.app.sharemee.util.JSONParser;
 import com.sharemee.app.sharemee.util.MyLocationListener;
 
 import org.apache.http.NameValuePair;
@@ -30,7 +29,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *
+ *This activity display all the informations about one object
+ **/
 
 public class ObjectPresentationActivity extends BaseActivity {
 
@@ -53,11 +55,9 @@ public class ObjectPresentationActivity extends BaseActivity {
     private String baseURL = new ConnectionConfig().getBaseURL();
 
     // url to get all objects list
-    private String url_object_detail = baseURL +"webservice/model/get_object_details.php";
-    //private static String url_object_detail = "http://10.0.2.2/sharemee/webservice/model/get_object_details.php";
+    private String url_object_detail = baseURL + "webservice/model/get_object_details.php";
 
-    private String url_object_image = baseURL+"webservice/images/";
-    //private static String url_object_image = "http://10.0.2.2/sharemee/webservice/images/no-image.jpg";
+    private String url_object_image = baseURL + "webservice/images/";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -80,14 +80,15 @@ public class ObjectPresentationActivity extends BaseActivity {
     private TextView contact;
     private TextView userProfile;
 
+    //creating the activity and setting listener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_object_presentation, null,false);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity_object_presentation, null, false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
 
@@ -121,15 +122,15 @@ public class ObjectPresentationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                intent.putExtra(TAG_ID_USER, idUser );
+                intent.putExtra(TAG_ID_USER, idUser);
                 startActivity(intent);
             }
         });
 
     }
 
-
-    class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
+    //Asynctask to load objects informations when the activity starts
+    class LoadObjectDetails extends AsyncTask<String, String, JSONObject> {
 
 
         @Override
@@ -147,20 +148,20 @@ public class ObjectPresentationActivity extends BaseActivity {
             //Looper.prepare();
             int success;
             Context myContext;
-            myContext=getApplicationContext();
-            LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            myContext = getApplicationContext();
+            LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (!MyLocationListener.isDeviceSupportLocation(myContext)) {
-                latitudePhone=0.0;
-                longitudePhone=0.0;
-            }else{
+                latitudePhone = 0.0;
+                longitudePhone = 0.0;
+            } else {
                 //Location has been asked in previous activity
-                //mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
-                latitudePhone=location.getLatitude();
-                longitudePhone=location.getLongitude();}
+                latitudePhone = location.getLatitude();
+                longitudePhone = location.getLongitude();
+            }
 
             Log.d("lattitudePhone :", latitudePhone.toString());
             Log.d("longitudePhone :", longitudePhone.toString());
@@ -221,13 +222,15 @@ public class ObjectPresentationActivity extends BaseActivity {
                         String longObjectSt = object1.getString(TAG_LONG_OBJECT);
                         String latObjectSt = object1.getString(TAG_LAT_OBJECT);
                         //Calcul de la distance
-                        String dist="";
-                        if(longObjectSt!="null"&&latObjectSt!="null"){
+                        String dist = "";
+                        if (longObjectSt != "null" && latObjectSt != "null") {
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
                             if (MyLocationListener.isDeviceSupportLocation(getApplicationContext())) {
-                                String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
-                                dist= String.valueOf(distanceCalcule)+" km";}}
+                                String distanceCalcule = MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+                                dist = String.valueOf(distanceCalcule) + " km";
+                            }
+                        }
 
 
                         //The cardviews are set
@@ -241,7 +244,7 @@ public class ObjectPresentationActivity extends BaseActivity {
                         objectDistance.setText(dist);
 
                         //Construct full image url to get the image
-                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT)+".jpg";
+                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT) + ".jpg";
                         Log.d("image path 1", full_image_url_1);
 
 
@@ -249,13 +252,7 @@ public class ObjectPresentationActivity extends BaseActivity {
                         if (!object1.getString(TAG_IMAGE_PATH_1_OBJECT).equals("null")) {
                             new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation1)).execute(full_image_url_1);
                         }
-                /*
-                if (object1.getString(TAG_IMAGE_PATH_2_OBJECT)!=null) {
-                    new DownloadImageTask((ImageView) findViewById(R.id.imageViewObjectPresenation2))
-                            .execute(full_image_url_2);
-                }
-*/
-                    }catch (JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
@@ -264,7 +261,6 @@ public class ObjectPresentationActivity extends BaseActivity {
             // dismiss the dialog once got all details
             pDialog.dismiss();
         }
-
 
 
     }

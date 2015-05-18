@@ -29,7 +29,8 @@
                 android:textSize="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <ImageView
                 android:layout_width="260dp"
                 android:layout_height="260dp"
@@ -37,9 +38,10 @@
                 android:id="@+id/modify_object_picture"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
-            <Button android:id="@+id/add_object_picture_button"
+            <Button
+                android:id="@+id/add_object_picture_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -49,18 +51,21 @@
                 android:layout_gravity="center_horizontal"
                 android:clickable="true" />
 
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/login_form"
                 android:layout_margin="10dp">
 
-                <LinearLayout android:id="@+id/email_login_form"
+                <LinearLayout
+                    android:id="@+id/email_login_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <AutoCompleteTextView android:id="@+id/modify_object_name"
+                    <AutoCompleteTextView
+                        android:id="@+id/modify_object_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/modify_object_name"
@@ -68,26 +73,29 @@
                         android:maxLines="1"
                         android:singleLine="true" />
 
-                    <AutoCompleteTextView android:id="@+id/modify_object_desc"
+                    <AutoCompleteTextView
+                        android:id="@+id/modify_object_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/modify_object_desc"
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
-                        android:text="@string/object_detail_category_label"/>
+                        android:text="@string/object_detail_category_label" />
 
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/spinner_category_modify"/>
+                        android:id="@+id/spinner_category_modify" />
 
-                    <Button android:id="@+id/modify_object_button"
+                    <Button
+                        android:id="@+id/modify_object_button"
                         style="?android:textAppearanceSmall"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"

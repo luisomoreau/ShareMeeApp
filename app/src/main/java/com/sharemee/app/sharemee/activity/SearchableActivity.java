@@ -1,38 +1,26 @@
 package com.sharemee.app.sharemee.activity;
 
-import android.app.ActionBar;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.ConnectionConfig;
@@ -48,6 +36,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+
+/*
+* This actiovity allow the user to search an object
+*
+*/
 
 public class SearchableActivity extends BaseActivity {
 
@@ -94,7 +88,7 @@ public class SearchableActivity extends BaseActivity {
     JSONArray objects = null;
 
     private ListView lv;
-
+//creating the activity and setting listener
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -189,6 +183,7 @@ public class SearchableActivity extends BaseActivity {
 
     }
 
+    //Asynctask to send the request to the server and get a response
     class doMySearch extends AsyncTask<String, String, String> {
 
         /**
@@ -240,7 +235,6 @@ public class SearchableActivity extends BaseActivity {
                 latitudePhone = 0.0;
                 longitudePhone = 0.0;
             } else {
-                //mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
                 latitudePhone = location.getLatitude();
                 longitudePhone = location.getLongitude();
             }

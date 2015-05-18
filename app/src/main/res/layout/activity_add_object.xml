@@ -17,9 +17,13 @@
 
 
             <!-- Login progress -->
-            <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp" android:visibility="gone" />
+            <ProgressBar
+                android:id="@+id/login_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -31,7 +35,8 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true" />
 
-            <Button android:id="@+id/add_picture_button"
+            <Button
+                android:id="@+id/add_picture_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -41,82 +46,86 @@
                 android:layout_gravity="center_horizontal"
                 android:clickable="true" />
 
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/login_form"
                 android:layout_margin="10dp">
 
 
-                </LinearLayout>
+            </LinearLayout>
 
-                <LinearLayout android:id="@+id/add_object_form"
+            <LinearLayout
+                android:id="@+id/add_object_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <AutoCompleteTextView
+                    android:id="@+id/add_object_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:hint="@string/add_object_name"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
-                    <AutoCompleteTextView android:id="@+id/add_object_name"
+                <AutoCompleteTextView
+                    android:id="@+id/add_object_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_object_description_label"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/object_detail_category_label" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_category" />
+
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/add_object_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:clickable="true"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/add_object_name"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true" />
+                        android:layout_height="match_parent"
+                        android:background="@color/secondary_color"
+                        android:orientation="vertical"
+                        android:id="@+id/contactUser">
+                        <!-- Contact-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/add_label"
+                            android:textColor="#ffffffff"
+                            android:textSize="25sp" />
 
-                    <AutoCompleteTextView android:id="@+id/add_object_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/add_object_description_label"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="@string/object_detail_category_label"/>
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner_category"/>
-
-                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/add_object_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_marginLeft="20dp"
-                        android:paddingLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:clickable="true"
-                        android:orientation="horizontal"
-                        >
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/secondary_color"
-                            android:orientation="vertical"
-                            android:id="@+id/contactUser">
-                            <!-- Contact-->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
-                                android:text="@string/add_label"
-                                android:textColor="#ffffffff"
-                                android:textSize="25sp" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
 
-                </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </FrameLayout>
 

@@ -8,7 +8,6 @@
     android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
     android:voiceLanguageModel="web_search"
     android:voicePromptText="string resource"
-    android:voiceLanguage="string"
-    >
+    android:voiceLanguage="string">
 
 </searchable>

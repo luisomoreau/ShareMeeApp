@@ -13,8 +13,7 @@
     <ImageView
         android:id="@+id/icon"
         android:layout_height="48dp"
-        android:layout_width="48dp"
-         />
+        android:layout_width="48dp" />
     <!-- Nom de l'option à selectionner -->
     <TextView
         android:id="@+id/text1"
@@ -24,7 +23,6 @@
         android:gravity="start|center_vertical"
         android:fontFamily="@string/font_fontFamily_medium"
         android:textSize="14sp"
-        android:layout_marginLeft="24dp"
-         />
+        android:layout_marginLeft="24dp" />
 
 </LinearLayout>

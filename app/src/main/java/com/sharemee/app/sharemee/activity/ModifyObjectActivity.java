@@ -55,8 +55,12 @@ import java.util.List;
 /**
  * Created by Marin on 28/04/2015.
  */
+
+/**
+ *
+ *This activity allow the user to modify his object
+ **/
 public class ModifyObjectActivity extends BaseActivity {
-//TODO rajouter une checkbox si on veut modifier la position de l'objet
 
     private String idObject;
     Button btnPicture;
@@ -105,7 +109,7 @@ public class ModifyObjectActivity extends BaseActivity {
     private String url_modify_object = baseURL + "webservice/model/modify_object.php";
     //URL to get image
     private String url_object_image = baseURL + "webservice/images/";
-    private String url_object_detail = baseURL+"webservice/model/get_object_details.php";
+    private String url_object_detail = baseURL + "webservice/model/get_object_details.php";
     private String url_upload_image = baseURL + "webservice/model/upload_picture.php";
 
     // Progress Dialog
@@ -113,7 +117,7 @@ public class ModifyObjectActivity extends BaseActivity {
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
 
-
+//Creating the activity and setting listener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,7 +196,7 @@ public class ModifyObjectActivity extends BaseActivity {
                 String nameObject = objectName.getText().toString();
                 String descObject = objectDesc.getText().toString();
 
-                if ((!nameObject.isEmpty()) && (!descObject.isEmpty()) ) {
+                if ((!nameObject.isEmpty()) && (!descObject.isEmpty())) {
                     confirmModifyObject();
                 } else {
                     Context context = getApplicationContext();
@@ -207,7 +211,8 @@ public class ModifyObjectActivity extends BaseActivity {
         });
     }
 
-    class LoadObjectDetails extends AsyncTask<String, String, JSONObject>{
+    //asynctask to load objectdetails when the activity start
+    class LoadObjectDetails extends AsyncTask<String, String, JSONObject> {
 
 
         @Override
@@ -274,10 +279,7 @@ public class ModifyObjectActivity extends BaseActivity {
                     Context context = getBaseContext();
 
 
-
-
                     try {
-
 
 
                         Log.d("object name :", object1.getString(TAG_NAME_OBJECT));
@@ -288,7 +290,7 @@ public class ModifyObjectActivity extends BaseActivity {
 
 
                         //Construct full image url to get the image
-                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT)+".jpg";
+                        String full_image_url_1 = url_object_image + object1.getString(TAG_IMAGE_PATH_1_OBJECT) + ".jpg";
                         Log.d("image path 1", full_image_url_1);
 
                         //The DownloadImageTask is called to get the image on the server
@@ -296,7 +298,7 @@ public class ModifyObjectActivity extends BaseActivity {
                             new DownloadImageTask((ImageView) findViewById(R.id.modify_object_picture))
                                     .execute(full_image_url_1);
                         }
-                    }catch (JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
@@ -309,7 +311,7 @@ public class ModifyObjectActivity extends BaseActivity {
 
     }
 
-
+//select an image from the gallery or to take a picture
     private void selectImage() {
 
         // Check if there is a camera.
@@ -347,7 +349,7 @@ public class ModifyObjectActivity extends BaseActivity {
     }
 
     /**
-     * *****après validation de lajout de l'image *******
+     * *****after adding image is confirmed *******
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -401,6 +403,7 @@ public class ModifyObjectActivity extends BaseActivity {
         }
     }
 
+    //crop the image if necessary
     private void performCrop(Uri selectedImage) {
         try {
             //call the standard crop action intent (the user device may not support it)
@@ -427,6 +430,7 @@ public class ModifyObjectActivity extends BaseActivity {
         }
     }
 
+    //asynctask to send new inofrmations about the object in order to modify it
     class ModifyObject extends AsyncTask<String, String, String> {
 
         /**
@@ -490,7 +494,7 @@ public class ModifyObjectActivity extends BaseActivity {
             }
 
 
-            Log.d("idObject",idObj);
+            Log.d("idObject", idObj);
             Log.d("nameObject : ", nameObject);
             Log.d("descObject : ", descObject);
             Log.d("catObject : ", idCategory);
@@ -568,6 +572,7 @@ public class ModifyObjectActivity extends BaseActivity {
 
     }
 
+    //function to send a dialog to the user asking if he's sure if he wants to modify it
     public void confirmModifyObject() {
 
         final CharSequence[] options = {"OUI", "NON"};

@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
@@ -52,7 +50,7 @@ public class SigninActivity extends Activity {
     private String baseURL = new ConnectionConfig().getBaseURL();
 
     // url to update product
-    private String url_signin = baseURL+"webservice/model/signin.php";
+    private String url_signin = baseURL + "webservice/model/signin.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +59,7 @@ public class SigninActivity extends Activity {
         // don’t set any content view here, since its already set in BaseActivity
         //FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         //View activityView = layoutInflater.inflate(R.layout.activity_signin, null,false);
         // add the custom layout of this activity to frame layout.
         //frameLayout.addView(activityView);
@@ -84,18 +82,17 @@ public class SigninActivity extends Activity {
                 // starting background task to update product
                 String password = txtPassword.getText().toString();
                 String password2 = txtReenterpassword.getText().toString();
-                if((txtName.getText().toString().isEmpty())||(txtSurname.getText().toString().isEmpty())||(txtEmail.getText().toString().isEmpty())||(txtPassword.getText().toString().isEmpty())||(txtReenterpassword.getText().toString().isEmpty())){
+                if ((txtName.getText().toString().isEmpty()) || (txtSurname.getText().toString().isEmpty()) || (txtEmail.getText().toString().isEmpty()) || (txtPassword.getText().toString().isEmpty()) || (txtReenterpassword.getText().toString().isEmpty())) {
                     Context context = getApplicationContext();
                     CharSequence text = "Veuillez renseigner tous les champs";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
-                }
-                else {
+                } else {
                     if (password.equals(password2)) {
                         new Signin().execute();
-                    }else {
+                    } else {
                         Context context = getApplicationContext();
                         CharSequence text = "Les mots de passes ne correspondent pas";
                         int duration = Toast.LENGTH_SHORT;
@@ -112,12 +109,12 @@ public class SigninActivity extends Activity {
 
     /**
      * Background Async Task to  Save product Details
-     * */
+     */
     class Signin extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
-         * */
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -130,7 +127,7 @@ public class SigninActivity extends Activity {
 
         /**
          * Saving product
-         * */
+         */
         protected String doInBackground(String... args) {
 
             // getting updated data from EditTexts
@@ -185,7 +182,8 @@ public class SigninActivity extends Activity {
 
         /**
          * After completing background task Dismiss the progress dialog
-         * **/
+         * *
+         */
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once product uupdated
             pDialog.dismiss();

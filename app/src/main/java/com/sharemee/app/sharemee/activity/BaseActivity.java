@@ -1,11 +1,9 @@
 package com.sharemee.app.sharemee.activity;
 
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -21,18 +19,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
 import com.sharemee.app.sharemee.R;
 
+
 /**
- * Created by user-laptop on 12/02/2015.
- */
+ *
+ *This activity provide us a baso to extends all the other from our applicatiopn. This is where we deploy the nav drawer
+ **/
 public class BaseActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private String[] mDrawerItems;
     private ActionBarDrawerToggle mDrawerToggle = null;
-
+//creation of the activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +80,8 @@ public class BaseActivity extends ActionBarActivity {
             //use the query to search your data somehow
         }
     }
-    public void doMySearch(String query){
+
+    public void doMySearch(String query) {
 
         Log.d("Je fais un test :", query);
         Log.d("Je fais un test :", "CA MARCHE");
@@ -92,35 +92,28 @@ public class BaseActivity extends ActionBarActivity {
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
     }
-
+//before creating the activity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
     }
-
+//when the configuration change
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    //creating option menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_searchable, menu);
-
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-
         return true;
     }
-
+//preparing option menu
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
@@ -136,10 +129,18 @@ public class BaseActivity extends ActionBarActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-
+//when an item is selected, we launch another activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search) {
+            Intent intent = new Intent(getApplicationContext(), SearchableActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -7,11 +7,14 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.InputStream;
-import java.util.BitSet;
 
 /**
  * Created by user-laptop on 03/03/2015.
  */
+/*
+*
+* This class helps to download an image to a server
+*/
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     ImageView bmImage;

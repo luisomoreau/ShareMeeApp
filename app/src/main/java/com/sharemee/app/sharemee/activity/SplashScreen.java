@@ -12,23 +12,29 @@ import android.widget.ImageView;
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.PrefUtils;
 
-
+/*
+*
+* This SplashScreen is the first thing you see when you open the app
+*/
 public class SplashScreen extends Activity {
 
     //Store user_ID variable declarations
     String idUser;
-    public static String PREFS_USER_ID = "user_ID" ;
+    public static String PREFS_USER_ID = "user_ID";
 
 
-    /** Durée d'affichage du SplashScreen */
+    /**
+     * time of the  SplashScreen in ms
+     */
     protected int _splashTime = 3000;
 
     private Thread splashTread;
 
-    /** Chargement de l'Activity */
+
+
+    //creating the splashScreen
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
@@ -48,37 +54,28 @@ public class SplashScreen extends Activity {
 
 // Later.. stop the animation
         splashLogo.setAnimation(null);
-        /*
-        String userID="0";
-        PrefUtils.saveToPrefs(SplashScreen.this, PREFS_USER_ID, userID);
-        */
+
 
         final SplashScreen sPlashScreen = this;
 
         /** Thread pour l'affichage du SplashScreen */
-        splashTread = new Thread()
-        {
+        splashTread = new Thread() {
             @Override
-            public void run()
-            {
-                try
-                {
-                    synchronized(this)
-                    {
+            public void run() {
+                try {
+                    synchronized (this) {
                         wait(_splashTime);
                     }
-                } catch(InterruptedException e) {}
-                finally
-                {
+                } catch (InterruptedException e) {
+                } finally {
                     finish();
-                    if (idUser.equals("0")||idUser.equals("null")){
+                    if (idUser.equals("0") || idUser.equals("null")) {
                         Intent i = new Intent();
                         i.setClass(sPlashScreen, LoginActivity.class);
                         startActivity(i);
-                    }
-                    else {
+                    } else {
                         Intent i = new Intent();
-                        i.setClass(sPlashScreen, MyProfileActivity.class);
+                        i.setClass(sPlashScreen, HomeActivity.class);
                         startActivity(i);
                     }
                 }

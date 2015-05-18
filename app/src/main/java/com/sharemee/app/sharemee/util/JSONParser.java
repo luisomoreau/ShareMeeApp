@@ -11,7 +11,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +24,10 @@ import java.util.List;
 /**
  * Created by user-laptop on 23/02/2015.
  */
+/*
+*
+* this class parse all the informations we have to a JSON Object in order to communicate with the database
+*/
 public class JSONParser {
 
     static InputStream is = null;
@@ -45,12 +48,11 @@ public class JSONParser {
         try {
 
             // check for request method
-            if(method == "POST"){
+            if (method == "POST") {
                 // request method is POST
                 // defaultHttpClient
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
-                //httpPost.setHeader(HTTP.CONTENT_TYPE,"application/x-www-form-urlencoded;charset=UTF-8");
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
                 Log.d("url : ", url);
                 Log.d("params jsonparse : ", params.toString());
@@ -61,7 +63,7 @@ public class JSONParser {
                 is = httpEntity.getContent();
                 Log.d("is : ", is.toString());
 
-            }else if(method == "GET"){
+            } else if (method == "GET") {
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
@@ -78,13 +80,13 @@ public class JSONParser {
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            Log.d("probleme encodage",e.toString());
+            Log.d("probleme encodage", e.toString());
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-            Log.d("probleme protocole",e.toString());
+            Log.d("probleme protocole", e.toString());
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("probleme IOexception",e.toString());
+            Log.d("probleme IOexception", e.toString());
         }
 
         try {
@@ -97,7 +99,7 @@ public class JSONParser {
             }
             is.close();
             json = sb.toString();
-            Log.d("json  :",json.toString());
+            Log.d("json  :", json.toString());
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
@@ -105,7 +107,7 @@ public class JSONParser {
         // try parse the string to a JSON object
         try {
             jObj = new JSONObject(json);
-            Log.d("jObj :",jObj.toString());
+            Log.d("jObj :", jObj.toString());
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }

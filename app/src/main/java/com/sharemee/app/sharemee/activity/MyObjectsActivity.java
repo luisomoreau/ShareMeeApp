@@ -3,13 +3,11 @@ package com.sharemee.app.sharemee.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +18,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sharemee.app.sharemee.R;
 import com.sharemee.app.sharemee.util.ConnectionConfig;
@@ -38,12 +35,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ *
+ *This activity  deploy a list of user's objects
+ **/
 public class MyObjectsActivity extends BaseActivity {
 
     //Store user_ID variable declarations
     String idUser;
-    public static String PREFS_USER_ID = "user_ID" ;
+    public static String PREFS_USER_ID = "user_ID";
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -56,7 +56,7 @@ public class MyObjectsActivity extends BaseActivity {
     private String baseURL = new ConnectionConfig().getBaseURL();
 
     // url to get all objects list
-    private  String url_user_objects = baseURL+"webservice/model/get_user_objects.php";
+    private String url_user_objects = baseURL + "webservice/model/get_user_objects.php";
     //private static String url_user_objects = "http://10.0.2.2/sharemee/webservice/model/get_user_objects.php";
 
 
@@ -79,20 +79,21 @@ public class MyObjectsActivity extends BaseActivity {
     private ListView lv;
     private CardView btnAddObj;
 
+    //creating the activity and setting listener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // don’t set any content view here, since its already set in BaseActivity
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.activity_frame);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity_frame);
         // inflate the custom activity layout
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View activityView = layoutInflater.inflate(R.layout.activity_my_object, null,false);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View activityView = layoutInflater.inflate(R.layout.activity_my_object, null, false);
         // add the custom layout of this activity to frame layout.
         frameLayout.addView(activityView);
 
         //parameter
         String savedUserId = PrefUtils.getFromPrefs(MyObjectsActivity.this, PREFS_USER_ID, "0");
-        Log.d("savedUserId",savedUserId);
+        Log.d("savedUserId", savedUserId);
         idUser = savedUserId;
 
         // Hashmap for ListView
@@ -120,7 +121,7 @@ public class MyObjectsActivity extends BaseActivity {
                         MySingleObjectActivity.class);
                 // sending idObject to next activity
                 in.putExtra(TAG_ID_OBJECT, idObject);
-                Log.d("Id objet récupéré : ", idObject );
+                Log.d("Id objet récupéré : ", idObject);
 
                 // starting new activity and expecting some response back
                 startActivityForResult(in, 100);
@@ -154,15 +155,14 @@ public class MyObjectsActivity extends BaseActivity {
     }
 
 
-
     /**
      * Background Async Task to Load all product by making HTTP Request
-     * */
+     */
     class LoadAllProducts extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
-         * */
+         */
         private ListView lv;
 
         @Override
@@ -179,7 +179,7 @@ public class MyObjectsActivity extends BaseActivity {
 
         /**
          * getting All objects from url
-         * */
+         */
         protected String doInBackground(String... args) {
             //Looper.prepare();
 
@@ -197,7 +197,7 @@ public class MyObjectsActivity extends BaseActivity {
             // Check your log cat for JSON reponse
             Log.d("All Products: ", json.toString());
 
-            LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             LocationListener mlocListener = new MyLocationListener();
             Location location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -205,12 +205,13 @@ public class MyObjectsActivity extends BaseActivity {
 
             if (!MyLocationListener.isDeviceSupportLocation(myContext)) {
 
-                latitudePhone=0.0;
-                longitudePhone=0.0;
-            }else{
-                //mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
-                latitudePhone=location.getLatitude();
-                longitudePhone=location.getLongitude();}
+                latitudePhone = 0.0;
+                longitudePhone = 0.0;
+            } else {
+
+                latitudePhone = location.getLatitude();
+                longitudePhone = location.getLongitude();
+            }
 
             Log.d("lattitudePhone :", latitudePhone.toString());
             Log.d("longitudePhone :", longitudePhone.toString());
@@ -238,14 +239,16 @@ public class MyObjectsActivity extends BaseActivity {
                         String latObjectSt = c.getString(TAG_LAT_OBJECT);
 
 
-                        String dist="";
-                        if(longObjectSt!="null"&&latObjectSt!="null"){
+                        String dist = "";
+                        if (longObjectSt != "null" && latObjectSt != "null") {
                             Double longObject = Double.parseDouble(longObjectSt);
                             Double latObject = Double.parseDouble(latObjectSt);
 
                             if (MyLocationListener.isDeviceSupportLocation(myContext)) {
-                            String distanceCalcule =MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
-                            dist= String.valueOf(distanceCalcule)+" km";}}
+                                String distanceCalcule = MyLocationListener.calculerDistance(latitudePhone, longitudePhone, latObject, longObject);
+                                dist = String.valueOf(distanceCalcule) + " km";
+                            }
+                        }
 
 
                         // creating new HashMap
@@ -270,7 +273,8 @@ public class MyObjectsActivity extends BaseActivity {
 
         /**
          * After completing background task Dismiss the progress dialog
-         * **/
+         * *
+         */
         protected void onPostExecute(String file_url) {
 
             lv = (ListView) findViewById(R.id.list_view_activity_results);
@@ -285,8 +289,8 @@ public class MyObjectsActivity extends BaseActivity {
                      * */
                     ListAdapter adapter = new SimpleAdapter(
                             MyObjectsActivity.this, objectsList,
-                            R.layout.search_item, new String[] { TAG_ID_OBJECT, TAG_NAME_OBJECT, TAG_NAME_CATEGORY, TAG_NAME_CITY},
-                            new int[] { R.id.idObjectSearch, R.id.objectNameSearch, R.id.objectCategorieSearch, R.id.objectDistanceSearch });
+                            R.layout.search_item, new String[]{TAG_ID_OBJECT, TAG_NAME_OBJECT, TAG_NAME_CATEGORY, TAG_NAME_CITY},
+                            new int[]{R.id.idObjectSearch, R.id.objectNameSearch, R.id.objectCategorieSearch, R.id.objectDistanceSearch});
                     // updating listview
                     lv.setAdapter(adapter);
                 }

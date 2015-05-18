@@ -5,242 +5,240 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
-        <ScrollView
-            android:id="@+id/scrollViewUserProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <ScrollView
+        android:id="@+id/scrollViewUserProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/profil"
+                android:contentDescription="profilPicture" />
+
+
+            <!-- Carte qui va être le support de l'item Contact-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/profile_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/profil"
-                    android:contentDescription="profilPicture" />
 
-
-                <!-- Carte qui va être le support de l'item Contact-->
-                <LinearLayout
+                <!--Name cardview  -->
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:orientation="vertical">
+                    android:clickable="false"
+                    android:orientation="horizontal">
 
-
-
-
-                    <!--Name cardview  -->
-                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:clickable="false"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <!-- Label de l'item -->
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <!-- Label de l'item -->
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginTop="10dp"
-                                android:text="@string/profile_name" />
-                            <!--Séparateur -->
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:background="@color/dividers" />
-                            <!-- Contenu de l'item-->
-                            <TextView
-                                android:id="@+id/user_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginTop="5dp" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/profile_name" />
+                        <!--Séparateur -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/dividers" />
+                        <!-- Contenu de l'item-->
+                        <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                    <!--Surname cardview  -->
-                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                <!--Surname cardview  -->
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:clickable="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:clickable="false"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <!-- Label de l'item -->
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <!-- Label de l'item -->
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginTop="10dp"
-                                android:text="@string/profile_surname" />
-                            <!--Séparateur -->
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:background="@color/dividers" />
-                            <!-- Contenu de l'item-->
-                            <TextView
-                                android:id="@+id/user_surname"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginTop="5dp" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/profile_surname" />
+                        <!--Séparateur -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/dividers" />
+                        <!-- Contenu de l'item-->
+                        <TextView
+                            android:id="@+id/user_surname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                    <!--Mail cardview  -->
-                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                <!--Mail cardview  -->
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:clickable="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:clickable="false"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <!-- Label de l'item -->
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <!-- Label de l'item -->
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginTop="10dp"
-                                android:text="@string/profile_mail" />
-                            <!--Séparateur -->
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:background="@color/dividers" />
-                            <!-- Contenu de l'item-->
-                            <TextView
-                                android:id="@+id/user_mail"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginTop="5dp" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/profile_mail" />
+                        <!--Séparateur -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/dividers" />
+                        <!-- Contenu de l'item-->
+                        <TextView
+                            android:id="@+id/user_mail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:clickable="true"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_marginLeft="20dp"
-                        android:paddingLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:clickable="true"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:background="@color/secondary_color"
+                        android:orientation="vertical">
+                        <!-- Contact-->
+                        <TextView
+                            android:id="@+id/modify_user_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/modify"
+                            android:textColor="#ffffffff"
+                            android:textSize="25sp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/secondary_color"
-                            android:orientation="vertical">
-                            <!-- Contact-->
-                            <TextView
-                                android:id="@+id/modify_user_profile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
-                                android:text="@string/modify"
-                                android:textColor="#ffffffff"
-                                android:textSize="25sp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                <!-- Logout-->
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-                    <!-- Logout-->
-                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_marginLeft="20dp"
-                        android:paddingLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:clickable="true"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:background="@color/third_color"
+                        android:orientation="vertical">
+                        <!-- Contact-->
+                        <TextView
+                            android:id="@+id/logout_user_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/logout"
+                            android:textColor="#ffffffff"
+                            android:textSize="25sp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/third_color"
-                            android:orientation="vertical">
-                            <!-- Contact-->
-                            <TextView
-                                android:id="@+id/logout_user_profile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
-                                android:text="@string/logout"
-                                android:textColor="#ffffffff"
-                                android:textSize="25sp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                <!-- Delete-->
+                <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-                    <!-- Delete-->
-                    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_marginLeft="20dp"
-                        android:paddingLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:clickable="true"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:background="@color/forth_color"
+                        android:orientation="vertical">
+                        <!-- Contact-->
+                        <TextView
+                            android:id="@+id/deleteUserProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/delete"
+                            android:textColor="#ffffffff"
+                            android:textSize="25sp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/forth_color"
-                            android:orientation="vertical">
-                            <!-- Contact-->
-                            <TextView
-                                android:id="@+id/deleteUserProfile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
-                                android:text="@string/delete"
-                                android:textColor="#ffffffff"
-                                android:textSize="25sp" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
             </LinearLayout>
+        </LinearLayout>
 
-        </ScrollView>
+    </ScrollView>
 
 </FrameLayout>
 
