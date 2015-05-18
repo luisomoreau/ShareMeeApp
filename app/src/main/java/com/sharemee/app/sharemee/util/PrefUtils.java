@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
  * Created by user-laptop on 11/04/2015.
  */
 /*
-*
 * This class helps the developper to save data in Sharedpreferences
 */
 public class PrefUtils {
